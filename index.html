@@ -2,8 +2,21 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>QuickTools24 — Free PDF Tools</title>
-<meta name="description" content="Free browser-based PDF tools. Merge, split, rotate, crop, watermark and manage PDF files privately.">
+<title>QuickTools24 — Free Online PDF, Image & Text Tools</title>
+<meta name="description" content="Use free online PDF, photo, image and text tools at QuickTools24. Merge, split, compress, convert, resize and edit files in your browser.">
+<meta name="keywords" content="QuickTools24, free PDF tools, online PDF editor, merge PDF, split PDF, compress PDF, PDF converter, image resizer, photo compressor, JPG to PDF, PNG to JPG, text tools">
+<meta name="author" content="QuickTools24">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#4f46e5">
+<link rel="canonical" href="https://quicktools24.in/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="QuickTools24">
+<meta property="og:title" content="QuickTools24 — Free Online PDF, Image & Text Tools">
+<meta property="og:description" content="Free browser-based tools to manage PDFs, photos, images and text.">
+<meta property="og:url" content="https://quicktools24.in/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="QuickTools24 — Free Online Tools">
+<meta name="twitter:description" content="Free online PDF, image and text tools.">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -12,14 +25,33 @@ body{background:#f5f7fb;color:#172033} .tool{background:white;border:1px solid #
 </style>
 </head>
 <body class="min-h-screen">
-<header class="bg-white border-b sticky top-0 z-20"><div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between"><a href="#" class="font-black text-2xl tracking-tight text-indigo-700">⚡ QuickTools<span class="text-slate-800">24</span></a><nav class="text-sm font-semibold flex gap-5"><a href="#tools">PDF Tools</a><a href="#about">Privacy</a></nav></div></header>
+<header class="bg-white border-b sticky top-0 z-20"><div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between"><a href="#" class="font-black text-2xl tracking-tight text-indigo-700">⚡ QuickTools<span class="text-slate-800">24</span></a><nav class="text-sm font-semibold flex gap-5"><a href="#tools">All Tools</a><a href="#about">Privacy</a><a href="#contact">Contact Us</a></nav></div></header>
 <main class="max-w-6xl mx-auto px-4">
 <section class="text-center py-12"><div class="inline-block bg-indigo-50 text-indigo-700 rounded-full px-4 py-1 text-sm font-bold mb-4">24 PDF UTILITIES</div><h1 class="text-4xl md:text-5xl font-black mb-4">All your PDF tools.<br><span class="text-indigo-600">One simple place.</span></h1><p class="muted max-w-2xl mx-auto">Merge, split, organize, convert and edit PDF files directly in your browser. Your files are processed on your device and are not uploaded to our server.</p></section>
 <section id="tools" class="pb-14"><div class="flex flex-wrap items-center justify-between gap-3 mb-5"><h2 class="text-2xl font-extrabold">PDF tools</h2><input id="search" class="field max-w-xs" placeholder="Search PDF tools…" oninput="filterTools()"></div><div id="grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div></section>
-<section id="about" class="bg-white border rounded-2xl p-6 mb-12"><h2 class="font-extrabold text-xl mb-2">Privacy first</h2><p class="muted text-sm">Processing happens locally in your browser using open-source PDF libraries. For very large files, performance depends on your device. This version does not upload your documents.</p></section>
+<section id="about" class="bg-white border rounded-2xl p-6 mb-10"><h2 class="font-extrabold text-xl mb-2">Privacy first</h2><p class="muted text-sm">Processing happens locally in your browser using open-source PDF libraries. For very large files, performance depends on your device. This version does not upload your documents.</p></section>
+<section id="contact" class="bg-white border rounded-2xl p-6 md:p-8 mb-12">
+ <div class="max-w-3xl mx-auto">
+  <div class="text-center mb-7"><div class="inline-block bg-indigo-50 text-indigo-700 rounded-full px-4 py-1 text-xs font-bold mb-3">WE’RE HERE TO HELP</div><h2 class="text-2xl md:text-3xl font-black">Contact Us</h2><p class="muted mt-2">Have a question, suggestion or found a problem? Get in touch with the QuickTools24 team.</p></div>
+  <div class="grid md:grid-cols-2 gap-5 mb-7">
+   <a href="mailto:sachindonmuz@gmail.com" class="border rounded-xl p-4 hover:border-indigo-400"><div class="text-sm muted mb-1">Email support</div><div class="font-bold text-indigo-700 break-all">sachindonmuz@gmail.com</div></a>
+   <a href="tel:+918969674232" class="border rounded-xl p-4 hover:border-indigo-400"><div class="text-sm muted mb-1">Call us</div><div class="font-bold text-indigo-700">+91 8969674232</div></a>
+  </div>
+  <form id="contactForm" class="grid gap-4" onsubmit="sendContact(event)">
+   <div class="grid md:grid-cols-2 gap-4">
+    <label class="text-sm font-bold">Your name<input id="contactName" class="field mt-1" name="name" autocomplete="name" required maxlength="100" placeholder="Enter your name"></label>
+    <label class="text-sm font-bold">Your email<input id="contactEmail" class="field mt-1" name="email" type="email" autocomplete="email" required maxlength="150" placeholder="you@example.com"></label>
+   </div>
+   <label class="text-sm font-bold">Subject<input id="contactSubject" class="field mt-1" name="subject" required maxlength="150" placeholder="How can we help?"></label>
+   <label class="text-sm font-bold">Message<textarea id="contactMessage" class="field mt-1" name="message" rows="5" required maxlength="4000" placeholder="Write your message here..."></textarea></label>
+   <div class="flex flex-wrap items-center gap-3"><button class="btn" type="submit">Send Message</button><span id="contactStatus" class="text-sm muted" aria-live="polite"></span></div>
+  </form>
+  <p class="text-xs muted mt-4">When you send this form, your device’s email app will open with your message addressed to our support email. This form does not send or store messages on this website.</p>
+ </div>
+</section>
 </main>
 <div id="modal" class="hidden fixed inset-0 bg-slate-950/60 z-40 p-3 overflow-y-auto"><div class="max-w-xl mx-auto bg-white rounded-2xl p-5 md:p-7 mt-8 shadow-2xl"><div class="flex justify-between gap-3"><div><h2 id="mtitle" class="text-xl font-extrabold"></h2><p id="mdesc" class="text-sm muted mt-1"></p></div><button onclick="closeModal()" class="text-2xl leading-none" aria-label="Close">×</button></div><div id="fields" class="space-y-3 mt-6"></div><div id="status" class="text-sm mt-4 muted" aria-live="polite"></div><div class="flex gap-3 mt-5"><button id="run" class="btn" onclick="runTool()">Process PDF</button><button class="border rounded-xl px-4 py-2 font-semibold" onclick="closeModal()">Cancel</button></div></div></div>
-<footer class="text-center text-xs muted py-8 border-t bg-white">© 2026 QuickTools24.in · Free browser-based PDF utilities</footer>
+<footer class="text-center text-xs muted py-8 border-t bg-white"><div class="font-bold text-slate-700 mb-2">QuickTools24.in</div><div class="flex flex-wrap justify-center gap-x-4 gap-y-2 mb-2"><a href="#tools">Tools</a><a href="#about">Privacy</a><a href="#contact">Contact Us</a><a href="mailto:sachindonmuz@gmail.com">Email Support</a></div>© 2026 QuickTools24.in · Free online PDF, image and text tools</footer>
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 const {PDFDocument, StandardFonts, rgb, degrees}=PDFLib;
@@ -75,6 +107,8 @@ const allTools=[...tools,...imageTools,...textTools];
 let active=null, selected=[];
 function renderTools(list=allTools){document.getElementById('grid').innerHTML=list.map(t=>'<button class="tool" onclick="openTool(\''+t[0]+'\')"><div class="text-2xl mb-3">'+t[3]+'</div><div class="font-extrabold mb-1">'+t[1]+'</div><div class="text-sm muted">'+t[2]+'</div><div class="text-xs text-indigo-600 font-bold mt-4">Open tool →</div></button>').join('')}
 function filterTools(){const q=document.getElementById('search').value.toLowerCase();renderTools(allTools.filter(t=>(t[1]+' '+t[2]).toLowerCase().includes(q)))}
+function sendContact(event){event.preventDefault();const name=document.getElementById('contactName').value.trim(),email=document.getElementById('contactEmail').value.trim(),subject=document.getElementById('contactSubject').value.trim(),message=document.getElementById('contactMessage').value.trim();if(!name||!email||!subject||!message)return;const body='Name: '+name+'%0D%0AEmail: '+email+'%0D%0A%0D%0A'+encodeURIComponent(message);document.getElementById('contactStatus').textContent='Opening your email app…';window.location.href='mailto:sachindonmuz@gmail.com?subject='+encodeURIComponent('[QuickTools24] '+subject)+'&body='+body;}
+
 function el(tag,attrs={},txt=''){const e=document.createElement(tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));e.textContent=txt;return e}
 function addField(label,type,id,placeholder='',multiple=false){const wrap=el('label',{class:'block text-sm font-bold'},label);let input;if(type==='select'){input=el('select',{class:'field mt-1',id});const choices=id==='format'?[['PNG','image/png'],['JPEG','image/jpeg'],['WebP','image/webp']]:id==='angle'?[['90°','90'],['180°','180'],['270°','270']]:id==='flip'?[['Horizontal','horizontal'],['Vertical','vertical']]:id==='case'?[['UPPERCASE','upper'],['lowercase','lower'],['Title Case','title']]:[];choices.forEach(([label,value])=>{const o=el('option',{value},label);input.appendChild(o)});if(placeholder)input.value=placeholder;}else{input=el(type==='textarea'?'textarea':'input',{class:'field mt-1',...(type==='textarea'?{id,placeholder,rows:'5'}:{type,id,placeholder})});if(type==='number'&&placeholder)input.value=placeholder;}if(multiple)input.multiple=true;wrap.appendChild(input);document.getElementById('fields').appendChild(wrap);return input}
 function openTool(id){active=allTools.find(t=>t[0]===id);selected=[];document.getElementById('mtitle').textContent=active[1];document.getElementById('mdesc').textContent=active[2];document.getElementById('fields').innerHTML='';document.getElementById('status').textContent='';document.getElementById('run').textContent=id.startsWith('img-')?'Process Image':id.startsWith('txt-')?'Process Text':id==='create'?'Create PDF':'Process PDF';
