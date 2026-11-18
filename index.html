@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuickTools Pro - Ultimate PDF & Image Utility Suite</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/compressorjs/1.2.1/compressor.min.js"></script>
+    <!-- Cropper.js CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-red-500 selection:text-white">
 
@@ -20,9 +23,9 @@
             
             <div class="flex items-center gap-4">
                 <nav class="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-300">
-                    <a href="#" class="hover:text-red-400 transition">Home</a>
-                    <a href="#tools-section" class="hover:text-red-400 transition">All Tools</a>
-                    <a href="#contact-section" class="hover:text-red-400 transition">Contact Us</a>
+                    <a href="https://quicktools24.in/#" class="hover:text-red-400 transition">Home</a>
+                    <a href="https://quicktools24.in/#tools-section" class="hover:text-red-400 transition">All Tools</a>
+                    <a href="https://quicktools24.in/#contact-section" class="hover:text-red-400 transition">Contact Us</a>
                 </nav>
                 <button onclick="toggleMobileMenu()" class="md:hidden text-slate-300 hover:text-white p-2 focus:outline-none" aria-label="Menu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -32,9 +35,9 @@
             </div>
         </div>
         <div id="mobileMenu" class="hidden md:hidden bg-slate-900 border-b border-slate-800 px-6 py-4 space-y-3 text-xs font-semibold">
-            <a href="#" class="block text-slate-300 hover:text-red-400">Home</a>
-            <a href="#tools-section" class="block text-slate-300 hover:text-red-400">All Tools</a>
-            <a href="#contact-section" class="block text-slate-300 hover:text-red-400">Contact Us</a>
+            <a href="https://quicktools24.in/#" class="block text-slate-300 hover:text-red-400">Home</a>
+            <a href="https://quicktools24.in/#tools-section" class="block text-slate-300 hover:text-red-400">All Tools</a>
+            <a href="https://quicktools24.in/#contact-section" class="block text-slate-300 hover:text-red-400">Contact Us</a>
         </div>
     </header>
 
@@ -50,7 +53,7 @@
             
             <!-- Category 1: Image Utilities -->
             <div>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-5 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-500"></span> Image & Photo Utilities</h3>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-5 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-500"></span> Image & Compression Utilities</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     <div onclick="openModal('modal-compress')" class="bg-slate-900/80 border border-slate-800 hover:border-red-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
                         <div>
@@ -193,8 +196,12 @@
 
             <div id="modal-crop" class="modal-content hidden space-y-4">
                 <h3 class="text-lg font-black text-white">✂️ Photo Cropper Utility</h3>
-                <input type="file" id="cropImgInput" accept="image/*" class="w-full text-xs text-slate-400 border border-slate-700 rounded-xl p-2 bg-slate-950 mb-2">
-                <button onclick="alert('Photo Cropper ready!')" class="w-full bg-pink-600 text-white py-3 rounded-xl font-bold text-xs shadow">Crop Image</button>
+                <input type="file" id="cropImgInput" accept="image/*" class="w-full text-xs text-slate-400 border border-slate-700 rounded-xl p-2 bg-slate-950 mb-3">
+                <div class="max-h-60 overflow-hidden bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center">
+                    <img id="imageToCrop" class="max-w-full hidden" alt="Crop Preview">
+                </div>
+                <button onclick="cropImage()" class="w-full bg-pink-600 text-white py-3 rounded-xl font-bold text-xs shadow">Crop & Download</button>
+                <div id="cropResult" class="text-center"></div>
             </div>
 
             <div id="modal-pdfsize" class="modal-content hidden space-y-4">
@@ -213,7 +220,7 @@
 
             <div id="modal-imgconvert" class="modal-content hidden space-y-4">
                 <h3 class="text-lg font-black text-white">🔄 Image Format Converter</h3>
-                <input type="file" id="convertImgInput" accept="image/*" class="w-full text-xs text-slate-400 border border-slate-700 rounded-xl p-2 bg-slate-950">
+                <input type="file" id="convertImgInput" accept="image/*" class="w-full text-xs text-slate-400 border border-slate-700 rounded-xl p-2 bg-slate-950 mb-2">
                 <button onclick="convertImageFormat()" class="w-full bg-yellow-600 text-white py-3 rounded-xl font-bold text-xs shadow">Convert & Download</button>
                 <div id="convertResult" class="text-center"></div>
             </div>
@@ -241,12 +248,4 @@
 
             <div id="modal-counter" class="modal-content hidden space-y-4">
                 <h3 class="text-lg font-black text-white">📊 Word & Character Counter</h3>
-                <textarea id="wordText" rows="4" oninput="countWords()" class="w-full p-3 text-xs bg-slate-950 border border-slate-700 rounded-xl text-white" placeholder="Paste text here..."></textarea>
-                <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl text-center text-xs font-semibold text-slate-300">
-                    Words: <span id="wordCount" class="text-teal-400">0</span> | Characters: <span id="charCount" class="text-teal-400">0</span>
-                </div>
-            </div>
-
-            <div id="modal-pass" class="modal-content hidden space-y-4">
-                <h3 class="text-lg font-black text-white">🔑 Password Generator</h3>
-                <button onclick="generatePassword()" cla
+                <textarea
