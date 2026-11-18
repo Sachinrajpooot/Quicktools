@@ -1,246 +1,97 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuickTools Pro - Ultimate 25+ PDF & Image Utility Suite</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/compressorjs/1.2.1/compressor.min.js"></script>
-    <!-- Cropper.js CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QuickTools24 — Free PDF Tools</title>
+<meta name="description" content="Free browser-based PDF tools. Merge, split, rotate, crop, watermark and manage PDF files privately.">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+body{background:#f5f7fb;color:#172033} .tool{background:white;border:1px solid #e5e9f2;border-radius:18px;padding:18px;text-align:left;transition:.18s} .tool:hover{border-color:#6b7cff;transform:translateY(-2px);box-shadow:0 12px 28px #17203312} .btn{background:#4f46e5;color:white;border-radius:10px;padding:11px 16px;font-weight:700}.btn:disabled{opacity:.45} .field{width:100%;border:1px solid #d8deea;border-radius:10px;padding:10px;background:white} .muted{color:#64748b}
+</style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-red-500 selection:text-white">
-
-    <!-- Navbar -->
-    <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <span class="bg-gradient-to-tr from-red-600 to-orange-500 text-white p-2 rounded-xl text-lg font-black shadow-lg shadow-red-500/20">⚡</span>
-                <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-white">QuickTools <span class="text-xs bg-red-500/20 text-red-400 border border-red-500/30 px-2 py-0.5 rounded-full font-medium ml-1">PRO 25+</span></h1>
-            </div>
-            
-            <div class="flex items-center gap-4">
-                <nav class="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-300">
-                    <a href="#" class="hover:text-red-400 transition">Home</a>
-                    <a href="#tools-section" class="hover:text-red-400 transition">All 25 Tools</a>
-                    <a href="#contact-section" class="hover:text-red-400 transition">Contact Us</a>
-                </nav>
-                <button onclick="toggleMobileMenu()" class="md:hidden text-slate-300 hover:text-white p-2 focus:outline-none" aria-label="Menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <div id="mobileMenu" class="hidden md:hidden bg-slate-900 border-b border-slate-800 px-6 py-4 space-y-3 text-xs font-semibold">
-            <a href="#" class="block text-slate-300 hover:text-red-400">Home</a>
-            <a href="#tools-section" class="block text-slate-300 hover:text-red-400">All 25 Tools</a>
-            <a href="#contact-section" class="block text-slate-300 hover:text-red-400">Contact Us</a>
-        </div>
-    </header>
-
-    <!-- Hero Header -->
-    <main id="tools-section" class="max-w-7xl mx-auto px-6 py-12 w-full flex-grow">
-        <div class="text-center max-w-3xl mx-auto mb-14">
-            <h2 class="text-3xl sm:text-5xl font-black tracking-tight text-white mb-4">Ultimate 25-in-1 Professional <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-400">PDF & Image Suite</span></h2>
-            <p class="text-sm text-slate-400">Lightning fast browser-based document utilities, photo resizers, and text editors.</p>
-        </div>
-
-        <!-- Dashboard Grid Sections (25 Tools Grid) -->
-        <div class="space-y-12">
-            
-            <!-- Category 1: Image & Photo Utilities (Tools 1 to 9) -->
-            <div>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-5 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-500"></span> Image & Photo Utilities (1 - 9)</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    
-                    <div onclick="openModal('modal-compress')" class="bg-slate-900/80 border border-slate-800 hover:border-red-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-red-500/10 text-red-400 flex items-center justify-center text-lg font-bold mb-3">🎯</div>
-                            <h4 class="font-bold text-white text-sm mb-1">1. Photo Size Resizer (KB)</h4>
-                            <p class="text-xs text-slate-400">Compress photos to exact target KB size.</p>
-                        </div>
-                        <span class="text-xs text-red-400 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                    <div onclick="openModal('modal-crop')" class="bg-slate-900/80 border border-slate-800 hover:border-pink-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-pink-500/10 text-pink-400 flex items-center justify-center text-lg font-bold mb-3">✂️</div>
-                            <h4 class="font-bold text-white text-sm mb-1">2. Photo Cropper</h4>
-                            <p class="text-xs text-slate-400">Crop images to custom dimensions.</p>
-                        </div>
-                        <span class="text-xs text-pink-400 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                    <div onclick="openModal('modal-img2pdf')" class="bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-lg font-bold mb-3">🖼️</div>
-                            <h4 class="font-bold text-white text-sm mb-1">3. JPG to PDF</h4>
-                            <p class="text-xs text-slate-400">Convert multiple images into a single PDF.</p>
-                        </div>
-                        <span class="text-xs text-amber-400 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                    <div onclick="openModal('modal-imgconvert')" class="bg-slate-900/80 border border-slate-800 hover:border-yellow-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-yellow-500/10 text-yellow-400 flex items-center justify-center text-lg font-bold mb-3">🔄</div>
-                            <h4 class="font-bold text-white text-sm mb-1">4. Image Format Converter</h4>
-                            <p class="text-xs text-slate-400">Switch images between JPG and PNG formats.</p>
-                        </div>
-                        <span class="text-xs text-yellow-400 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                    <div onclick="openModal('modal-grayscale')" class="bg-slate-900/80 border border-slate-800 hover:border-zinc-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-zinc-500/10 text-zinc-400 flex items-center justify-center text-lg font-bold mb-3">⚫</div>
-                            <h4 class="font-bold text-white text-sm mb-1">5. Black & White Filter</h4>
-                            <p class="text-xs text-slate-400">Convert color photos into grayscale.</p>
-                        </div>
-                        <span class="text-xs text-zinc-400 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                    <div onclick="openModal('modal-rotate')" class="bg-slate-900/80 border border-slate-800 hover:border-emerald-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg font-bold mb-3">🔄</div>
-                            <h4 class="font-bold text-white text-sm mb-1">6. Image Rotator</h4>
-                            <p class="text-xs text-slate-400">Rotate images by 90, 180 or 270 degrees.</p>
-                        </div>
-                        <span class="text-xs text-emerald-400 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                    <div onclick="openModal('modal-watermark')" class="bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-lg font-bold mb-3">💧</div>
-                            <h4 class="font-bold text-white text-sm mb-1">7. Image Watermarker</h4>
-                            <p class="text-xs text-slate-400">Add custom text watermark over photos.</p>
-                        </div>
-                        <span class="text-xs text-cyan-400 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                    <div onclick="openModal('modal-imgdim')" class="bg-slate-900/80 border border-slate-800 hover:border-blue-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center text-lg font-bold mb-3">📐</div>
-                            <h4 class="font-bold text-white text-sm mb-1">8. Resize by Dimensions</h4>
-                            <p class="text-xs text-slate-400">Change image width and height in pixels.</p>
-                        </div>
-                        <span class="text-xs text-blue-400 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                    <div onclick="openModal('modal-passport')" class="bg-slate-900/80 border border-slate-800 hover:border-indigo-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg font-bold mb-3">🛂</div>
-                            <h4 class="font-bold text-white text-sm mb-1">9. Passport Photo Maker</h4>
-                            <p class="text-xs text-slate-400">Format images into passport specifications.</p>
-                        </div>
-                        <span class="text-xs text-indigo-400 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Category 2: Advanced PDF Suite & Text Editor (Tools 10 to 18) -->
-            <div>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-5 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-orange-500"></span> Advanced PDF Suite & Text Editor (10 - 18)</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    
-                    <div onclick="openModal('modal-pdftexteditor')" class="bg-slate-900/80 border border-slate-800 hover:border-red-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between ring-2 ring-red-500/30">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-red-500/10 text-red-400 flex items-center justify-center text-lg font-bold mb-3">📝</div>
-                            <h4 class="font-bold text-white text-sm mb-1">10. PDF Text Editor & Creator</h4>
-                            <p class="text-xs text-slate-400">Type custom text and export instantly as PDF.</p>
-                        </div>
-                        <span class="text-xs text-red-400 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                    <div onclick="openModal('modal-pdfsize')" class="bg-slate-900/80 border border-slate-800 hover:border-orange-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-400 flex items-center justify-center text-lg font-bold mb-3">📉</div>
-                            <h4 class="font-bold text-white text-sm mb-1">11. PDF Size Reducer</h4>
-                            <p class="text-xs text-slate-400">Compress and reduce large PDF file sizes.</p>
-                        </div>
-                        <span class="text-xs text-orange-400 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                    <div onclick="openModal('modal-pdfcrop')" class="bg-slate-900/80 border border-slate-800 hover:border-rose-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center text-lg font-bold mb-3">📐</div>
-                            <h4 class="font-bold text-white text-sm mb-1">12. PDF Page Cropper</h4>
-                            <p class="text-xs text-slate-400">Crop margins from PDF pages.</p>
-                        </div>
-                        <span class="text-xs text-rose-400 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                    <div onclick="openModal('modal-merge')" class="bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-lg font-bold mb-3">📑</div>
-                            <h4 class="font-bold text-white text-sm mb-1">13. Merge PDF</h4>
-                            <p class="text-xs text-slate-400">Combine multiple PDF documents together.</p>
-                        </div>
-                        <span class="text-xs text-amber-400 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                    <div onclick="openModal('modal-split')" class="bg-slate-900/80 border border-slate-800 hover:border-purple-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-lg font-bold mb-3">✂️</div>
-                            <h4 class="font-bold text-white text-sm mb-1">14. Split PDF</h4>
-                            <p class="text-xs text-slate-400">Extract pages or split into files.</p>
-                        </div>
-                        <span class="text-xs text-purple-400 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                    <div onclick="openModal('modal-pdfprotect')" class="bg-slate-900/80 border border-slate-800 hover:border-red-600/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-red-600/10 text-red-400 flex items-center justify-center text-lg font-bold mb-3">🔒</div>
-                            <h4 class="font-bold text-white text-sm mb-1">15. Encrypt PDF</h4>
-                            <p class="text-xs text-slate-400">Secure PDF documents with metadata lock.</p>
-                        </div>
-                        <span class="text-xs text-red-400 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                    <div onclick="openModal('modal-pdfwatermark')" class="bg-slate-900/80 border border-slate-800 hover:border-teal-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-teal-500/10 text-teal-400 flex items-center justify-center text-lg font-bold mb-3">📋</div>
-                            <h4 class="font-bold text-white text-sm mb-1">16. PDF Watermark Stamp</h4>
-                            <p class="text-xs text-slate-400">Stamp confidential headers onto PDFs.</p>
-                        </div>
-                        <span class="text-xs text-teal-400 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                    <div onclick="openModal('modal-pdfmeta')" class="bg-slate-900/80 border border-slate-800 hover:border-sky-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center text-lg font-bold mb-3">ℹ️</div>
-                            <h4 class="font-bold text-white text-sm mb-1">17. PDF Info & Inspector</h4>
-                            <p class="text-xs text-slate-400">Check total pages and metadata specs.</p>
-                        </div>
-                        <span class="text-xs text-sky-400 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                    <div onclick="openModal('modal-pdfrotate')" class="bg-slate-900/80 border border-slate-800 hover:border-orange-400/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-orange-400/10 text-orange-300 flex items-center justify-center text-lg font-bold mb-3">🔄</div>
-                            <h4 class="font-bold text-white text-sm mb-1">18. Rotate PDF Pages</h4>
-                            <p class="text-xs text-slate-400">Rotate all pages in a PDF document.</p>
-                        </div>
-                        <span class="text-xs text-orange-300 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Category 3: Text, Conversion & Productivity Utilities (Tools 19 to 25) -->
-            <div>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-5 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-cyan-500"></span> Text, Conversion & Productivity (19 - 25)</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    
-                    <div onclick="openModal('modal-counter')" class="bg-slate-900/80 border border-slate-800 hover:border-teal-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-teal-500/10 text-teal-400 flex items-center justify-center text-lg font-bold mb-3">📊</div>
-                            <h4 class="font-bold text-white text-sm mb-1">19. Word & Char Counter</h4>
-                            <p class="text-xs text-slate-400">Analyze words, characters, and paragraphs.</p>
-                        </div>
-                        <span class="text-xs text-teal-400 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                    <div onclick="openModal('modal-case')" class="bg-slate-900/80 border border-slate-800 hover:border-emerald-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-co
+<body class="min-h-screen">
+<header class="bg-white border-b sticky top-0 z-20"><div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between"><a href="#" class="font-black text-2xl tracking-tight text-indigo-700">⚡ QuickTools<span class="text-slate-800">24</span></a><nav class="text-sm font-semibold flex gap-5"><a href="#tools">PDF Tools</a><a href="#about">Privacy</a></nav></div></header>
+<main class="max-w-6xl mx-auto px-4">
+<section class="text-center py-12"><div class="inline-block bg-indigo-50 text-indigo-700 rounded-full px-4 py-1 text-sm font-bold mb-4">24 PDF UTILITIES</div><h1 class="text-4xl md:text-5xl font-black mb-4">All your PDF tools.<br><span class="text-indigo-600">One simple place.</span></h1><p class="muted max-w-2xl mx-auto">Merge, split, organize, convert and edit PDF files directly in your browser. Your files are processed on your device and are not uploaded to our server.</p></section>
+<section id="tools" class="pb-14"><div class="flex flex-wrap items-center justify-between gap-3 mb-5"><h2 class="text-2xl font-extrabold">PDF tools</h2><input id="search" class="field max-w-xs" placeholder="Search PDF tools…" oninput="filterTools()"></div><div id="grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div></section>
+<section id="about" class="bg-white border rounded-2xl p-6 mb-12"><h2 class="font-extrabold text-xl mb-2">Privacy first</h2><p class="muted text-sm">Processing happens locally in your browser using open-source PDF libraries. For very large files, performance depends on your device. This version does not upload your documents.</p></section>
+</main>
+<div id="modal" class="hidden fixed inset-0 bg-slate-950/60 z-40 p-3 overflow-y-auto"><div class="max-w-xl mx-auto bg-white rounded-2xl p-5 md:p-7 mt-8 shadow-2xl"><div class="flex justify-between gap-3"><div><h2 id="mtitle" class="text-xl font-extrabold"></h2><p id="mdesc" class="text-sm muted mt-1"></p></div><button onclick="closeModal()" class="text-2xl leading-none" aria-label="Close">×</button></div><div id="fields" class="space-y-3 mt-6"></div><div id="status" class="text-sm mt-4 muted" aria-live="polite"></div><div class="flex gap-3 mt-5"><button id="run" class="btn" onclick="runTool()">Process PDF</button><button class="border rounded-xl px-4 py-2 font-semibold" onclick="closeModal()">Cancel</button></div></div></div>
+<footer class="text-center text-xs muted py-8 border-t bg-white">© 2026 QuickTools24.in · Free browser-based PDF utilities</footer>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+const {PDFDocument, StandardFonts, rgb, degrees}=PDFLib;
+const tools=[
+['merge','Merge PDF','Combine multiple PDF files into one.','📚',2],
+['split','Split PDF','Save each page as a separate PDF.','✂️',1],
+['extract','Extract PDF Pages','Select page numbers and create a new PDF.','📄',1],
+['delete','Delete PDF Pages','Remove selected pages from a PDF.','🗑️',1],
+['rotate','Rotate PDF Pages','Rotate all pages or selected pages.','🔄',1],
+['reorder','Reorder PDF Pages','Set a new page order, e.g. 3,1,2.','↕️',1],
+['addblank','Add Blank Pages','Insert blank pages into a PDF.','➕',1],
+['crop','Crop PDF Pages','Set crop margins in points.','▣',1],
+['watermark','Add PDF Watermark','Place a text watermark on every page.','💧',1],
+['pagenum','Add Page Numbers','Number pages at the bottom.','🔢',1],
+['text','Add Text to PDF','Add a text note to every page.','✍️',1],
+['signature','Add Signature Text','Place a typed signature on each page.','🖊️',1],
+['metadata','Edit PDF Metadata','Change title, author and subject.','🏷️',1],
+['inspect','PDF Information','View page count, size and metadata.','🔍',1],
+['textout','Extract PDF Text','Download selectable text as a TXT file.','📝',1],
+['images','Images to PDF','Combine JPG and PNG images into a PDF.','🖼️',1],
+['render','PDF to Images','Export PDF pages as PNG images.','🌄',1],
+['grayscale','Grayscale PDF','Create a black-and-white PDF copy.','⚫',1],
+['compress','Compress PDF (raster)','Reduce size by rendering pages as JPEG.','📉',1],
+['form','Fill PDF Form Fields','Fill interactive form fields by field name.','🧾',1],
+['flatten','Flatten PDF Forms','Flatten interactive form fields.','📋',1],
+['header','Add Header & Footer','Add custom header and footer text.','↔️',1],
+['rotateone','Rotate Selected Pages','Rotate only the page numbers you choose.','⤴️',1],
+['create','Create PDF from Text','Turn typed text into a downloadable PDF.','📃',0]
+];
+let active=null, selected=[];
+function renderTools(list=tools){document.getElementById('grid').innerHTML=list.map(t=>'<button class="tool" onclick="openTool(\''+t[0]+'\')"><div class="text-2xl mb-3">'+t[3]+'</div><div class="font-extrabold mb-1">'+t[1]+'</div><div class="text-sm muted">'+t[2]+'</div><div class="text-xs text-indigo-600 font-bold mt-4">Open tool →</div></button>').join('')}
+function filterTools(){const q=document.getElementById('search').value.toLowerCase();renderTools(tools.filter(t=>(t[1]+' '+t[2]).toLowerCase().includes(q)))}
+function el(tag,attrs={},txt=''){const e=document.createElement(tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));e.textContent=txt;return e}
+function addField(label,type,id,placeholder='',multiple=false){const wrap=el('label',{class:'block text-sm font-bold'},label);let input=el('input',{class:'field mt-1',type,id,placeholder});if(multiple)input.multiple=true;wrap.appendChild(input);document.getElementById('fields').appendChild(wrap);return input}
+function openTool(id){active=tools.find(t=>t[0]===id);selected=[];document.getElementById('mtitle').textContent=active[1];document.getElementById('mdesc').textContent=active[2];document.getElementById('fields').innerHTML='';document.getElementById('status').textContent='';document.getElementById('run').textContent=active[4]?'Process PDF':'Create PDF';
+if(id==='create'){addField('Text to convert','textarea','txt','Type or paste your text');}
+else if(id==='images'){addField('Choose JPG/PNG images','file','files','',true).accept='image/jpeg,image/png';}
+else {addField('Choose PDF file'+(active[4]===2?'s':''),'file','files','',active[4]===2).accept='application/pdf';}
+const configs={
+extract:[['Page numbers (e.g. 1,3,5)','text','pages','1,3']],delete:[['Page numbers to delete','text','pages','2']],rotate:[['Rotation degrees (90, 180, 270)','number','angle','90']],reorder:[['New page order (e.g. 3,1,2)','text','order','3,1,2']],addblank:[['Insert blank page after page number','number','after','1']],crop:[['Margin to crop from each edge (points)','number','margin','20']],watermark:[['Watermark text','text','value','CONFIDENTIAL']],pagenum:[['Starting number','number','value','1']],text:[['Text to add','text','value','Your text']],signature:[['Signature text','text','value','Your Name']],metadata:[['Title','text','title',''],['Author','text','author',''],['Subject','text','subject','']],textout:[],inspect:[],render:[],grayscale:[],compress:[['JPEG quality (0.2–0.9)','number','quality','0.6']],form:[['Form field name','text','field',''],['Field value','text','value','']],header:[['Header text','text','header',''],['Footer text','text','footer','']],rotateone:[['Page numbers','text','pages','1'],['Rotation degrees','number','angle','90']]};
+(configs[id]||[]).forEach(c=>addField(c[0],c[1],c[2],c[3]));
+if(['extract','delete','rotateone','reorder'].includes(id))addField('Page numbers use 1-based numbering','text','hint','Separate numbers with commas');
+document.getElementById('modal').classList.remove('hidden')}
+function closeModal(){document.getElementById('modal').classList.add('hidden')}
+function val(id){return document.getElementById(id)?.value||''}
+function nums(s){return s.split(',').map(x=>parseInt(x.trim(),10)).filter(Number.isFinite)}
+function download(bytes,name,type='application/pdf'){const blob=new Blob([bytes],{type}),url=URL.createObjectURL(blob),a=el('a',{href:url,download:name});document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
+async function fileBytes(file){return new Uint8Array(await file.arrayBuffer())}
+async function loadPdf(file){return PDFDocument.load(await fileBytes(file),{ignoreEncryption:false})}
+async function runTool(){const btn=document.getElementById('run'),status=document.getElementById('status');btn.disabled=true;status.textContent='Working…';try{const id=active[0],files=[...(document.getElementById('files')?.files||[])];let doc,out,name='quicktools24.pdf';
+if(id==='create'){doc=await PDFDocument.create();const font=await doc.embedFont(StandardFonts.Helvetica);let page=doc.addPage();const lines=val('txt').split(/\r?\n/);let y=page.getHeight()-55;for(const line of lines){if(y<45){page=doc.addPage();y=page.getHeight()-55}page.drawText(line.slice(0,140),{x:45,y,size:12,font});y-=18}out=await doc.save();}
+else if(id==='images'){if(!files.length)throw Error('Please choose at least one image.');doc=await PDFDocument.create();for(const f of files){const b=await fileBytes(f),img=f.type==='image/png'?await doc.embedPng(b):await doc.embedJpg(b),page=doc.addPage([img.width,img.height]);page.drawImage(img,{x:0,y:0,width:img.width,height:img.height})}out=await doc.save();}
+else {if(!files.length)throw Error('Please choose a PDF file.');doc=await loadPdf(files[0]);const count=doc.getPageCount();
+if(id==='merge'){doc=await PDFDocument.create();for(const f of files){const src=await loadPdf(f),copied=await doc.copyPages(src,src.getPageIndices());copied.forEach(p=>doc.addPage(p))}name='merged.pdf';}
+if(id==='split'){for(let i=0;i<count;i++){const part=await PDFDocument.create(),[p]=await part.copyPages(doc,[i]);part.addPage(p);download(await part.save(),'page-'+(i+1)+'.pdf')}status.textContent='Exported '+count+' page files.';return;}
+if(id==='extract'||id==='delete'){const p=nums(val('pages'));if(!p.length)throw Error('Enter page numbers, such as 1,3.');const chosen=p.map(n=>n-1).filter(n=>n>=0&&n<count);if(!chosen.length)throw Error('No valid page numbers found.');const keep=id==='extract'?chosen:doc.getPageIndices().filter(n=>!chosen.includes(n));if(!keep.length)throw Error('You cannot delete every page.');const nd=await PDFDocument.create();for(const p of await nd.copyPages(doc,keep))nd.addPage(p);doc=nd;name=id==='extract'?'extracted-pages.pdf':'pages-deleted.pdf';}
+if(id==='rotate'||id==='rotateone'){const angle=Number(val('angle'))||90;if(![90,180,270].includes(angle))throw Error('Rotation must be 90, 180 or 270.');const targets=id==='rotate'?doc.getPageIndices():nums(val('pages')).map(n=>n-1);targets.forEach(i=>{if(i>=0&&i<count){const p=doc.getPage(i);p.setRotation(degrees((p.getRotation().angle+angle)%360))}});}
+if(id==='reorder'){const order=nums(val('order')).map(n=>n-1);if(!order.length||order.some(n=>n<0||n>=count))throw Error('Order must contain valid page numbers.');const nd=await PDFDocument.create();for(const p of await nd.copyPages(doc,order))nd.addPage(p);doc=nd;}
+if(id==='addblank'){const after=Math.max(0,Math.min(count,Number(val('after'))||0));doc.insertPage(after,[612,792]);}
+if(id==='crop'){const m=Math.max(0,Number(val('margin'))||0);doc.getPages().forEach(p=>{const s=p.getSize();if(m*2>=Math.min(s.width,s.height))throw Error('Margin is too large for a page.');p.setCropBox(m,m,s.width-2*m,s.height-2*m)})}
+if(id==='watermark'||id==='text'||id==='signature'||id==='pagenum'||id==='header'){const font=await doc.embedFont(StandardFonts.Helvetica);doc.getPages().forEach((p,i)=>{const s=p.getSize();if(id==='watermark')p.drawText(val('value'),{x:s.width*.18,y:s.height*.5,size:36,font,color:rgb(.75,.15,.15),rotate:degrees(35),opacity:.35});if(id==='text')p.drawText(val('value'),{x:40,y:40,size:14,font,color:rgb(.1,.1,.1)});if(id==='signature')p.drawText(val('value'),{x:s.width-190,y:45,size:16,font, color:rgb(.05,.15,.5)});if(id==='pagenum')p.drawText(String((Number(val('value'))||1)+i),{x:s.width/2-10,y:20,size:10,font});if(id==='header'){if(val('header'))p.drawText(val('header'),{x:35,y:s.height-28,size:10,font});if(val('footer'))p.drawText(val('footer'),{x:35,y:18,size:10,font})}})}
+if(id==='metadata'){doc.setTitle(val('title'));doc.setAuthor(val('author'));doc.setSubject(val('subject'))}
+if(id==='form'){const form=doc.getForm();const field=form.getField(val('field'));if(field.setText)field.setText(val('value'));else throw Error('This field is not a text field.')}
+if(id==='flatten')doc.getForm().flatten();
+if(id==='inspect'){const info='Pages: '+count+'\nTitle: '+doc.getTitle()+'\nAuthor: '+doc.getAuthor()+'\nSubject: '+doc.getSubject()+'\nFile size: '+files[0].size+' bytes';download(new Blob([info]),'pdf-information.txt','text/plain');status.textContent=info;return;}
+if(id==='textout'||id==='render'||id==='grayscale'||id==='compress'){const pdf=await pdfjsLib.getDocument({data:await fileBytes(files[0])}).promise;if(id==='textout'){let all='';for(let n=1;n<=pdf.numPages;n++){const page=await pdf.getPage(n),tc=await page.getTextContent();all+='--- Page '+n+' ---\n'+tc.items.map(x=>x.str).join(' ')+'\n\n'}download(new Blob([all],{type:'text/plain'}),'extracted-text.txt','text/plain');status.textContent='Text extracted.';return}
+if(id==='render'){for(let n=1;n<=pdf.numPages;n++){const page=await pdf.getPage(n),vp=page.getViewport({scale:1.5}),canvas=document.createElement('canvas');canvas.width=vp.width;canvas.height=vp.height;await page.render({canvasContext:canvas.getContext('2d'),viewport:vp}).promise;const blob=await new Promise(r=>canvas.toBlob(r,'image/png'));download(await blob.arrayBuffer(),'page-'+n+'.png','image/png')}status.textContent='PNG pages exported.';return}
+const nd=await PDFDocument.create();for(let n=1;n<=pdf.numPages;n++){const page=await pdf.getPage(n),vp=page.getViewport({scale:id==='compress'?1.1:1.4}),canvas=document.createElement('canvas');canvas.width=vp.width;canvas.height=vp.height;const ctx=canvas.getContext('2d');await page.render({canvasContext:ctx,viewport:vp}).promise;if(id==='grayscale'){const d=ctx.getImageData(0,0,canvas.width,canvas.height);for(let j=0;j<d.data.length;j+=4){const g=.299*d.data[j]+.587*d.data[j+1]+.114*d.data[j+2];d.data[j]=d.data[j+1]=d.data[j+2]=g}ctx.putImageData(d,0,0)}const blob=await new Promise(r=>canvas.toBlob(r,'image/jpeg',id==='compress'?Math.max(.2,Math.min(.9,Number(val('quality'))||.6)):.88)),img=await nd.embedJpg(await blob.arrayBuffer()),p=nd.addPage([img.width,img.height]);p.drawImage(img,{x:0,y:0,width:img.width,height:img.height})}doc=nd;name=id==='compress'?'compressed-raster.pdf':'grayscale.pdf';}
+}
+if(!out)out=await doc.save();download(out,name);status.textContent='Done. Your file has been created.'}
+catch(e){status.textContent='Error: '+(e.message||'Could not process this file.');}
+finally{btn.disabled=false}}
+renderTools();
+</script>
+</body></html>
