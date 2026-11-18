@@ -1,4 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://quicktools24.in/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://quicktools24.in/pdf-editor.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=merge</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=split</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=extract</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=delete</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=rotate</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=reorder</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=addblank</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=crop</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=watermark</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=pagenum</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=text</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=signature</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=metadata</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=inspect</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=textout</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=images</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=render</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=grayscale</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=compress</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=form</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=flatten</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=header</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=rotateone</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=create</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=img-resizekb</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=img-resize</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=img-crop</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=img-convert</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=img-bw</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=img-rotate</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=img-watermark</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=img-compress</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=img-flip</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=img-passport</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=img-pngjpg</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=img-jpgpng</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=txt-count</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=txt-case</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=txt-clean</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=txt-sort</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=txt-duplicate</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://quicktools24.in/tool.html?tool=txt-reverse</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>
