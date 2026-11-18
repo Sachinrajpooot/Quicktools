@@ -132,6 +132,49 @@ body{background:#f5f7fb;color:#172033} .tool{background:white;border:1px solid #
  #filePickerTop .file-picker-shell{min-height:62px!important;font-size:15px!important}
 }
 
+
+/* PDF24-inspired clean tool layout — PDF Text Editor remains untouched */
+#modal.toolpage-modal .toolpage-main{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;width:100%!important;max-width:none!important;padding:clamp(16px,3vw,34px)!important;box-sizing:border-box!important}
+#modal.toolpage-modal .toolpage-main>.tool-brandbar{order:1!important;width:min(100%,1040px)!important;max-width:1040px!important;margin:0 auto 20px!important;padding:4px 0 12px!important;border-bottom:1px solid #e8edf5!important}
+#modal.toolpage-modal .tool-brand img{width:54px!important;height:54px!important;border-radius:16px!important}
+#modal.toolpage-modal .tool-brand-name{font-size:24px!important;font-weight:950!important;letter-spacing:-.8px!important;color:#172554!important}
+#modal.toolpage-modal .tool-brand-tag{font-size:11px!important;letter-spacing:.02em!important}
+#modal.toolpage-modal .tool-brand-home{padding:10px 15px!important;border-radius:11px!important;background:#fff!important;border-color:#e2e8f0!important;font-weight:800!important}
+#modal.toolpage-modal .tool-page-intro{order:2!important;display:flex!important;flex-direction:column!important;align-items:center!important;text-align:center!important;width:min(100%,900px)!important;margin:10px auto 26px!important;padding:0 12px!important}
+#modal.toolpage-modal .tool-page-intro>div{display:flex!important;flex-direction:column!important;align-items:center!important}
+#modal.toolpage-modal .tool-page-intro .tool-workspace-heading{display:flex!important;flex-direction:column!important;align-items:center!important;gap:12px!important;margin:0!important}
+#modal.toolpage-modal .tool-page-intro .tool-workspace-icon{width:58px!important;height:58px!important;border-radius:18px!important;background:linear-gradient(145deg,#eef2ff,#dbeafe)!important;color:#4338ca!important;font-size:29px!important;box-shadow:0 7px 18px #4f46e51a!important}
+#modal.toolpage-modal .tool-page-intro h2{font-size:clamp(27px,4vw,36px)!important;line-height:1.12!important;font-weight:950!important;letter-spacing:-.045em!important;color:#172554!important}
+#modal.toolpage-modal .tool-page-intro .tool-workspace-subtitle{max-width:680px!important;margin:10px auto 0!important;font-size:15px!important;line-height:1.7!important;color:#64748b!important}
+#modal.toolpage-modal .toolpage-main>#filePickerTop{order:3!important;display:block!important;width:min(100%,900px)!important;max-width:900px!important;margin:0 auto 22px!important;padding:0!important;box-sizing:border-box!important}
+#modal.toolpage-modal .toolpage-main>#filePickerTop:empty{display:none!important}
+#modal.toolpage-modal #filePickerTop .tool-field-label{display:block!important;width:100%!important;padding:18px!important;border:1px solid #dbe3f0!important;border-radius:18px!important;background:#fff!important;box-shadow:0 12px 32px #1725540c!important;color:#334155!important;font-size:14px!important;font-weight:850!important;box-sizing:border-box!important;text-align:center!important}
+#modal.toolpage-modal #filePickerTop .file-picker-shell{display:flex!important;flex-direction:column!important;gap:8px!important;justify-content:center!important;min-height:136px!important;margin-top:12px!important;padding:20px!important;border:2px dashed #a5b4fc!important;border-radius:14px!important;background:linear-gradient(180deg,#fbfcff,#f4f6ff)!important;color:#4338ca!important;box-shadow:none!important;font-size:16px!important;font-weight:900!important;letter-spacing:0!important}
+#modal.toolpage-modal #filePickerTop .file-picker-button:before{content:"↑";display:grid!important;place-items:center;width:38px;height:38px;margin:0 auto 3px!important;border-radius:12px;background:#e0e7ff!important;color:#4338ca!important;font-size:24px!important;vertical-align:middle}
+#modal.toolpage-modal #filePickerTop .file-picker-shell:after{content:"Select a file from your device";font-size:12px;font-weight:600;color:#64748b}
+#modal.toolpage-modal #filePickerTop .file-picker-shell:focus-within{outline:3px solid #c7d2fe!important;outline-offset:3px!important}
+#modal.toolpage-modal #filePickerTop .file-picker-name{display:block!important;margin:10px 2px 0!important;color:#475569!important;font-size:12px!important;font-weight:700!important;overflow-wrap:anywhere!important}
+#modal.toolpage-modal .toolpage-main>.tool-workspace{order:4!important;width:min(100%,900px)!important;max-width:900px!important;min-width:0!important;margin:0 auto 34px!important;align-self:center!important;border:1px solid #e5eaf2!important;border-radius:18px!important;background:#fff!important;box-shadow:0 12px 32px #1725540a!important;overflow:visible!important;box-sizing:border-box!important}
+#modal.toolpage-modal .tool-workspace .tool-workspace-inner{padding:clamp(18px,3vw,28px)!important}
+#modal.toolpage-modal .tool-workspace #fields{margin-top:0!important;display:grid!important;gap:16px!important}
+#modal.toolpage-modal .tool-workspace #fields .tool-field-label{font-size:13px!important;font-weight:800!important;color:#334155!important}
+#modal.toolpage-modal .tool-workspace #fields .field{margin-top:7px!important;min-height:46px!important;border:1px solid #dbe3f0!important;border-radius:11px!important;background:#fff!important}
+#modal.toolpage-modal #run{min-height:48px!important;min-width:190px!important;border-radius:11px!important;background:#4f46e5!important;box-shadow:0 7px 16px #4f46e52a!important;font-weight:850!important}
+#modal.toolpage-modal .tool-workspace #toolSeoContent{margin-top:28px!important}
+@media(max-width:700px){
+ #modal.toolpage-modal .toolpage-main{padding:14px!important}
+ #modal.toolpage-modal .toolpage-main>.tool-brandbar{width:100%!important;margin-bottom:16px!important}
+ #modal.toolpage-modal .tool-brand img{width:46px!important;height:46px!important}
+ #modal.toolpage-modal .tool-brand-name{font-size:21px!important}
+ #modal.toolpage-modal .tool-page-intro{margin:6px auto 20px!important}
+ #modal.toolpage-modal .tool-page-intro .tool-workspace-icon{width:52px!important;height:52px!important}
+ #modal.toolpage-modal .tool-page-intro .tool-workspace-subtitle{font-size:13px!important}
+ #modal.toolpage-modal .toolpage-main>#filePickerTop{width:100%!important;margin-bottom:16px!important}
+ #modal.toolpage-modal #filePickerTop .tool-field-label{padding:13px!important}
+ #modal.toolpage-modal #filePickerTop .file-picker-shell{min-height:122px!important}
+ #modal.toolpage-modal .toolpage-main>.tool-workspace{width:100%!important;max-width:100%!important}
+}
+
 </style>
 </head>
 <body class="min-h-screen">
@@ -342,7 +385,8 @@ function ensureToolBrandbar(target){
  bar.innerHTML='<a class="tool-brand" href="/" aria-label="QuickTools24 home"><img src="/favicon.svg" alt="QuickTools24 logo"><span><span class="tool-brand-name">QuickTools24</span><span class="tool-brand-tag">Simple tools. Smart results.</span></span></a><a class="tool-brand-home" href="/">← All tools</a>';
  target.prepend(bar);
 }
-function openTool(id){active=allTools.find(t=>t[0]===id);if(!active)return;if(id==='pdf-editor'){openPdfEditorPage();return;}selected=[];outputFiles.forEach(x=>URL.revokeObjectURL(x.url));outputFiles=[];document.getElementById('outputPanel')?.remove();history.pushState({},'', '?tool='+encodeURIComponent(id));setToolSeo(active,id);document.querySelectorAll('main>section').forEach(x=>x.style.display='none');document.querySelector('header').style.display='none';document.querySelector('footer').style.display='none';document.getElementById('toolSidebar').innerHTML=allTools.map(t=>'<a class="toolpage-link '+(t[0]===id?'active':'')+'" href="'+(t[0]==='pdf-editor'?'/pdf-editor.html':'/tool.html?tool='+encodeURIComponent(t[0]))+'">'+t[3]+' '+t[1]+'</a>').join('');document.getElementById('modal').classList.add('toolpage-modal');document.querySelectorAll('#modal .tool-hero,#modal .tool-hero-banner,#modal .tool-banner').forEach(node=>node.remove());const topPicker=document.getElementById('filePickerTop');if(topPicker)topPicker.replaceChildren();ensureToolBrandbar(document.querySelector('.toolpage-main'));document.getElementById('mtitle').textContent=active[1];document.getElementById('mdesc').textContent=active[2];document.getElementById('fields').innerHTML='';document.getElementById('status').textContent='';document.getElementById('run').textContent=id.startsWith('img-')?'Process Image':id.startsWith('txt-')?'Process Text':id==='create'?'Create PDF':'Process PDF';
+function ensureToolPageIntro(){const main=document.querySelector('#modal .toolpage-main');if(!main)return null;let intro=main.querySelector(':scope > .tool-page-intro');if(!intro){intro=document.createElement('section');intro.className='tool-page-intro';const workspace=main.querySelector(':scope > .tool-workspace');const row=workspace?.querySelector('.tool-workspace-inner > .flex.justify-between');if(row){const content=row.firstElementChild;if(content)intro.appendChild(content);row.remove();}const brand=main.querySelector(':scope > .tool-brandbar');brand?.after(intro);}return intro;}
+function openTool(id){active=allTools.find(t=>t[0]===id);if(!active)return;if(id==='pdf-editor'){openPdfEditorPage();return;}selected=[];outputFiles.forEach(x=>URL.revokeObjectURL(x.url));outputFiles=[];document.getElementById('outputPanel')?.remove();history.pushState({},'', '?tool='+encodeURIComponent(id));setToolSeo(active,id);document.querySelectorAll('main>section').forEach(x=>x.style.display='none');document.querySelector('header').style.display='none';document.querySelector('footer').style.display='none';document.getElementById('toolSidebar').innerHTML=allTools.map(t=>'<a class="toolpage-link '+(t[0]===id?'active':'')+'" href="'+(t[0]==='pdf-editor'?'/pdf-editor.html':'/tool.html?tool='+encodeURIComponent(t[0]))+'">'+t[3]+' '+t[1]+'</a>').join('');document.getElementById('modal').classList.add('toolpage-modal');document.querySelectorAll('#modal .tool-hero,#modal .tool-hero-banner,#modal .tool-banner').forEach(node=>node.remove());const topPicker=document.getElementById('filePickerTop');if(topPicker)topPicker.replaceChildren();ensureToolBrandbar(document.querySelector('.toolpage-main'));const toolIntro=ensureToolPageIntro();document.getElementById('mtitle').textContent=active[1];document.getElementById('mdesc').textContent=active[2];document.getElementById('toolWorkspaceIcon').textContent=active[3]||'✦';document.getElementById('fields').innerHTML='';document.getElementById('status').textContent='';document.getElementById('run').textContent=id.startsWith('img-')?'Process Image':id.startsWith('txt-')?'Process Text':id==='create'?'Create PDF':'Process PDF';
 if(id==='create'||id.startsWith('txt-')){addField('Enter or paste your text','textarea','txt','Type or paste your text');}
 else if(id==='images'||id.startsWith('img-')){const imageInput=addField('Choose image'+(id==='images'?'s':''),'file','files','',id==='images','filePickerTop');imageInput.accept=id==='images'?'image/png,image/jpeg':'image/*';}
 else {addField('Choose PDF file'+(active[4]===2?'s':''),'file','files','',active[4]===2,'filePickerTop').accept='application/pdf';}
