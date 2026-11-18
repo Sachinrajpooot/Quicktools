@@ -92,6 +92,27 @@ body{background:#f7f8fc;color:#172033}
 @media(max-width:640px){.home-header-inner{padding:11px 14px}.home-brand img{width:43px;height:43px}.home-brand-word{font-size:21px}.home-nav{gap:12px;font-size:11px}.home-nav a:nth-child(3){display:none}.home-main{padding:0 14px}.home-hero{padding:48px 4px 32px}.home-hero p{font-size:14px}.home-search{height:56px!important}.home-section-head h2{font-size:23px}#grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.tool-card{padding:14px;min-height:184px;border-radius:15px}.tool-card-icon{width:42px;height:42px;font-size:22px}.tool-card-title{font-size:14px}.tool-card-desc{font-size:11px}}
 @media(max-width:370px){#grid{grid-template-columns:1fr}}
 
+
+/* Homepage overview and creator strip */
+.home-overview{max-width:1120px;margin:10px auto 42px;padding:30px 26px;background:linear-gradient(135deg,#fff 0%,#f7f9ff 100%);border:1px solid #e5eaf4;border-radius:24px;box-shadow:0 14px 38px #1725540a}
+.home-overview-head{text-align:center;max-width:760px;margin:0 auto 24px}
+.home-overview-kicker{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;background:#eef2ff;color:#4338ca;font-size:11px;font-weight:850;letter-spacing:.06em;text-transform:uppercase}
+.home-overview-head h2{font-size:clamp(24px,3vw,34px);font-weight:950;letter-spacing:-.04em;color:#172554;margin:13px 0 9px}
+.home-overview-head p{font-size:14px;line-height:1.8;color:#64748b}
+.home-feature-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.home-feature-card{padding:19px;border:1px solid #e5eaf4;border-radius:17px;background:#fff;min-width:0}
+.home-feature-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:#eef2ff;font-size:21px;margin-bottom:12px}
+.home-feature-card h3{font-size:16px;font-weight:900;color:#172554;margin-bottom:7px}
+.home-feature-card p{font-size:12px;line-height:1.7;color:#64748b}
+.home-feature-card ul{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:7px}
+.home-feature-card li{font-size:12px;color:#475569;display:flex;gap:8px;align-items:flex-start}
+.home-feature-card li:before{content:"✓";color:#4f46e5;font-weight:900}
+.home-creator{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:22px;padding-top:19px;border-top:1px solid #e8edf5;text-align:center}
+.home-creator strong{color:#172554}
+.home-creator a{color:#4f46e5;font-weight:800;text-decoration:none}
+.home-creator a:hover{text-decoration:underline}
+@media(max-width:760px){.home-overview{padding:23px 16px;margin:8px auto 30px;border-radius:19px}.home-feature-grid{grid-template-columns:1fr}.home-feature-card{padding:16px}.home-feature-icon{margin-bottom:9px}}
+
 </style>
 </head>
 <body class="min-h-screen">
@@ -99,6 +120,15 @@ body{background:#f7f8fc;color:#172033}
 <main class="home-main">
  <section class="home-hero"><div class="home-kicker"><span>✦</span> FREE ONLINE TOOLS · NO SIGN-UP</div><h1>Everything you need.<br><span>All in one place.</span></h1><p>Fast, simple and free tools to manage PDFs, images and text. Choose a tool, add your file and get things done right in your browser.</p><div class="home-search-wrap"><input id="search" class="field home-search" placeholder="Search tools — merge PDF, resize image..." oninput="filterTools()" aria-label="Search all tools"></div><div class="home-trust"><span>Free to use</span><span>No account required</span><span>Works on mobile</span></div></section>
  <section id="tools" class="home-tools"><div class="home-section-head"><div><h2>Explore all tools</h2><p>Choose the right tool for your task.</p></div></div><div id="grid"></div></section>
+  <section class="home-overview" aria-labelledby="homeOverviewTitle">
+   <div class="home-overview-head"><span class="home-overview-kicker">QuickTools24 · Your everyday file toolkit</span><h2 id="homeOverviewTitle">Simple tools for PDF, photos and documents</h2><p>QuickTools24 brings useful file tools together in one place. Manage PDF pages, convert and improve photos, or make quick edits to your documents — with a simple workflow that works on mobile and desktop.</p></div>
+   <div class="home-feature-grid">
+    <article class="home-feature-card"><div class="home-feature-icon">📄</div><h3>PDF Tools</h3><p>Organise, convert and prepare PDF documents for everyday work.</p><ul><li>Merge, split and extract PDF pages</li><li>Delete, rotate and reorder pages</li><li>Compress, convert and add page numbers</li></ul></article>
+    <article class="home-feature-card"><div class="home-feature-icon">🖼️</div><h3>Photo & Image Tools</h3><p>Make images easier to share, store and use in documents.</p><ul><li>Resize, crop and compress photos</li><li>Convert JPG, PNG and other image formats</li><li>Create PDF files from your images</li></ul></article>
+    <article class="home-feature-card"><div class="home-feature-icon">✍️</div><h3>Editing Tools</h3><p>Make practical changes and add useful details to your files.</p><ul><li>Add text, photos and signatures to PDF pages</li><li>Add watermarks and page numbers</li><li>Use quick text utilities for everyday tasks</li></ul></article>
+   </div>
+   <div class="home-creator"><a href="https://www.instagram.com/sachin_rajpooot/" target="_blank" rel="noopener noreferrer" aria-label="Instagram @sachin_rajpooot">@sachin_rajpooot</a></div>
+  </section>
  <section id="pdf-editor" class="bg-white border rounded-2xl p-5 md:p-7 mb-10">
  <div class="mb-5"><div class="inline-block bg-indigo-50 text-indigo-700 rounded-full px-3 py-1 text-xs font-bold mb-2">NEW · PDF EDITOR</div><h2 class="text-2xl md:text-3xl font-black">Edit PDF — Text, Photos & Signatures</h2><p class="muted mt-2">Add text, place photos or signatures, move and resize them, and download your edited PDF. Existing PDF text is not directly rewritten; new content is placed as an overlay.</p></div>
  <div class="grid md:grid-cols-2 gap-3 mb-4">
@@ -144,10 +174,10 @@ body{background:#f7f8fc;color:#172033}
  <p class="muted text-sm mb-4">Last updated: 18 November 2026</p>
  <div class="space-y-3 text-sm">
   <h3 class="font-bold">How files are processed</h3><p class="muted">The PDF and image tools on this version are designed to process selected files locally in your browser. The website code does not intentionally upload the contents of your selected documents to a QuickTools24 server. Keep in mind that the page loads libraries and styling from third-party content delivery networks, which may receive normal connection information such as your IP address.</p>
-  <h3 class="font-bold">Information you choose to send</h3><p class="muted">If you contact us, your email application opens with a message addressed to our support email. Sending that message is handled by your email provider, not stored by this website. You may also contact us by phone.</p>
+  <h3 class="font-bold">Information you choose to send</h3><p class="muted">If you contact us, your email application opens with a message addressed to our support email. Sending that message is handled by your email provider, not stored by this website.</p>
   <h3 class="font-bold">Cookies and analytics</h3><p class="muted">This version does not intentionally set analytics or advertising cookies. Your browser or third-party services used to load site resources may handle technical data under their own policies.</p>
   <h3 class="font-bold">Children and security</h3><p class="muted">Do not submit sensitive documents on a shared or untrusted device. Close the page and clear downloaded files when appropriate. Contact us if you have a privacy question.</p>
-  <h3 class="font-bold">Contact</h3><p class="muted">Email: <a class="text-indigo-700 underline" href="mailto:sachindonmuz@gmail.com">sachindonmuz@gmail.com</a> · Phone: <a class="text-indigo-700 underline" href="tel:+918969674232">+91 8969674232</a></p>
+  <h3 class="font-bold">Contact</h3><p class="muted">Email: <a class="text-indigo-700 underline" href="mailto:sachindonmuz@gmail.com">sachindonmuz@gmail.com</a></p>
  </div>
 </section>
 <section id="terms" class="bg-white border rounded-2xl p-6 md:p-8 mb-10">
@@ -162,7 +192,6 @@ body{background:#f7f8fc;color:#172033}
   <div class="text-center mb-7"><div class="inline-block bg-indigo-50 text-indigo-700 rounded-full px-4 py-1 text-xs font-bold mb-3">WE’RE HERE TO HELP</div><h2 class="text-2xl md:text-3xl font-black">Contact Us</h2><p class="muted mt-2">Have a question, suggestion or found a problem? Get in touch with the QuickTools24 team.</p></div>
   <div class="grid md:grid-cols-2 gap-5 mb-7">
    <a href="mailto:sachindonmuz@gmail.com" class="border rounded-xl p-4 hover:border-indigo-400"><div class="text-sm muted mb-1">Email support</div><div class="font-bold text-indigo-700 break-all">sachindonmuz@gmail.com</div></a>
-   <a href="tel:+918969674232" class="border rounded-xl p-4 hover:border-indigo-400"><div class="text-sm muted mb-1">Call us</div><div class="font-bold text-indigo-700">+91 8969674232</div></a>
   </div>
   <form id="contactForm" class="grid gap-4" onsubmit="sendContact(event)">
    <div class="grid md:grid-cols-2 gap-4">
