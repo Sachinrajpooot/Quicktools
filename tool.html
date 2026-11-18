@@ -442,23 +442,75 @@ function setToolSeo(tool,id){
  const workspaceIcon=document.getElementById('toolWorkspaceIcon');if(workspaceIcon)workspaceIcon.textContent=tool[3]||'✦';
 
  const category=id.startsWith('img-')?'Image':id.startsWith('txt-')?'Text':'PDF';
- const title=tool[1]+' Online — Free '+category+' Tool | QuickTools24';
- const description=('Use the free '+tool[1].toLowerCase()+' online. '+tool[2]+' Process files in your browser with QuickTools24.').slice(0,158);
+ const seoCopy={
+  merge:['Merge PDF Files Online Free','Combine two or more PDF files into one document in your preferred order. Select your PDFs and download a single merged file.','merge PDF, combine PDF files, join PDF documents'],
+  split:['Split PDF Online Free','Split a PDF into separate pages or smaller documents. Choose your PDF and create individual page files.','split PDF, separate PDF pages, divide PDF'],
+  extract:['Extract PDF Pages Online Free','Choose specific page numbers from a PDF and save only those pages as a new PDF document.','extract PDF pages, save selected PDF pages'],
+  delete:['Delete PDF Pages Online Free','Remove unwanted pages from a PDF by entering the page numbers you want to delete, then download the updated document.','delete PDF pages, remove pages from PDF'],
+  rotate:['Rotate PDF Pages Online Free','Rotate PDF pages by 90, 180 or 270 degrees and create a corrected PDF copy.','rotate PDF, turn PDF pages'],
+  reorder:['Reorder PDF Pages Online Free','Change the order of PDF pages by entering the page sequence you want, then download the rearranged document.','reorder PDF pages, rearrange PDF'],
+  addblank:['Add Blank Pages to PDF Online','Insert blank pages into a PDF at a chosen position and download the updated document.','add blank page to PDF, insert PDF page'],
+  crop:['Crop PDF Pages Online Free','Adjust PDF page margins by setting the amount to crop from each edge, then save a new PDF.','crop PDF, trim PDF pages'],
+  watermark:['Add Watermark to PDF Online','Place a text watermark on PDF pages for labels such as draft or confidential, then download your copy.','add watermark to PDF, PDF text watermark'],
+  pagenum:['Add Page Numbers to PDF Online','Add page numbers to a PDF document and choose the starting number for your numbered copy.','add page numbers to PDF, number PDF pages'],
+  text:['Add Text to PDF Online Free','Add a text note to PDF pages and download a new copy with your added text.','add text to PDF, write on PDF'],
+  signature:['Add Signature Text to PDF Online','Place typed signature text on PDF pages and download the updated document.','add signature text to PDF, sign PDF'],
+  metadata:['Edit PDF Metadata Online','Update PDF document details such as title, author and subject, then save the edited PDF file.','edit PDF metadata, change PDF title author'],
+  inspect:['View PDF Information Online','Check basic PDF information such as page count, file details and document metadata.','PDF information, PDF properties viewer'],
+  textout:['Extract Text from PDF Online','Copy selectable text from a PDF into a downloadable text file. Scanned image-only pages may need OCR first.','extract text from PDF, PDF to TXT'],
+  images:['Convert Images to PDF Online','Combine JPG and PNG images into a single PDF document and download the result.','images to PDF, JPG to PDF, PNG to PDF'],
+  render:['Convert PDF to Images Online','Export PDF pages as image files so you can view or share individual pages as pictures.','PDF to images, PDF to PNG'],
+  grayscale:['Convert PDF to Black and White','Create a grayscale copy of a PDF by converting its pages to black and white.','grayscale PDF, black and white PDF'],
+  compress:['Compress PDF File Online','Reduce PDF file size by creating a rasterized copy. Review the output because rasterization can affect selectable text and quality.','compress PDF, reduce PDF file size'],
+  form:['Fill PDF Form Fields Online','Fill supported interactive PDF form fields by field name and download the completed document.','fill PDF form, PDF form filler'],
+  flatten:['Flatten PDF Form Fields Online','Flatten interactive PDF form fields into page content and download a flattened copy.','flatten PDF, flatten PDF form fields'],
+  header:['Add Header and Footer to PDF','Add custom header and footer text to PDF pages and save the updated document.','add header footer PDF, PDF header'],
+  rotateone:['Rotate Selected PDF Pages','Rotate only the PDF pages you specify, leaving the other pages unchanged.','rotate selected PDF pages, rotate individual PDF pages'],
+  create:['Create PDF from Text Online','Type or paste text and turn it into a downloadable PDF document.','create PDF from text, text to PDF'],
+  'img-resizekb':['Resize Photo to Specific KB Online','Adjust a photo to target a file size in KB for online forms and uploads. Results can vary with image dimensions and content.','photo resize KB, image size reducer KB'],
+  'img-resize':['Resize Image to Exact Dimensions Online','Change an image width and height in pixels and download the resized picture.','resize image pixels, image resizer'],
+  'img-crop':['Crop Photo Online Free','Crop an image by setting the crop position and dimensions in pixels, then save the result.','crop image online, photo cropper'],
+  'img-convert':['Convert Image Format Online','Convert images between supported formats such as JPG, PNG and WebP.','image converter, JPG PNG WebP converter'],
+  'img-bw':['Convert Photo to Black and White','Create a grayscale version of an image and download the black-and-white result.','black and white photo, grayscale image'],
+  'img-rotate':['Rotate Image Online Free','Rotate a picture by 90, 180 or 270 degrees and save the corrected image.','rotate image, photo rotator'],
+  'img-watermark':['Add Watermark to Photo Online','Add custom text over an image to label or identify your picture, then download it.','image watermark, add text watermark to photo'],
+  'img-compress':['Compress Image Online Free','Reduce image file size by adjusting JPEG output quality and download the compressed picture.','compress image, photo compressor'],
+  'img-flip':['Flip Image Online Free','Flip a picture horizontally or vertically and download the changed image.','flip image, mirror photo'],
+  'img-passport':['Passport Photo Maker Online','Prepare a passport-size photo canvas with a selectable background colour. Check the required photo specifications before submitting.','passport photo maker, passport size photo'],
+  'img-pngjpg':['Convert PNG to JPG Online','Convert a PNG picture into JPG format and download the converted image.','PNG to JPG, convert PNG image to JPEG'],
+  'img-jpgpng':['Convert JPG to PNG Online','Convert a JPG picture into PNG format and download the converted image.','JPG to PNG, convert JPEG image to PNG'],
+  'txt-count':['Word and Character Counter Online','Count words, characters, lines and paragraphs in text you enter or paste into the tool.','word counter, character counter, line counter'],
+  'txt-case':['Change Text Case Online','Convert text to uppercase, lowercase or title case with a simple text case converter.','uppercase converter, lowercase converter, title case'],
+  'txt-clean':['Clean Text and Remove Extra Spaces','Clean pasted text by removing extra spaces and blank lines for easier reading and reuse.','clean text online, remove extra spaces'],
+  'txt-sort':['Sort Text Lines Alphabetically','Arrange lines of text in alphabetical order and copy the sorted result.','sort lines alphabetically, text sorter'],
+  'txt-duplicate':['Remove Duplicate Lines from Text','Find repeated lines in pasted text and keep only unique lines in the result.','remove duplicate lines, duplicate text remover'],
+  'txt-reverse':['Reverse Text Online','Reverse characters or change the order of lines in text using this free text utility.','reverse text, reverse line order']
+ };
+ const detail=seoCopy[id]||[tool[1]+' Online Free',tool[2]+' Use this free online utility on QuickTools24.',tool[1]];
+ const title=detail[0]+' | QuickTools24';
+ const description=detail[1].slice(0,158);
  document.title=title;
  const setMeta=(selector,attr,value)=>{let node=document.querySelector(selector);if(!node){node=document.createElement('meta');node.setAttribute(selector.includes('property=')?'property':'name',attr);document.head.appendChild(node);}node.setAttribute('content',value);};
  setMeta('meta[name="description"]','description',description);
- setMeta('meta[name="keywords"]','keywords',[tool[1],'free online '+tool[1].toLowerCase(),'QuickTools24',category+' tools'].join(', '));
+ setMeta('meta[name="keywords"]','keywords',detail[2]+', QuickTools24');
  setMeta('meta[property="og:title"]','og:title',title);setMeta('meta[property="og:description"]','og:description',description);setMeta('meta[property="og:url"]','og:url',location.href);
  setMeta('meta[name="twitter:title"]','twitter:title',title);setMeta('meta[name="twitter:description"]','twitter:description',description);
  const canonical=document.querySelector('link[rel="canonical"]');if(canonical)canonical.href='https://quicktools24.in/tool.html?tool='+encodeURIComponent(id);
  const heading=document.getElementById('toolSeoHeading');if(!heading)return;
- heading.textContent=tool[1]+' — free online tool';
- document.getElementById('toolSeoIntro').textContent=tool[2]+' Use this QuickTools24 utility in your browser: select your file, choose the available options and download the result without creating an account.';
+ heading.textContent=detail[0];
+ document.getElementById('toolSeoIntro').textContent=detail[1]+' Select your file or enter text, use the available options and download the result. This tool runs in your browser; processing speed depends on your device and file size.';
  const steps=id.startsWith('txt-')?['Enter or paste your text in the text box.','Choose any available text option.','Select Process Text and review the result.']:id.startsWith('img-')?['Choose the image you want to work with.','Set the available image options, if needed.','Select Process Image and download the result.']:id==='create'?['Enter the text you want to put in your PDF.','Select Create PDF.','Download and review your new PDF.']:['Choose a PDF file from your device.','Set the available options for the selected operation.','Select Process PDF and download the result.'];
  const list=document.getElementById('toolSeoSteps');list.replaceChildren(...steps.map(line=>{const li=document.createElement('li');li.textContent=line;return li;}));
- const faq=document.getElementById('toolSeoFaq');const qa=[['Is this tool free?','Yes. You can use this QuickTools24 tool online without paying a usage fee.'],['Are my files uploaded?','The current tool is designed to process selected files in your browser. The website does not intentionally upload document contents to a QuickTools24 server.'],['Can I use it on a phone?','Yes. Open this page in a modern mobile browser. Very large files may work more slowly depending on your device.']];
- faq.replaceChildren(...qa.map(([q,a])=>{const box=document.createElement('div'),h=document.createElement('h4'),p=document.createElement('p');h.className='font-bold';h.textContent=q;p.className='muted mt-1';p.textContent=a;box.append(h,p);return box;}));
+ const qa=[['Is this QuickTools24 tool free?','Yes. This tool is available to use online without a usage fee.'],['Are my files uploaded to a server?','The current tool is designed to process selected files in your browser. The website does not intentionally upload document contents to a QuickTools24 server.'],['Can I use this tool on a phone?','Yes. Open this page in a modern mobile browser. Very large files may work more slowly depending on your device.']];
+ const faq=document.getElementById('toolSeoFaq');faq.replaceChildren(...qa.map(([q,a])=>{const box=document.createElement('div'),h=document.createElement('h4'),p=document.createElement('p');h.className='font-bold';h.textContent=q;p.className='muted mt-1';p.textContent=a;box.append(h,p);return box;}));
+ let related=document.getElementById('toolSeoRelated');if(!related){related=document.createElement('div');related.id='toolSeoRelated';related.className='mt-5';faq.parentElement.after(related);}
+ const relatedIds=id.startsWith('img-')?['img-convert','img-compress','img-resize','img-crop','img-pngjpg','img-jpgpng']:id.startsWith('txt-')?['txt-count','txt-case','txt-clean','txt-sort','txt-duplicate','txt-reverse']:['merge','split','compress','render','images','textout'];
+ related.replaceChildren();const relatedHeading=document.createElement('h3');relatedHeading.className='font-bold mb-2';relatedHeading.textContent='Related free online tools';related.appendChild(relatedHeading);
+ const relatedList=document.createElement('div');relatedList.className='flex flex-wrap gap-2';relatedIds.filter(other=>other!==id).slice(0,5).forEach(other=>{const item=allTools.find(t=>t[0]===other);if(!item)return;const link=document.createElement('a');link.href='/tool.html?tool='+encodeURIComponent(other);link.textContent=item[1];link.className='text-sm text-indigo-700 underline font-semibold';relatedList.appendChild(link);});related.appendChild(relatedList);
+ const schemaId='quicktools24-tool-schema';let schema=document.getElementById(schemaId);if(!schema){schema=document.createElement('script');schema.id=schemaId;schema.type='application/ld+json';document.head.appendChild(schema);}
+ schema.textContent=JSON.stringify({'@context':'https://schema.org','@type':'SoftwareApplication','name':tool[1]+' — QuickTools24','applicationCategory':category==='Image'?'MultimediaApplication':category==='Text'?'UtilitiesApplication':'UtilitiesApplication','operatingSystem':'Any','url':'https://quicktools24.in/tool.html?tool='+encodeURIComponent(id),'description':description,'offers':{'@type':'Offer','price':'0','priceCurrency':'INR'}});
 }
+
 function ensureToolBrandbar(target){
  if(!target)return;
  let bar=target.querySelector(':scope > .tool-brandbar');
