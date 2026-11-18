@@ -164,7 +164,7 @@ const tools=[
 ['header','Add Header & Footer','Add custom header and footer text.','↔️',1],
 ['rotateone','Rotate Selected Pages','Rotate only the page numbers you choose.','⤴️',1],
 ['create','Create PDF from Text','Turn typed text into a downloadable PDF.','📃',0],
-['pdf-editor','PDF Text Editor','Edit text areas, add photos and signatures, and annotate PDF pages.','📝',1]
+['pdf-editor','PDF Text Editor','Edit existing text, add text and images, sign, annotate, add links and manage pages.','📝',1]
 ];
 const imageTools=[
 ['img-resizekb','Photo Size Resizer (KB)','Compress a photo to a target file size.','📉',1],
@@ -190,7 +190,7 @@ const textTools=[
 ];
 const allTools=[...tools,...imageTools,...textTools];
 let active=null, selected=[];
-function renderTools(list=allTools){document.getElementById('grid').innerHTML=list.map(t=>'<a class="tool block" href="?tool='+encodeURIComponent(t[0])+'"><div class="text-2xl mb-3">'+t[3]+'</div><div class="font-extrabold mb-1">'+t[1]+'</div><div class="text-sm muted">'+t[2]+'</div><div class="text-xs text-indigo-600 font-bold mt-4">Open tool →</div></a>').join('')}
+function renderTools(list=allTools){document.getElementById('grid').innerHTML=list.map(t=>'<a class="tool block" href="'+(t[0]==='pdf-editor'?'/pdf-editor.html':'?tool='+encodeURIComponent(t[0]))+'"><div class="text-2xl mb-3">'+t[3]+'</div><div class="font-extrabold mb-1">'+t[1]+'</div><div class="text-sm muted">'+t[2]+'</div><div class="text-xs text-indigo-600 font-bold mt-4">Open tool →</div></a>').join('')}
 function filterTools(){const q=document.getElementById('search').value.toLowerCase();renderTools(allTools.filter(t=>(t[1]+' '+t[2]).toLowerCase().includes(q)))}
 function sendContact(event){event.preventDefault();const name=document.getElementById('contactName').value.trim(),email=document.getElementById('contactEmail').value.trim(),subject=document.getElementById('contactSubject').value.trim(),message=document.getElementById('contactMessage').value.trim();if(!name||!email||!subject||!message)return;const body='Name: '+name+'%0D%0AEmail: '+email+'%0D%0A%0D%0A'+encodeURIComponent(message);document.getElementById('contactStatus').textContent='Opening your email app…';window.location.href='mailto:sachindonmuz@gmail.com?subject='+encodeURIComponent('[QuickTools24] '+subject)+'&body='+body;}
 
