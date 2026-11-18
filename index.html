@@ -228,8 +228,8 @@ return 'Image processed: '+canvas.width+' × '+canvas.height+' px · '+Math.roun
 async function processText(id){let s=val('txt'),out=s;if(id==='txt-count'){const words=s.trim()?s.trim().split(/\s+/).length:0;return 'Words: '+words+' | Characters: '+s.length+' | Characters (no spaces): '+s.replace(/\s/g,'').length+' | Lines: '+(s?s.split(/\r?\n/).length:0)+' | Paragraphs: '+(s.trim()?s.trim().split(/\n\s*\n/).length:0)}
 if(id==='txt-case'){const mode=val('case');out=mode==='upper'?s.toUpperCase():mode==='lower'?s.toLowerCase():s.toLowerCase().replace(/\b\w/g,x=>x.toUpperCase())}
 if(id==='txt-clean')out=s.split(/\r?\n/).map(x=>x.trim().replace(/\s+/g,' ')).filter(Boolean).join('\n');
-if(id==='txt-sort')out=s.split(/\\r?\\n/).sort((a,b)=>a.localeCompare(b)).join('\n');
-if(id==='txt-duplicate')out=[...new Set(s.split(/\\r?\\n/))].join('\n');
+if(id==='txt-sort')out=s.split(/\r?\n/).sort((a,b)=>a.localeCompare(b)).join('\n');
+if(id==='txt-duplicate')out=[...new Set(s.split(/\r?\n/))].join('\n');
 if(id==='txt-reverse')out=s.split('').reverse().join('');
 download(new Blob([out],{type:'text/plain;charset=utf-8'}),'quicktools24-text.txt','text/plain');return 'Text tool completed. Download is ready.'}
 async function runTool(){const btn=document.getElementById('run'),status=document.getElementById('status');btn.disabled=true;status.textContent='Working…';try{const id=active[0],files=[...(document.getElementById('files')?.files||[])];let doc,out,name='quicktools24.pdf';
