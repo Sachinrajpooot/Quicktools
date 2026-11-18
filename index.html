@@ -18,14 +18,12 @@
                 <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-white">QuickTools <span class="text-xs bg-red-500/20 text-red-400 border border-red-500/30 px-2 py-0.5 rounded-full font-medium ml-1">PRO</span></h1>
             </div>
             
-            <!-- Desktop / Mobile Nav Menu -->
             <div class="flex items-center gap-4">
                 <nav class="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-300">
                     <a href="#" class="hover:text-red-400 transition">Home</a>
                     <a href="#tools-section" class="hover:text-red-400 transition">All Tools</a>
                     <a href="#contact-section" class="hover:text-red-400 transition">Contact Us</a>
                 </nav>
-                <!-- Hamburger Menu Button -->
                 <button onclick="toggleMobileMenu()" class="md:hidden text-slate-300 hover:text-white p-2 focus:outline-none" aria-label="Menu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -33,7 +31,6 @@
                 </button>
             </div>
         </div>
-        <!-- Mobile Dropdown Menu -->
         <div id="mobileMenu" class="hidden md:hidden bg-slate-900 border-b border-slate-800 px-6 py-4 space-y-3 text-xs font-semibold">
             <a href="#" class="block text-slate-300 hover:text-red-400">Home</a>
             <a href="#tools-section" class="block text-slate-300 hover:text-red-400">All Tools</a>
@@ -51,9 +48,9 @@
         <!-- Dashboard Grid Sections -->
         <div class="space-y-12">
             
-            <!-- Category 1: Image & Compression Utilities -->
+            <!-- Category 1: Image & Photo Utilities -->
             <div>
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-5 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-500"></span> Image & Photo Size Utilities</h3>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-5 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-500"></span> Image & Photo Utilities</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     
                     <div onclick="openModal('modal-compress')" class="bg-slate-900/80 border border-slate-800 hover:border-red-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
@@ -63,6 +60,15 @@
                             <p class="text-xs text-slate-400">Compress photos to exact target KB size for Sarkari forms.</p>
                         </div>
                         <span class="text-xs text-red-400 font-semibold mt-4">Open Tool &rarr;</span>
+                    </div>
+
+                    <div onclick="openModal('modal-crop')" class="bg-slate-900/80 border border-slate-800 hover:border-pink-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
+                        <div>
+                            <div class="w-10 h-10 rounded-xl bg-pink-500/10 text-pink-400 flex items-center justify-center text-lg font-bold mb-3">✂️</div>
+                            <h4 class="font-bold text-white text-sm mb-1">Photo Cropper</h4>
+                            <p class="text-xs text-slate-400">Crop images to custom aspect ratios and dimensions.</p>
+                        </div>
+                        <span class="text-xs text-pink-400 font-semibold mt-4">Open Tool &rarr;</span>
                     </div>
 
                     <div onclick="openModal('modal-img2pdf')" class="bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
@@ -82,15 +88,6 @@
                         </div>
                         <span class="text-xs text-yellow-400 font-semibold mt-4">Open Tool &rarr;</span>
                     </div>
-
-                    <div onclick="openModal('modal-imageresize')" class="bg-slate-900/80 border border-slate-800 hover:border-pink-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-pink-500/10 text-pink-400 flex items-center justify-center text-lg font-bold mb-3">📐</div>
-                            <h4 class="font-bold text-white text-sm mb-1">Image Dimension Resizer</h4>
-                            <p class="text-xs text-slate-400">Resize image width and height in exact pixels.</p>
-                        </div>
-                        <span class="text-xs text-pink-400 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
                 </div>
             </div>
 
@@ -99,58 +96,58 @@
                 <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-5 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-orange-500"></span> PDF Management & Editing Suite</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     
-                    <div onclick="openModal('modal-merge')" class="bg-slate-900/80 border border-slate-800 hover:border-orange-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
+                    <div onclick="openModal('modal-pdfsize')" class="bg-slate-900/80 border border-slate-800 hover:border-orange-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
                         <div>
-                            <div class="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-400 flex items-center justify-center text-lg font-bold mb-3">📑</div>
-                            <h4 class="font-bold text-white text-sm mb-1">Merge PDF Files</h4>
-                            <p class="text-xs text-slate-400">Combine multiple PDF documents together securely.</p>
+                            <div class="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-400 flex items-center justify-center text-lg font-bold mb-3">📉</div>
+                            <h4 class="font-bold text-white text-sm mb-1">PDF Size Reducer</h4>
+                            <p class="text-xs text-slate-400">Compress and reduce large PDF file sizes instantly.</p>
                         </div>
                         <span class="text-xs text-orange-400 font-semibold mt-4">Open Tool &rarr;</span>
                     </div>
 
-                    <div onclick="openModal('modal-split')" class="bg-slate-900/80 border border-slate-800 hover:border-rose-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
+                    <div onclick="openModal('modal-pdfcrop')" class="bg-slate-900/80 border border-slate-800 hover:border-rose-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
                         <div>
-                            <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center text-lg font-bold mb-3">✂️</div>
-                            <h4 class="font-bold text-white text-sm mb-1">Split PDF Document</h4>
-                            <p class="text-xs text-slate-400">Extract pages or split into separate PDF files.</p>
+                            <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center text-lg font-bold mb-3">📐</div>
+                            <h4 class="font-bold text-white text-sm mb-1">PDF Page Cropper</h4>
+                            <p class="text-xs text-slate-400">Crop margins and white spaces from PDF pages.</p>
                         </div>
                         <span class="text-xs text-rose-400 font-semibold mt-4">Open Tool &rarr;</span>
                     </div>
 
-                    <div onclick="openModal('modal-rotate')" class="bg-slate-900/80 border border-slate-800 hover:border-purple-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
+                    <div onclick="openModal('modal-merge')" class="bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
                         <div>
-                            <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-lg font-bold mb-3">🔄</div>
-                            <h4 class="font-bold text-white text-sm mb-1">Rotate PDF Pages</h4>
-                            <p class="text-xs text-slate-400">Rotate PDF pages instantly to correct orientation.</p>
+                            <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-lg font-bold mb-3">📑</div>
+                            <h4 class="font-bold text-white text-sm mb-1">Merge PDF Files</h4>
+                            <p class="text-xs text-slate-400">Combine multiple PDF documents together securely.</p>
+                        </div>
+                        <span class="text-xs text-amber-400 font-semibold mt-4">Open Tool &rarr;</span>
+                    </div>
+
+                    <div onclick="openModal('modal-split')" class="bg-slate-900/80 border border-slate-800 hover:border-purple-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
+                        <div>
+                            <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-lg font-bold mb-3">✂️</div>
+                            <h4 class="font-bold text-white text-sm mb-1">Split PDF Document</h4>
+                            <p class="text-xs text-slate-400">Extract pages or split into separate PDF files.</p>
                         </div>
                         <span class="text-xs text-purple-400 font-semibold mt-4">Open Tool &rarr;</span>
                     </div>
 
-                    <div onclick="openModal('modal-watermark')" class="bg-slate-900/80 border border-slate-800 hover:border-indigo-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
+                    <div onclick="openModal('modal-rotate')" class="bg-slate-900/80 border border-slate-800 hover:border-indigo-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
                         <div>
-                            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg font-bold mb-3">💧</div>
-                            <h4 class="font-bold text-white text-sm mb-1">Add PDF Watermark</h4>
-                            <p class="text-xs text-slate-400">Stamp professional text watermarks over pages.</p>
+                            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg font-bold mb-3">🔄</div>
+                            <h4 class="font-bold text-white text-sm mb-1">Rotate PDF Pages</h4>
+                            <p class="text-xs text-slate-400">Rotate PDF pages instantly to correct orientation.</p>
                         </div>
                         <span class="text-xs text-indigo-400 font-semibold mt-4">Open Tool &rarr;</span>
                     </div>
 
-                    <div onclick="openModal('modal-removepages')" class="bg-slate-900/80 border border-slate-800 hover:border-red-600/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
+                    <div onclick="openModal('modal-watermark')" class="bg-slate-900/80 border border-slate-800 hover:border-red-600/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
                         <div>
-                            <div class="w-10 h-10 rounded-xl bg-red-600/10 text-red-500 flex items-center justify-center text-lg font-bold mb-3">❌</div>
-                            <h4 class="font-bold text-white text-sm mb-1">Remove PDF Pages</h4>
-                            <p class="text-xs text-slate-400">Delete unwanted pages from your document.</p>
+                            <div class="w-10 h-10 rounded-xl bg-red-600/10 text-red-500 flex items-center justify-center text-lg font-bold mb-3">💧</div>
+                            <h4 class="font-bold text-white text-sm mb-1">Add PDF Watermark</h4>
+                            <p class="text-xs text-slate-400">Stamp professional text watermarks over pages.</p>
                         </div>
                         <span class="text-xs text-red-500 font-semibold mt-4">Open Tool &rarr;</span>
-                    </div>
-
-                    <div onclick="openModal('modal-extractpages')" class="bg-slate-900/80 border border-slate-800 hover:border-amber-600/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-amber-600/10 text-amber-500 flex items-center justify-center text-lg font-bold mb-3">📥</div>
-                            <h4 class="font-bold text-white text-sm mb-1">Extract PDF Pages</h4>
-                            <p class="text-xs text-slate-400">Save specific pages as a brand new PDF.</p>
-                        </div>
-                        <span class="text-xs text-amber-500 font-semibold mt-4">Open Tool &rarr;</span>
                     </div>
 
                     <div onclick="openModal('modal-protectpdf')" class="bg-slate-900/80 border border-slate-800 hover:border-blue-500/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
@@ -243,4 +240,5 @@
 
                     <div onclick="openModal('modal-color')" class="bg-slate-900/80 border border-slate-800 hover:border-teal-400/50 p-5 rounded-2xl shadow-xl transition cursor-pointer group flex flex-col justify-between">
                         <div>
-           
+                            <div class="w-10 h-10 rounded-xl bg-teal-400/10 text-teal-300 flex items-center justify-center text-lg font-bold mb-3">🎨</div>
+   
