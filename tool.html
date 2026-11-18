@@ -39,6 +39,31 @@ body{background:#f5f7fb;color:#172033} .tool{background:white;border:1px solid #
 @media(max-width:760px){.editor-layout{grid-template-columns:1fr}.editor-stage{min-height:220px}header nav{gap:10px;font-size:12px}}
 
 
+/* QuickTools24 branded tool workspace */
+.tool-brandbar{width:min(100% - 32px,1180px);margin:0 auto;padding:18px 0 10px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.tool-brand{display:flex;align-items:center;gap:11px;min-width:0}
+.tool-brand img{width:42px;height:42px;border-radius:13px;box-shadow:0 5px 14px #4f46e533}
+.tool-brand-name{font-size:19px;line-height:1.1;font-weight:900;letter-spacing:-.04em;color:#172554}
+.tool-brand-tag{font-size:12px;color:#64748b;margin-top:4px}
+.tool-brand-home{display:inline-flex;align-items:center;gap:7px;border:1px solid #dbe3f0;background:#fff;border-radius:999px;padding:9px 14px;font-size:13px;font-weight:750;color:#334155;text-decoration:none;white-space:nowrap}
+.tool-brand-home:hover{border-color:#818cf8;color:#4338ca;background:#eef2ff}
+.tool-hero{width:min(100% - 32px,1180px);margin:12px auto 22px;border-radius:22px;padding:clamp(22px,4vw,38px);color:#fff;background:radial-gradient(circle at 88% 12%,#818cf866,transparent 30%),linear-gradient(120deg,#172554 0%,#3730a3 58%,#4f46e5 100%);box-shadow:0 18px 42px #312e8130;position:relative;overflow:hidden}
+.tool-hero:after{content:"";position:absolute;width:210px;height:210px;border:1px solid #ffffff22;border-radius:50%;right:-65px;bottom:-125px;box-shadow:0 0 0 22px #ffffff09,0 0 0 44px #ffffff07}
+.tool-hero-kicker{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#c7d2fe;margin-bottom:12px}
+.tool-hero h1{font-size:clamp(25px,4vw,38px);line-height:1.12;font-weight:900;letter-spacing:-.04em;max-width:760px}
+.tool-hero p{font-size:14px;line-height:1.7;color:#e0e7ff;max-width:760px;margin-top:12px}
+.tool-hero-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:19px}
+.tool-hero-pills span{border:1px solid #ffffff35;background:#ffffff12;border-radius:999px;padding:6px 11px;font-size:11px;font-weight:700;color:#eef2ff}
+.tool-workspace{width:min(100% - 32px,1180px);margin:0 auto 34px;background:#fff;border:1px solid #e2e8f0;border-radius:20px;box-shadow:0 12px 35px #0f172a0b;overflow:hidden}
+.tool-workspace .tool-workspace-inner{padding:clamp(18px,3vw,30px)}
+.tool-workspace-heading{display:flex;align-items:center;gap:10px;margin-bottom:5px}
+.tool-workspace-heading .tool-workspace-icon{width:38px;height:38px;border-radius:12px;background:#eef2ff;color:#4338ca;display:grid;place-items:center;font-size:20px}
+.tool-workspace-heading h2{font-size:19px;font-weight:850;color:#172554}
+.tool-workspace-subtitle{font-size:13px;color:#64748b;line-height:1.6}
+.tool-workspace #fields{margin-top:22px!important}
+.tool-workspace #toolSeoContent{border-color:#e8edf5!important}
+@media(max-width:640px){.tool-brandbar,.tool-hero,.tool-workspace{width:calc(100% - 24px)}.tool-brandbar{padding-top:13px}.tool-brand img{width:38px;height:38px}.tool-brand-name{font-size:17px}.tool-brand-tag{font-size:10px}.tool-hero{border-radius:18px;margin-top:8px}.tool-workspace{border-radius:17px}}
+
 /* Dedicated tool pages + responsive side navigation */
 .toolpage-modal{background:#f1f5f9!important;padding:0!important;overflow:auto!important}
 .toolpage-shell{max-width:none!important;width:100%;min-height:100vh;margin:0!important;margin-top:0!important;border-radius:0!important;padding:0!important;display:grid;grid-template-columns:260px minmax(0,1fr);gap:0!important}
@@ -152,13 +177,13 @@ body{background:#f5f7fb}
  </div>
 </section>
 </main>
-<div id="modal" class="hidden fixed inset-0 bg-slate-950/60 z-40 p-3 overflow-y-auto"><div class="toolpage-shell bg-white shadow-2xl"><aside class="toolpage-sidebar"><a class="toolpage-back" href="/">← All tools</a><h3 class="font-black text-lg mb-3">QuickTools24</h3><p class="text-xs muted mb-3">Choose another tool</p><div id="toolSidebar" class="toolpage-sidebar-list"></div></aside><div class="toolpage-main"><div class="max-w-4xl bg-white rounded-2xl p-5 md:p-7"><div class="flex justify-between gap-3"><div><h2 id="mtitle" class="text-xl font-extrabold"></h2><p id="mdesc" class="text-sm muted mt-1"></p></div><button onclick="closeModal()" class="text-2xl leading-none" aria-label="Close">×</button></div><div id="fields" class="space-y-3 mt-6"></div><div id="status" class="text-sm mt-4 muted" aria-live="polite"></div><div class="flex gap-3 mt-5"><button id="run" class="btn" onclick="runTool()">Process PDF</button><button class="border rounded-xl px-4 py-2 font-semibold" onclick="closeModal()">Cancel</button></div>
+<div id="modal" class="hidden fixed inset-0 bg-slate-950/60 z-40 p-3 overflow-y-auto"><div class="toolpage-shell bg-white shadow-2xl"><div class="tool-brandbar"><a href="/" class="tool-brand" aria-label="QuickTools24 home"><img src="/favicon.svg" alt="QuickTools24 logo"><div><div class="tool-brand-name">QuickTools24</div><div class="tool-brand-tag">Simple tools. Smart results.</div></div></a><a class="tool-brand-home" href="/">⌂ <span>All tools</span></a></div><section class="tool-hero"><div class="tool-hero-kicker">QUICKTOOLS24 · ONLINE WORKSPACE</div><h1 id="toolHeroTitle">Free online tools for everyday work</h1><p id="toolHeroDescription">Work with PDF files, images and text in one simple place. Choose a tool, add your file and get your result in a few steps.</p><div class="tool-hero-pills"><span>✓ Free to use</span><span>✓ No account needed</span><span>✓ Works on mobile</span></div></section><aside class="toolpage-sidebar"><a class="toolpage-back" href="/">← All tools</a><h3 class="font-black text-lg mb-3">QuickTools24</h3><p class="text-xs muted mb-3">Choose another tool</p><div id="toolSidebar" class="toolpage-sidebar-list"></div></aside><div class="toolpage-main"><div class="max-w-4xl bg-white rounded-2xl p-5 md:p-7 tool-workspace"><div class="tool-workspace-inner"><div class="flex justify-between gap-3"><div><div class="tool-workspace-heading"><span id="toolWorkspaceIcon" class="tool-workspace-icon">✦</span><div><h2 id="mtitle" class="text-xl font-extrabold"></h2><p id="mdesc" class="tool-workspace-subtitle mt-1"></p></div></div></div><button onclick="closeModal()" class="text-2xl leading-none" aria-label="Close">×</button></div><div id="fields" class="space-y-3 mt-6"></div><div id="status" class="text-sm mt-4 muted" aria-live="polite"></div><div class="flex gap-3 mt-5"><button id="run" class="btn" onclick="runTool()">Process PDF</button><button class="border rounded-xl px-4 py-2 font-semibold" onclick="closeModal()">Cancel</button></div>
 <section id="toolSeoContent" class="mt-8 border-t pt-6" aria-label="Tool guide">
 <h2 id="toolSeoHeading" class="text-lg font-extrabold mb-2"></h2><p id="toolSeoIntro" class="text-sm muted"></p>
 <h3 class="font-bold mt-5 mb-2">How to use this tool</h3><ol id="toolSeoSteps" class="list-decimal pl-5 text-sm muted space-y-1"></ol>
 <h3 class="font-bold mt-5 mb-2">Frequently asked questions</h3><div id="toolSeoFaq" class="space-y-3 text-sm"></div>
 <p class="text-xs muted mt-5">Need another utility? <a href="/" class="text-indigo-700 underline font-semibold">Explore all free QuickTools24 tools</a>.</p>
-</section></div></div></div></div>
+</section></div></div></div></div></div>
 <footer class="text-center text-xs muted py-8 border-t bg-white"><div class="font-bold text-slate-700 mb-2">QuickTools24.in</div><div class="flex flex-wrap justify-center gap-x-4 gap-y-2 mb-2"><a href="#tools">Tools</a><a href="#pdf-editor">PDF Editor</a><a href="#privacy">Privacy Policy</a><a href="#terms">Terms</a><a href="#disclaimer">Disclaimer</a><a href="#faq">FAQ</a><a href="#contact">Contact Us</a><a href="mailto:sachindonmuz@gmail.com">Email Support</a></div>© 2026 QuickTools24.in · Free online PDF, image and text tools</footer>
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -221,6 +246,10 @@ function sendContact(event){event.preventDefault();const name=document.getElemen
 function el(tag,attrs={},txt=''){const e=document.createElement(tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));e.textContent=txt;return e}
 function addField(label,type,id,placeholder='',multiple=false){const wrap=el('label',{class:'block text-sm font-bold'},label);let input;if(type==='select'){input=el('select',{class:'field mt-1',id});const choices=id==='format'?[['PNG','image/png'],['JPEG','image/jpeg'],['WebP','image/webp']]:id==='angle'?[['90°','90'],['180°','180'],['270°','270']]:id==='flip'?[['Horizontal','horizontal'],['Vertical','vertical']]:id==='case'?[['UPPERCASE','upper'],['lowercase','lower'],['Title Case','title']]:[];choices.forEach(([label,value])=>{const o=el('option',{value},label);input.appendChild(o)});if(placeholder)input.value=placeholder;}else{input=el(type==='textarea'?'textarea':'input',{class:'field mt-1',...(type==='textarea'?{id,placeholder,rows:'5'}:{type,id,placeholder})});if(type==='number'&&placeholder)input.value=placeholder;}if(multiple)input.multiple=true;wrap.appendChild(input);document.getElementById('fields').appendChild(wrap);return input}
 function setToolSeo(tool,id){
+ const heroTitle=document.getElementById('toolHeroTitle');if(heroTitle)heroTitle.textContent=tool[1]+' — free online tool';
+ const heroDescription=document.getElementById('toolHeroDescription');if(heroDescription)heroDescription.textContent=tool[2]+' Use QuickTools24 to complete this task in a clean, simple workspace on desktop or mobile.';
+ const workspaceIcon=document.getElementById('toolWorkspaceIcon');if(workspaceIcon)workspaceIcon.textContent=tool[3]||'✦';
+
  const category=id.startsWith('img-')?'Image':id.startsWith('txt-')?'Text':'PDF';
  const title=tool[1]+' Online — Free '+category+' Tool | QuickTools24';
  const description=('Use the free '+tool[1].toLowerCase()+' online. '+tool[2]+' Process files in your browser with QuickTools24.').slice(0,158);
