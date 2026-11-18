@@ -49,16 +49,52 @@ const tools=[
 ['rotateone','Rotate Selected Pages','Rotate only the page numbers you choose.','⤴️',1],
 ['create','Create PDF from Text','Turn typed text into a downloadable PDF.','📃',0]
 ];
+const imageTools=[
+['img-resizekb','Photo Size Resizer (KB)','Compress a photo to a target file size.','📉',1],
+['img-resize','Resize by Dimensions','Resize an image to exact width and height.','↔️',1],
+['img-crop','Photo Cropper','Crop an image using pixel coordinates.','✂️',1],
+['img-convert','Image Format Converter','Convert JPG, PNG and WebP formats.','🔁',1],
+['img-bw','Black & White Filter','Create a grayscale photo.','⚫',1],
+['img-rotate','Image Rotator','Rotate an image by 90, 180 or 270 degrees.','🔄',1],
+['img-watermark','Image Watermarker','Add a text watermark to your photo.','💧',1],
+['img-compress','Photo Compressor','Reduce image quality and file size.','🗜️',1],
+['img-flip','Flip Image','Flip a photo horizontally or vertically.','↔️',1],
+['img-passport','Passport Photo Maker','Create a standard 3.5 × 4.5 cm photo canvas.','🪪',1],
+['img-pngjpg','PNG to JPG','Convert a PNG image to JPG.','🖼️',1],
+['img-jpgpng','JPG to PNG','Convert a JPG image to PNG.','🖼️',1]
+];
+const textTools=[
+['txt-count','Word & Character Counter','Count words, characters, lines and paragraphs.','🔢',0],
+['txt-case','Case Converter','Convert text to UPPERCASE, lowercase or Title Case.','🔠',0],
+['txt-clean','Clean Text','Remove extra spaces and blank lines.','🧹',0],
+['txt-sort','Sort Lines','Sort lines alphabetically.','↕️',0],
+['txt-duplicate','Remove Duplicate Lines','Keep only unique lines.','🧽',0],
+['txt-reverse','Reverse Text','Reverse characters or line order.','🔃',0]
+];
+const allTools=[...tools,...imageTools,...textTools];
 let active=null, selected=[];
-function renderTools(list=tools){document.getElementById('grid').innerHTML=list.map(t=>'<button class="tool" onclick="openTool(\''+t[0]+'\')"><div class="text-2xl mb-3">'+t[3]+'</div><div class="font-extrabold mb-1">'+t[1]+'</div><div class="text-sm muted">'+t[2]+'</div><div class="text-xs text-indigo-600 font-bold mt-4">Open tool →</div></button>').join('')}
-function filterTools(){const q=document.getElementById('search').value.toLowerCase();renderTools(tools.filter(t=>(t[1]+' '+t[2]).toLowerCase().includes(q)))}
+function renderTools(list=allTools){document.getElementById('grid').innerHTML=list.map(t=>'<button class="tool" onclick="openTool(\''+t[0]+'\')"><div class="text-2xl mb-3">'+t[3]+'</div><div class="font-extrabold mb-1">'+t[1]+'</div><div class="text-sm muted">'+t[2]+'</div><div class="text-xs text-indigo-600 font-bold mt-4">Open tool →</div></button>').join('')}
+function filterTools(){const q=document.getElementById('search').value.toLowerCase();renderTools(allTools.filter(t=>(t[1]+' '+t[2]).toLowerCase().includes(q)))}
 function el(tag,attrs={},txt=''){const e=document.createElement(tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));e.textContent=txt;return e}
-function addField(label,type,id,placeholder='',multiple=false){const wrap=el('label',{class:'block text-sm font-bold'},label);let input=el('input',{class:'field mt-1',type,id,placeholder});if(multiple)input.multiple=true;wrap.appendChild(input);document.getElementById('fields').appendChild(wrap);return input}
-function openTool(id){active=tools.find(t=>t[0]===id);selected=[];document.getElementById('mtitle').textContent=active[1];document.getElementById('mdesc').textContent=active[2];document.getElementById('fields').innerHTML='';document.getElementById('status').textContent='';document.getElementById('run').textContent=active[4]?'Process PDF':'Create PDF';
-if(id==='create'){addField('Text to convert','textarea','txt','Type or paste your text');}
-else if(id==='images'){addField('Choose JPG/PNG images','file','files','',true).accept='image/jpeg,image/png';}
+function addField(label,type,id,placeholder='',multiple=false){const wrap=el('label',{class:'block text-sm font-bold'},label);let input;if(type==='select'){input=el('select',{class:'field mt-1',id});const choices=id==='format'?[['PNG','image/png'],['JPEG','image/jpeg'],['WebP','image/webp']]:id==='angle'?[['90°','90'],['180°','180'],['270°','270']]:id==='flip'?[['Horizontal','horizontal'],['Vertical','vertical']]:id==='case'?[['UPPERCASE','upper'],['lowercase','lower'],['Title Case','title']]:[];choices.forEach(([label,value])=>{const o=el('option',{value},label);input.appendChild(o)});if(placeholder)input.value=placeholder;}else{input=el(type==='textarea'?'textarea':'input',{class:'field mt-1',...(type==='textarea'?{id,placeholder,rows:'5'}:{type,id,placeholder})});if(type==='number'&&placeholder)input.value=placeholder;}if(multiple)input.multiple=true;wrap.appendChild(input);document.getElementById('fields').appendChild(wrap);return input}
+function openTool(id){active=allTools.find(t=>t[0]===id);selected=[];document.getElementById('mtitle').textContent=active[1];document.getElementById('mdesc').textContent=active[2];document.getElementById('fields').innerHTML='';document.getElementById('status').textContent='';document.getElementById('run').textContent=id.startsWith('img-')?'Process Image':id.startsWith('txt-')?'Process Text':id==='create'?'Create PDF':'Process PDF';
+if(id==='create'||id.startsWith('txt-')){addField('Enter or paste your text','textarea','txt','Type or paste your text');}
+else if(id==='images'||id.startsWith('img-')){addField('Choose image'+(id==='images'?'s':''),'file','files','',id==='images').accept='image/*';}
 else {addField('Choose PDF file'+(active[4]===2?'s':''),'file','files','',active[4]===2).accept='application/pdf';}
 const configs={
+'img-resizekb':[['Target size in KB','number','targetkb','200']],
+'img-resize':[['Width in pixels','number','width','800'],['Height in pixels','number','height','800']],
+'img-crop':[['X position (px)','number','x','0'],['Y position (px)','number','y','0'],['Crop width (px)','number','cw','500'],['Crop height (px)','number','ch','500']],
+'img-convert':[['Output format','select','format','image/png']],
+'img-bw':[], 'img-rotate':[['Rotation','select','angle','90']],
+'img-watermark':[['Watermark text','text','watermark','QuickTools24'],['Text size','number','fontsize','28']],
+'img-compress':[['JPEG quality (10–100)','number','quality','75']],
+'img-flip':[['Flip direction','select','flip','horizontal']],
+'img-passport':[['Background color (white/blue)','text','bg','white']],
+'img-pngjpg':[], 'img-jpgpng':[],
+'txt-count':[], 'txt-case':[['Case','select','case','upper']],
+'txt-clean':[], 'txt-sort':[], 'txt-duplicate':[], 'txt-reverse':[],
+
 extract:[['Page numbers (e.g. 1,3,5)','text','pages','1,3']],delete:[['Page numbers to delete','text','pages','2']],rotate:[['Rotation degrees (90, 180, 270)','number','angle','90']],reorder:[['New page order (e.g. 3,1,2)','text','order','3,1,2']],addblank:[['Insert blank page after page number','number','after','1']],crop:[['Margin to crop from each edge (points)','number','margin','20']],watermark:[['Watermark text','text','value','CONFIDENTIAL']],pagenum:[['Starting number','number','value','1']],text:[['Text to add','text','value','Your text']],signature:[['Signature text','text','value','Your Name']],metadata:[['Title','text','title',''],['Author','text','author',''],['Subject','text','subject','']],textout:[],inspect:[],render:[],grayscale:[],compress:[['JPEG quality (0.2–0.9)','number','quality','0.6']],form:[['Form field name','text','field',''],['Field value','text','value','']],header:[['Header text','text','header',''],['Footer text','text','footer','']],rotateone:[['Page numbers','text','pages','1'],['Rotation degrees','number','angle','90']]};
 (configs[id]||[]).forEach(c=>addField(c[0],c[1],c[2],c[3]));
 if(['extract','delete','rotateone','reorder'].includes(id))addField('Page numbers use 1-based numbering','text','hint','Separate numbers with commas');
@@ -69,7 +105,36 @@ function nums(s){return s.split(',').map(x=>parseInt(x.trim(),10)).filter(Number
 function download(bytes,name,type='application/pdf'){const blob=new Blob([bytes],{type}),url=URL.createObjectURL(blob),a=el('a',{href:url,download:name});document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
 async function fileBytes(file){return new Uint8Array(await file.arrayBuffer())}
 async function loadPdf(file){return PDFDocument.load(await fileBytes(file),{ignoreEncryption:false})}
+async function processImage(id,file){
+const bitmap=await createImageBitmap(file);let w=bitmap.width,h=bitmap.height,canvas=document.createElement('canvas'),ctx=canvas.getContext('2d'),mime='image/png',quality=.85;
+if(id==='img-resize'){w=Math.max(1,Number(val('width'))||w);h=Math.max(1,Number(val('height'))||h)}
+if(id==='img-passport'){w=413;h=531}
+if(id==='img-rotate'&&['90','270'].includes(val('angle'))){[w,h]=[h,w]}
+canvas.width=w;canvas.height=h;
+if(id==='img-passport'){ctx.fillStyle=(val('bg').toLowerCase()==='blue'?'#dbeafe':'#fff');ctx.fillRect(0,0,w,h)}
+if(id==='img-crop'){const x=Math.max(0,Number(val('x'))||0),y=Math.max(0,Number(val('y'))||0),cw=Math.min(bitmap.width-x,Math.max(1,Number(val('cw'))||bitmap.width)),ch=Math.min(bitmap.height-y,Math.max(1,Number(val('ch'))||bitmap.height));canvas.width=cw;canvas.height=ch;ctx.drawImage(bitmap,x,y,cw,ch,0,0,cw,ch)}
+else if(id==='img-rotate'){const a=Number(val('angle'))||90;ctx.translate(w/2,h/2);ctx.rotate(a*Math.PI/180);ctx.drawImage(bitmap,-bitmap.width/2,-bitmap.height/2)}
+else if(id==='img-flip'){ctx.translate(id==='img-flip'&&val('flip')==='horizontal'?w:0,id==='img-flip'&&val('flip')==='vertical'?h:0);ctx.scale(val('flip')==='horizontal'?-1:1,val('flip')==='vertical'?-1:1);ctx.drawImage(bitmap,0,0,w,h)}
+else {ctx.drawImage(bitmap,0,0,w,h)}
+if(id==='img-bw'){const d=ctx.getImageData(0,0,w,h);for(let i=0;i<d.data.length;i+=4){const g=.299*d.data[i]+.587*d.data[i+1]+.114*d.data[i+2];d.data[i]=d.data[i+1]=d.data[i+2]=g}ctx.putImageData(d,0,0)}
+if(id==='img-watermark'){ctx.font='bold '+(Number(val('fontsize'))||28)+'px Arial';ctx.fillStyle='rgba(255,255,255,.75)';ctx.strokeStyle='rgba(0,0,0,.55)';ctx.lineWidth=2;const t=val('watermark')||'QuickTools24';ctx.strokeText(t,20,h-30);ctx.fillText(t,20,h-30)}
+if(id==='img-resizekb'||id==='img-compress'||id==='img-convert'||id==='img-pngjpg'||id==='img-jpgpng'){mime=id==='img-convert'?val('format'):id==='img-jpgpng'?'image/png':(id==='img-pngjpg'?'image/jpeg':'image/jpeg');quality=id==='img-resizekb'?.82:id==='img-compress'?Math.max(.1,Math.min(1,(Number(val('quality'))||75)/100)):.82}
+let blob=await new Promise(resolve=>canvas.toBlob(resolve,mime,quality));
+if(id==='img-resizekb'){const target=Math.max(10,Number(val('targetkb'))||200)*1024;for(let q=.8;q>=.15&&blob.size>target;q-=.1)blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',q))}
+if(id==='img-passport')mime='image/jpeg',blob=await new Promise(resolve=>canvas.toBlob(resolve,mime,.92));
+const ext=mime==='image/png'?'png':mime==='image/webp'?'webp':'jpg';download(await blob.arrayBuffer(),'quicktools24-image.'+ext,mime);
+return 'Image processed: '+canvas.width+' × '+canvas.height+' px · '+Math.round(blob.size/1024)+' KB';
+}
+async function processText(id){let s=val('txt'),out=s;if(id==='txt-count'){const words=s.trim()?s.trim().split(/\s+/).length:0;return 'Words: '+words+' | Characters: '+s.length+' | Characters (no spaces): '+s.replace(/\s/g,'').length+' | Lines: '+(s?s.split(/\r?\n/).length:0)+' | Paragraphs: '+(s.trim()?s.trim().split(/\n\s*\n/).length:0)}
+if(id==='txt-case'){const mode=val('case');out=mode==='upper'?s.toUpperCase():mode==='lower'?s.toLowerCase():s.toLowerCase().replace(/\b\w/g,x=>x.toUpperCase())}
+if(id==='txt-clean')out=s.split(/\\r?\\n/).map(x=>x.trim().replace(/\s+/g,' ')).filter(Boolean).join('\n');
+if(id==='txt-sort')out=s.split(/\\r?\\n/).sort((a,b)=>a.localeCompare(b)).join('\\n');
+if(id==='txt-duplicate')out=[...new Set(s.split(/\\r?\\n/))].join('\\n');
+if(id==='txt-reverse')out=s.split('').reverse().join('');
+download(new Blob([out],{type:'text/plain;charset=utf-8'}),'quicktools24-text.txt','text/plain');return 'Text tool completed. Download is ready.'}
 async function runTool(){const btn=document.getElementById('run'),status=document.getElementById('status');btn.disabled=true;status.textContent='Working…';try{const id=active[0],files=[...(document.getElementById('files')?.files||[])];let doc,out,name='quicktools24.pdf';
+if(id.startsWith('img-')){if(!files[0])throw Error('Choose an image first.');status.textContent=await processImage(id,files[0]);return}
+if(id.startsWith('txt-')){if(id!=='txt-count'&&!val('txt'))throw Error('Enter some text first.');status.textContent=await processText(id);return}
 if(id==='create'){doc=await PDFDocument.create();const font=await doc.embedFont(StandardFonts.Helvetica);let page=doc.addPage();const lines=val('txt').split(/\r?\n/);let y=page.getHeight()-55;for(const line of lines){if(y<45){page=doc.addPage();y=page.getHeight()-55}page.drawText(line.slice(0,140),{x:45,y,size:12,font});y-=18}out=await doc.save();}
 else if(id==='images'){if(!files.length)throw Error('Please choose at least one image.');doc=await PDFDocument.create();for(const f of files){const b=await fileBytes(f),img=f.type==='image/png'?await doc.embedPng(b):await doc.embedJpg(b),page=doc.addPage([img.width,img.height]);page.drawImage(img,{x:0,y:0,width:img.width,height:img.height})}out=await doc.save();}
 else {if(!files.length)throw Error('Please choose a PDF file.');doc=await loadPdf(files[0]);const count=doc.getPageCount();
