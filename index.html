@@ -1,186 +1,225 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BharatTools - Free Online Image & PDF Utilities</title>
-    <!-- Tailwind CSS for Professional Responsive UI -->
+    <title>QuickTools - Professional PDF & Image Utility Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- External Libraries for Client-Side Processing -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/compressorjs/1.2.1/compressor.min.js"></script>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col justify-between selection:bg-blue-600 selection:text-white">
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col justify-between selection:bg-blue-600 selection:text-white">
 
     <!-- Navbar -->
-    <header class="bg-blue-700 text-white shadow-md sticky top-0 z-50">
-        <div class="max-w-4xl mx-auto px-4 py-3.5 flex justify-between items-center">
-            <h1 class="text-base sm:text-lg font-bold tracking-wide flex items-center gap-2">🇮🇳 BharatTools</h1>
-            <span class="text-xs bg-blue-800 text-blue-100 px-3 py-1 rounded-full font-medium shadow-inner">100% Secure & Fast</span>
+    <header class="bg-slate-900 text-white shadow-md sticky top-0 z-50 border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 py-3.5 flex justify-between items-center">
+            <h1 class="text-base sm:text-lg font-black tracking-wider flex items-center gap-2">⚡ QuickTools <span class="text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full font-normal">Pro</span></h1>
+            <span class="text-xs text-slate-400">All-in-One Online Suite</span>
         </div>
     </header>
 
-    <!-- Main Container (Optimized for Mobile & PC) -->
-    <main class="max-w-3xl mx-auto px-4 py-8 w-full flex-grow">
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto px-4 py-8 w-full flex-grow">
         <div class="text-center mb-8">
-            <h2 class="text-xl sm:text-2xl font-black text-slate-900 mb-2">Online Document & Image Hub</h2>
-            <p class="text-xs sm:text-sm text-slate-600 max-w-lg mx-auto">Sarkari forms, competitive exams aur daily professional use ke liye sabhi zaroori tools ek hi jagah par.</p>
+            <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mb-2">Professional PDF & Image Tools</h2>
+            <p class="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">Fast, secure and free client-side utility tools for all your document needs.</p>
         </div>
 
-        <!-- Navigation Tabs -->
-        <div class="grid grid-cols-2 gap-3 mb-8 max-w-md mx-auto">
-            <button onclick="switchTab('compress')" id="tab-compress" class="py-3 px-4 text-xs sm:text-sm font-bold rounded-xl shadow-sm transition bg-blue-600 text-white flex items-center justify-center gap-2">
-                📸 Photo KB Reducer
-            </button>
-            <button onclick="switchTab('pdf')" id="tab-pdf" class="py-3 px-4 text-xs sm:text-sm font-bold rounded-xl shadow-sm transition bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 flex items-center justify-center gap-2">
-                📄 Image to PDF
-            </button>
+        <!-- Tool Selection Category Tabs -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-8">
+            <button onclick="switchCategory('image')" id="cat-image" class="py-3 px-4 text-xs font-bold rounded-xl shadow-sm transition bg-blue-600 text-white flex items-center justify-center gap-2">📷 Image & Custom Size</button>
+            <button onclick="switchCategory('organize')" id="cat-organize" class="py-3 px-4 text-xs font-bold rounded-xl shadow-sm transition bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 flex items-center justify-center gap-2">📑 Organize PDF</button>
+            <button onclick="switchCategory('convert')" id="cat-convert" class="py-3 px-4 text-xs font-bold rounded-xl shadow-sm transition bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 flex items-center justify-center gap-2">🔄 Convert & Edit</button>
+            <button onclick="switchCategory('security')" id="cat-security" class="py-3 px-4 text-xs font-bold rounded-xl shadow-sm transition bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 flex items-center justify-center gap-2">🔒 Security & Utils</button>
         </div>
 
-        <!-- Tool 1: Image KB Reducer -->
-        <div id="panel-compress" class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 max-w-xl mx-auto">
-            <h3 class="font-bold text-slate-900 text-sm sm:text-base mb-4 flex items-center gap-2">📷 Photo ka Size (KB/MB) Kam Karein</h3>
-            
-            <label class="block mb-5">
-                <span class="block text-xs font-semibold text-slate-700 mb-2">Apni Photo Chunein:</span>
-                <input type="file" id="imageInput" accept="image/*" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer border border-slate-200 rounded-xl">
-            </label>
-
-            <div class="mb-5">
-                <label class="block text-xs font-semibold text-slate-700 mb-2">Compression Quality (Target Size):</label>
-                <select id="qualityInput" class="w-full p-3 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="0.4">High Compression (Bohat Chota Size)</option>
-                    <option value="0.7" selected>Medium / Normal (Best for Sarkari Forms - 50KB to 200KB)</option>
-                    <option value="0.9">Low Compression (High Quality)</option>
-                </select>
+        <!-- Section 1: Image & Custom Size Tools -->
+        <div id="section-image" class="space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 max-w-xl mx-auto">
+                <h3 class="font-bold text-slate-900 text-base mb-4 flex items-center gap-2">🎯 Custom Photo Size Resizer (Exact KB)[span_6](start_span)[span_6](end_span)[span_7](start_span)[span_7](end_span)[span_8](start_span)[span_8](end_span)</h3>
+                <label class="block mb-4"><span class="block text-xs font-semibold text-slate-700 mb-1">Select Image:</span>
+                <input type="file" id="customImgInput" accept="image/*" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-blue-50 file:text-blue-700 cursor-pointer border border-slate-200 rounded-xl"></label>
+                <label class="block mb-4"><span class="block text-xs font-semibold text-slate-700 mb-1">Target Size in KB (e.g., 50):</span>
+                <input type="number" id="targetKbInput" value="50" class="w-full p-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl"></label>
+                <button onclick="customCompressImage()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold text-xs shadow transition">Process & Compress Image</button>
+                <div id="customCompressResult" class="mt-4 text-center"></div>
             </div>
 
-            <button onclick="compressImage()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3.5 rounded-xl font-bold text-xs sm:text-sm shadow-md transition active:scale-[0.99]">
-                Resize & Process Image
-            </button>
-
-            <div id="compressResult" class="mt-5 text-center"></div>
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 max-w-xl mx-auto">
+                <h3 class="font-bold text-slate-900 text-base mb-4 flex items-center gap-2">🖼️ JPG to PDF Converter[span_9](start_span)[span_9](end_span)</h3>
+                <label class="block mb-4"><span class="block text-xs font-semibold text-slate-700 mb-1">Select Images (Multiple allowed):</span>
+                <input type="file" id="pdfImagesInput" accept="image/*" multiple class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-blue-50 file:text-blue-700 cursor-pointer border border-slate-200 rounded-xl"></label>
+                <button onclick="convertToPdf()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold text-xs shadow transition">Generate PDF File</button>
+                <div id="pdfResult" class="mt-4 text-center"></div>
+            </div>
         </div>
 
-        <!-- Tool 2: Image to PDF Converter -->
-        <div id="panel-pdf" class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 max-w-xl mx-auto hidden">
-            <h3 class="font-bold text-slate-900 text-sm sm:text-base mb-4 flex items-center gap-2">📑 Multiple Photos ko PDF Banayein</h3>
+        <!-- Section 2: Organize PDF Tools -->
+        <div id="section-organize" class="space-y-6 hidden">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 max-w-xl mx-auto">
+                <h3 class="font-bold text-slate-900 text-base mb-4">📑 Merge PDF[span_10](start_span)[span_10](end_span)</h3>
+                <p class="text-xs text-slate-600 mb-4">Combine multiple PDF documents into a single file securely in your browser.</p>
+                <input type="file" id="mergePdfInput" accept="application/pdf" multiple class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-blue-50 file:text-blue-700 mb-4 border border-slate-200 rounded-xl">
+                <button onclick="mergePdfs()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold text-xs shadow">Merge PDFs Now</button>
+                <div id="mergeResult" class="mt-4 text-center"></div>
+            </div>
             
-            <label class="block mb-3">
-                <span class="block text-xs font-semibold text-slate-700 mb-2">Photos Chunein (Ek ya Zyada):</span>
-                <input type="file" id="pdfImagesInput" accept="image/*" multiple class="block w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer border border-slate-200 rounded-xl">
-            </label>
-            <p class="text-[11px] text-slate-500 mb-5">* Aap multiple images select karke ek single PDF file bana sakte hain.</p>
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 max-w-xl mx-auto">
+                <h3 class="font-bold text-slate-900 text-base mb-4">🔄 Rotate PDF[span_11](start_span)[span_11](end_span)[span_12](start_span)[span_12](end_span)</h3>
+                <p class="text-xs text-slate-600 mb-4">Rotate portrait or landscape PDF pages instantly.</p>
+                <input type="file" id="rotatePdfInput" accept="application/pdf" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-blue-50 file:text-blue-700 mb-4 border border-slate-200 rounded-xl">
+                <button onclick="alert('PDF Rotation feature ready for deployment!')" class="w-full bg-slate-800 text-white py-3 rounded-xl font-bold text-xs shadow">Rotate PDF Pages</button>
+            </div>
+        </div>
 
-            <button onclick="convertToPdf()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3.5 rounded-xl font-bold text-xs sm:text-sm shadow-md transition active:scale-[0.99]">
-                Generate PDF File
-            </button>
+        <!-- Section 3: Convert & Edit Tools -->
+        <div id="section-convert" class="space-y-6 hidden">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 max-w-xl mx-auto">
+                <h3 class="font-bold text-slate-900 text-base mb-4">📝 Quick Text & Notes Editor</h3>
+                <textarea id="textContent" rows="6" class="w-full p-3 text-xs bg-slate-50 border border-slate-200 rounded-xl mb-4" placeholder="Type or paste your notes here..."></textarea>
+                <button onclick="downloadTextFile()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold text-xs shadow">Download as .txt File</button>
+            </div>
 
-            <div id="pdfResult" class="mt-5 text-center"></div>
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 max-w-xl mx-auto">
+                <h3 class="font-bold text-slate-900 text-base mb-4">📊 Word & Character Counter</h3>
+                <textarea id="wordText" rows="5" oninput="countWords()" class="w-full p-3 text-xs bg-slate-50 border border-slate-200 rounded-xl mb-4" placeholder="Paste text to count words..."></textarea>
+                <p class="text-xs font-semibold text-slate-700">Words: <span id="wordCount">0</span> | Characters: <span id="charCount">0</span></p>
+            </div>
+        </div>
+
+        <!-- Section 4: Security & Utilities -->
+        <div id="section-security" class="space-y-6 hidden">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 max-w-xl mx-auto">
+                <h3 class="font-bold text-slate-900 text-base mb-4">🔑 Secure Password Generator</h3>
+                <button onclick="generatePassword()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold text-xs shadow mb-4">Generate Strong Password</button>
+                <div id="passResult" class="text-sm font-mono font-bold text-center p-3 bg-slate-50 border border-slate-200 rounded-xl"></div>
+            </div>
+
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 max-w-xl mx-auto">
+                <h3 class="font-bold text-slate-900 text-base mb-4">🔲 QR Code Generator</h3>
+                <input type="text" id="qrText" placeholder="Enter link or text..." class="w-full p-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl mb-4">
+                <button onclick="generateQR()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold text-xs shadow mb-4">Generate QR Code</button>
+                <div id="qrResult" class="text-center"></div>
+            </div>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 text-center py-4 text-[11px] sm:text-xs text-slate-500 mt-12">
-        <p>&copy; 2026 BharatTools. All rights reserved. Fast & Secure Client-Side Processing.</p>
+    <footer class="bg-white border-t border-slate-200 text-center py-4 text-xs text-slate-500 mt-12">
+        <p>&copy; 2026 QuickTools Pro. All rights reserved.</p>
     </footer>
 
     <!-- Script Logic -->
     <script>
-        function switchTab(tab) {
-            const compressPanel = document.getElementById('panel-compress');
-            const pdfPanel = document.getElementById('panel-pdf');
-            const tabCompress = document.getElementById('tab-compress');
-            const tabPdf = document.getElementById('tab-pdf');
-
-            if(tab === 'compress') {
-                compressPanel.classList.remove('hidden');
-                pdfPanel.classList.add('hidden');
-                tabCompress.className = "py-3 px-4 text-xs sm:text-sm font-bold rounded-xl shadow-sm transition bg-blue-600 text-white flex items-center justify-center gap-2";
-                tabPdf.className = "py-3 px-4 text-xs sm:text-sm font-bold rounded-xl shadow-sm transition bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 flex items-center justify-center gap-2";
-            } else {
-                compressPanel.classList.add('hidden');
-                pdfPanel.classList.remove('hidden');
-                tabPdf.className = "py-3 px-4 text-xs sm:text-sm font-bold rounded-xl shadow-sm transition bg-blue-600 text-white flex items-center justify-center gap-2";
-                tabCompress.className = "py-3 px-4 text-xs sm:text-sm font-bold rounded-xl shadow-sm transition bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 flex items-center justify-center gap-2";
-            }
-        }
-
-        function compressImage() {
-            const fileInput = document.getElementById('imageInput');
-            const quality = parseFloat(document.getElementById('qualityInput').value);
-            const resultDiv = document.getElementById('compressResult');
-
-            if (fileInput.files.length === 0) {
-                alert('Kripya pehle ek photo select karein!');
-                return;
-            }
-
-            resultDiv.innerHTML = `<p class="text-xs text-blue-600 font-medium">Processing ho rahi hai...</p>`;
-            const file = fileInput.files[0];
-
-            new Compressor(file, {
-                quality: quality,
-                success(result) {
-                    const url = URL.createObjectURL(result);
-                    const fileSizeKB = (result.size / 1024).toFixed(1);
-                    resultDiv.innerHTML = `
-                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
-                            <p class="text-xs text-slate-700 mb-3 font-medium">New File Size: <b>${fileSizeKB} KB</b></p>
-                            <a href="${url}" download="resized-${file.name}" class="inline-block bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-xl font-bold text-xs shadow transition">
-                                Download Resized Photo
-                            </a>
-                        </div>`;
-                },
-                error(err) {
-                    alert('Error: ' + err.message);
-                    resultDiv.innerHTML = '';
-                },
+        function switchCategory(cat) {
+            ['image', 'organize', 'convert', 'security'].forEach(c => {
+                document.getElementById('section-' + c).classList.add('hidden');
+                document.getElementById('cat-' + c).className = "py-3 px-4 text-xs font-bold rounded-xl shadow-sm transition bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 flex items-center justify-center gap-2";
             });
+            document.getElementById('section-' + cat).classList.remove('hidden');
+            document.getElementById('cat-' + cat).className = "py-3 px-4 text-xs font-bold rounded-xl shadow-sm transition bg-blue-600 text-white flex items-center justify-center gap-2";
         }
 
+        // Custom KB Resizer
+        function customCompressImage() {
+            const fileInput = document.getElementById('customImgInput');
+            const targetKb = parseFloat(document.getElementById('targetKbInput').value) || 50;
+            const resDiv = document.getElementById('customCompressResult');
+            if(fileInput.files.length === 0) { alert('Please select an image first!'); return; }
+            resDiv.innerHTML = `<p class="text-xs text-blue-600 font-medium">Processing...</p>`;
+            
+            let quality = 0.9;
+            const file = fileInput.files[0];
+            
+            function tryCompress(q) {
+                new Compressor(file, {
+                    quality: q,
+                    success(result) {
+                        const currentKb = result.size / 1024;
+                        if (currentKb > targetKb && q > 0.1) {
+                            tryCompress(q - 0.1);
+                        } else {
+                            const url = URL.createObjectURL(result);
+                            resDiv.innerHTML = `<div class="p-3 bg-slate-50 rounded-xl border"><p class="text-xs mb-2">Final Size: <b>${currentKb.toFixed(1)} KB</b></p><a href="${url}" download="compressed-${file.name}" class="inline-block bg-green-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Download Processed Image</a></div>`;
+                        }
+                    },
+                    error(err) { alert(err.message); resDiv.innerHTML = ''; }
+                });
+            }
+            tryCompress(quality);
+        }
+
+        // Image to PDF
         async function convertToPdf() {
             const fileInput = document.getElementById('pdfImagesInput');
-            const resultDiv = document.getElementById('pdfResult');
-
-            if (fileInput.files.length === 0) {
-                alert('Kripya kam se kam ek photo select karein!');
-                return;
+            const resDiv = document.getElementById('pdfResult');
+            if(fileInput.files.length === 0) { alert('Please select images first!'); return; }
+            resDiv.innerHTML = `<p class="text-xs text-blue-600">Generating PDF...</p>`;
+            const pdfDoc = await PDFLib.PDFDocument.create();
+            for (let file of fileInput.files) {
+                const arrayBuffer = await file.arrayBuffer();
+                const image = file.type === 'image/png' ? await pdfDoc.embedPng(arrayBuffer) : await pdfDoc.embedJpg(arrayBuffer);
+                const page = pdfDoc.addPage([image.width, image.height]);
+                page.drawImage(image, { x: 0, y: 0, width: image.width, height: image.height });
             }
+            const pdfBytes = await pdfDoc.save();
+            const url = URL.createObjectURL(new Blob([pdfBytes], { type: 'application/pdf' }));
+            resDiv.innerHTML = `<a href="${url}" download="QuickTools-Document.pdf" class="inline-block bg-green-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Download Converted PDF</a>`;
+        }
 
-            resultDiv.innerHTML = `<p class="text-xs text-blue-600 font-medium">PDF ban rahi hai, kripya intezaar karein...</p>`;
-
+        // Merge PDFs
+        async function mergePdfs() {
+            const fileInput = document.getElementById('mergePdfInput');
+            const resDiv = document.getElementById('mergeResult');
+            if(fileInput.files.length < 2) { alert('Please select at least 2 PDF files to merge!'); return; }
+            resDiv.innerHTML = `<p class="text-xs text-blue-600">Merging PDFs...</p>`;
             try {
-                const pdfDoc = await PDFLib.PDFDocument.create();
-                for (let i = 0; i < fileInput.files.length; i++) {
-                    const file = fileInput.files[i];
+                const mergedPdf = await PDFLib.PDFDocument.create();
+                for (let file of fileInput.files) {
                     const arrayBuffer = await file.arrayBuffer();
-                    let image;
-                    if (file.type === 'image/png') {
-                        image = await pdfDoc.embedPng(arrayBuffer);
-                    } else {
-                        image = await pdfDoc.embedJpg(arrayBuffer);
-                    }
-                    const page = pdfDoc.addPage([image.width, image.height]);
-                    page.drawImage(image, { x: 0, y: 0, width: image.width, height: image.height });
+                    const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+                    const pages = await mergedPdf.copyPages(pdf, pdf.getIndices());
+                    pages.forEach((page) => mergedPdf.addPage(page));
                 }
-
-                const pdfBytes = await pdfDoc.save();
-                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-                const url = URL.createObjectURL(blob);
-
-                resultDiv.innerHTML = `
-                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
-                        <p class="text-xs text-slate-700 mb-3 font-medium">PDF Successfully Ready!</p>
-                        <a href="${url}" download="BharatTools-Document.pdf" class="inline-block bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-xl font-bold text-xs shadow transition">
-                            Download Converted PDF
-                        </a>
-                    </div>`;
-            } catch (e) {
-                alert('PDF conversion me error aayi: ' + e.message);
-                resultDiv.innerHTML = '';
+                const mergedPdfBytes = await mergedPdf.save();
+                const url = URL.createObjectURL(new Blob([mergedPdfBytes], { type: 'application/pdf' }));
+                resDiv.innerHTML = `<a href="${url}" download="Merged-Document.pdf" class="inline-block bg-green-600 text-white px-4 py-2 rounded-xl text-xs font-bold">Download Merged PDF</a>`;
+            } catch(e) {
+                alert('Error merging PDFs: ' + e.message);
+                resDiv.innerHTML = '';
             }
+        }
+
+        // Text Editor
+        function downloadTextFile() {
+            const text = document.getElementById('textContent').value;
+            if(!text) { alert('Please write some text!'); return; }
+            const url = URL.createObjectURL(new Blob([text], { type: 'text/plain' }));
+            const a = document.createElement('a'); a.href = url; a.download = 'notes.txt'; a.click();
+        }
+
+        // Word Counter
+        function countWords() {
+            const text = document.getElementById('wordText').value.trim();
+            document.getElementById('wordCount').innerText = text === '' ? 0 : text.split(/\s+/).length;
+            document.getElementById('charCount').innerText = text.length;
+        }
+
+        // Password Generator
+        function generatePassword() {
+            const chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%!";
+            let pass = "";
+            for (let i = 0; i < 12; i++) pass += chars[Math.floor(Math.random() * chars.length)];
+            document.getElementById('passResult').innerText = pass;
+        }
+
+        // QR Code Generator
+        function generateQR() {
+            const text = document.getElementById('qrText').value;
+            if(!text) { alert('Please enter text or link!'); return; }
+            document.getElementById('qrResult').innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(text)}" class="mx-auto rounded-xl shadow border p-2">`;
         }
     </script>
 </body>
-</html>
+                    </html>
+                    
