@@ -77,10 +77,9 @@ function renderTools(list=allTools){document.getElementById('grid').innerHTML=li
 function filterTools(){const q=document.getElementById('search').value.toLowerCase();renderTools(allTools.filter(t=>(t[1]+' '+t[2]).toLowerCase().includes(q)))}
 function el(tag,attrs={},txt=''){const e=document.createElement(tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));e.textContent=txt;return e}
 function addField(label,type,id,placeholder='',multiple=false){const wrap=el('label',{class:'block text-sm font-bold'},label);let input=el(type==='textarea'?'textarea':'input',{class:'field mt-1',...(type==='textarea'?{id,placeholder,rows:'5'}:{type,id,placeholder})});if(multiple)input.multiple=true;wrap.appendChild(input);document.getElementById('fields').appendChild(wrap);return input}
-function openTool(id){active=allTools.find(t=>t[0]===id);selected=[];document.getElementById('mtitle').textContent=active[1];document.getElementById('mdesc').textContent=active[2];document.getElementById('fields').innerHTML='';document.getElementById('status').textContent='';document.getElementById('run').textContent=active[4]?'Process PDF':'Create PDF';
+function openTool(id){active=allTools.find(t=>t[0]===id);selected=[];document.getElementById('mtitle').textContent=active[1];document.getElementById('mdesc').textContent=active[2];document.getElementById('fields').innerHTML='';document.getElementById('status').textContent='';document.getElementById('run').textContent=id.startsWith('img-')?'Process Image':id.startsWith('txt-')?'Process Text':id==='create'?'Create PDF':'Process PDF';
 if(id==='create'||id.startsWith('txt-')){addField('Enter or paste your text','textarea','txt','Type or paste your text');}
 else if(id==='images'||id.startsWith('img-')){addField('Choose image','file','files','').accept='image/*';}
-else if(id==='images'){addField('Choose JPG/PNG images','file','files','',true).accept='image/jpeg,image/png';}
 else {addField('Choose PDF file'+(active[4]===2?'s':''),'file','files','',active[4]===2).accept='application/pdf';}
 const configs={
 'img-resizekb':[['Target size in KB','number','targetkb','200']],
