@@ -84,7 +84,18 @@ export default {
  async fetch(request,env) {
   const u=new URL(request.url),path=u.pathname;
   if(request.method==="GET"&&path==="/")return Response.redirect(u.origin+"/admin",302);
-  if(request.method==="GET"&&path==="/admin")return new Response(ADMIN,{headers:{"content-type":"text/html; charset=utf-8","cache-control":"no-store","content-security-policy":"default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'"}});
+  if(request.method==="GET"&&path==="/health")return new Response("QuickTools24 Admin Worker is running",{headers:{"content-type":"text/plain; charset=utf-8","cache-control":"no-store"}});
+  if(request.method==="GET"&&path==="/admin"){
+   const s=await session(request,env);
+   let page=ADMIN;
+   if(s){
+    page=page.replace('<div id="login">','<div id="login" class="hidden">')
+      .replace('<div id="editor" class="hidden">','<div id="editor">')
+      .replace('<p id="who" class="muted"></p>','<p id="who" class="muted">Signed in as '+esc(s.login)+'</p>')
+      .replace('Checking login…','You are securely signed in.');
+   }
+   return new Response(page,{headers:{"content-type":"text/html; charset=utf-8","cache-control":"no-store","x-content-type-options":"nosniff","content-security-policy":"default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'"}});
+  }
   if(request.method==="GET"&&path==="/auth/login"){
    if(!env.GITHUB_CLIENT_ID)return new Response("Missing GITHUB_CLIENT_ID variable.",{status:500});
    const state=b64url(crypto.getRandomValues(new Uint8Array(24))),target=new URL("https://github.com/login/oauth/authorize");
