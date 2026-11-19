@@ -108,8 +108,11 @@ body{background:#f7f8fc;color:#172033}
 .home-feature-card li{font-size:12px;color:#475569;display:flex;gap:8px;align-items:flex-start}
 .home-feature-card li:before{content:"✓";color:#4f46e5;font-weight:900}
 .home-creator{display:none}
-.home-social-plank-wrap{display:flex;justify-content:center;padding:14px 16px 4px;position:relative;z-index:5}
-.home-social-plank{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:12px;max-width:100%;padding:13px 29px 14px 22px;border:1px solid #a56b37;background:repeating-linear-gradient(3deg,rgba(75,39,16,.12) 0,rgba(75,39,16,.12) 1px,transparent 1px,transparent 8px),linear-gradient(110deg,#d9a66c 0%,#f0c58d 22%,#c98c50 52%,#e5b77e 100%);clip-path:polygon(2% 2%,12% 0%,23% 3%,36% 0%,49% 3%,62% 0%,76% 3%,88% 0%,98% 3%,97% 15%,100% 27%,97% 39%,100% 52%,97% 66%,100% 79%,97% 97%,86% 100%,73% 97%,59% 100%,46% 97%,33% 100%,19% 97%,3% 100%,4% 87%,0% 74%,3% 61%,0% 48%,3% 35%,0% 21%);filter:drop-shadow(0 5px 5px rgba(71,42,20,.20));color:#382313;text-decoration:none;transform:rotate(-.35deg);transition:transform .2s ease,filter .2s ease}
+.home-social-plank-wrap{display:flex;justify-content:center;padding:28px 16px 4px;position:relative;z-index:5}
+.home-social-plank-wrap:before,.home-social-plank-wrap:after{content:"";position:absolute;top:0;height:29px;width:5px;border-radius:3px;background:repeating-linear-gradient(0deg,#6f4829 0 3px,#c79a68 3px 5px);box-shadow:0 1px 2px rgba(48,29,14,.25);z-index:0}
+.home-social-plank-wrap:before{left:calc(50% - 104px);transform:rotate(-5deg)}
+.home-social-plank-wrap:after{right:calc(50% - 104px);transform:rotate(5deg)}
+.home-social-plank{position:relative;z-index:1;margin-top:1px;display:inline-flex;align-items:center;justify-content:center;gap:10px;max-width:100%;padding:11px 25px 12px 19px;border:1px solid #a56b37;background:repeating-linear-gradient(3deg,rgba(75,39,16,.12) 0,rgba(75,39,16,.12) 1px,transparent 1px,transparent 8px),linear-gradient(110deg,#d9a66c 0%,#f0c58d 22%,#c98c50 52%,#e5b77e 100%);clip-path:polygon(2% 2%,12% 0%,23% 3%,36% 0%,49% 3%,62% 0%,76% 3%,88% 0%,98% 3%,97% 15%,100% 27%,97% 39%,100% 52%,97% 66%,100% 79%,97% 97%,86% 100%,73% 97%,59% 100%,46% 97%,33% 100%,19% 97%,3% 100%,4% 87%,0% 74%,3% 61%,0% 48%,3% 35%,0% 21%);filter:drop-shadow(0 5px 5px rgba(71,42,20,.20));color:#382313;text-decoration:none;transform:rotate(-.35deg);transition:transform .2s ease,filter .2s ease}
 .home-social-plank:before,.home-social-plank:after{content:"";position:absolute;top:50%;width:6px;height:6px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f7dfb8 0 15%,#80502c 45%,#4a2b18 100%);box-shadow:0 1px 2px rgba(0,0,0,.35);transform:translateY(-50%)}
 .home-social-plank:before{left:8px}.home-social-plank:after{right:8px}
 .home-social-plank:hover{transform:translateY(-2px) rotate(0deg);filter:drop-shadow(0 8px 8px rgba(71,42,20,.25))}
@@ -117,9 +120,9 @@ body{background:#f7f8fc;color:#172033}
 .home-social-instagram svg{width:20px;height:20px;display:block}
 .home-social-copy{min-width:0;text-align:left}
 .home-social-label{display:block;font-size:9px;line-height:1.15;font-weight:900;letter-spacing:1.7px;color:#69401f;text-transform:uppercase}
-.home-social-handle{display:block;margin-top:2px;font-family:ui-rounded,system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.2;font-weight:950;letter-spacing:.2px;color:#3d2413;text-shadow:0 1px rgba(255,236,205,.55);white-space:nowrap}
+.home-social-handle{display:block;margin-top:2px;font-family:ui-rounded,system-ui,-apple-system,sans-serif;font-size:13px;line-height:1.2;font-weight:950;letter-spacing:.2px;color:#3d2413;text-shadow:0 1px rgba(255,236,205,.55);white-space:nowrap}
 .home-social-arrow{font-size:19px;font-weight:900;color:#633b1d;margin-left:2px}
-@media(max-width:760px){.home-social-plank-wrap{padding:10px 12px 2px}.home-social-plank{gap:9px;padding:10px 22px 10px 16px}.home-social-handle{font-size:15px}.home-social-label{font-size:8px}}
+@media(max-width:760px){.home-social-plank-wrap{padding:10px 12px 2px}.home-social-plank{gap:9px;padding:10px 22px 10px 16px}.home-social-handle{font-size:12px}.home-social-label{font-size:8px}}
 @media(max-width:760px){.home-overview{padding:23px 16px;margin:8px auto 30px;border-radius:19px}.home-feature-grid{grid-template-columns:1fr}.home-feature-card{padding:16px}.home-feature-icon{margin-bottom:9px}}
 
 </style>
