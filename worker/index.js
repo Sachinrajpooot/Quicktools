@@ -23,8 +23,8 @@ function from64url(s) {
 function cookie(name,value,age) { return name+"="+value+"; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age="+age; }
 function clear(name) { return name+"=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0"; }
 async function key(env) {
-  if (!env.SESSION_SECRET || env.SESSION_SECRET.length < 32) throw new Error("SESSION_SECRET must be at least 32 characters");
-  const digest=await crypto.subtle.digest("SHA-256",enc.encode(env.SESSION_SECRET));
+  if (!env.GITHUB_CLIENT_SECRET || env.GITHUB_CLIENT_SECRET.length < 20) throw new Error("GitHub Client Secret is not configured.");
+  const digest=await crypto.subtle.digest("SHA-256",enc.encode(env.GITHUB_CLIENT_SECRET));
   return crypto.subtle.importKey("raw",digest,"AES-GCM",false,["encrypt","decrypt"]);
 }
 async function seal(data,env) {
@@ -99,7 +99,7 @@ export default {
    const profile=await fetch("https://api.github.com/user",{headers:ghHeaders(td.access_token)}).then(r=>r.json());
    if(!profile.login||profile.login.toLowerCase()!==ALLOWED.toLowerCase())return new Response("This GitHub account is not allowed.",{status:403,headers:{"Set-Cookie":clear(STATE)}});
    const value=await seal({accessToken:td.access_token,login:profile.login,exp:Date.now()+28800000},env);
-   return new Response(null,{status:302,headers:{Location:u.origin+"/admin","Set-Cookie":cookie(COOKIE,value,28800)+", "+clear(STATE),"Cache-Control":"no-store"}});
+   const responseHeaders=new Headers();responseHeaders.set("Location",u.origin+"/admin");responseHeaders.append("Set-Cookie",cookie(COOKIE,value,28800));responseHeaders.append("Set-Cookie",clear(STATE));responseHeaders.set("Cache-Control","no-store");return new Response(null,{status:302,headers:responseHeaders});
   }
   if(request.method==="GET"&&path==="/api/me"){const s=await session(request,env);return json(s?{authenticated:true,login:s.login}:{authenticated:false});}
   if(request.method==="POST"&&path==="/api/logout")return new Response('{"ok":true}',{headers:{"content-type":"application/json","Set-Cookie":clear(COOKIE),"cache-control":"no-store"}});
