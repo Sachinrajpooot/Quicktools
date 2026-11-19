@@ -568,7 +568,8 @@ rotateone:[['Page numbers','text','pages','1'],['Default rotation','number','ang
 (configs[id]||[]).forEach(c=>addField(c[0],c[1],c[2],c[3]));if(id==='metadata'){const note=document.createElement('p');note.className='text-xs muted';note.textContent='Note: PDF title, author and subject are document-level properties. Standard PDF metadata cannot be assigned separately to individual pages.';document.getElementById('fields').appendChild(note)}
 if(id==='split'){const mode=document.getElementById('splitMode'),sync=()=>{const show={pages:['pagesPerFile'],size:['sizeKB'],custom:['ranges'],evenodd:[],halve:[]}[mode.value]||[];['pagesPerFile','sizeKB','ranges'].forEach(k=>{const el=document.getElementById(k);if(el)el.closest('label').style.display=show.includes(k)?'block':'none'})};mode.addEventListener('change',sync);sync()}
 if(id==='pagenum'){const mode=document.getElementById('numberFormat'),pattern=document.getElementById('pattern'),sync=()=>{if(pattern)pattern.closest('label').style.display=mode.value==='custom'?'block':'none'};mode.addEventListener('change',sync);sync()}
-if(id==='signature')setupSignaturePad();\nif(id==='bg-remove')addField('Custom background colour','color','customBg','#ffffff');\nif(id==='signature')addField('Signature font style','select','signatureStyle','script');
+if(id==='signature')setupSignaturePad();
+if(id==='bg-remove')addField('Custom background colour','color','customBg','#ffffff');\nif(id==='signature')addField('Signature font style','select','signatureStyle','script');
 if(false){}
 setupToolFilePreview(id);
 document.getElementById('modal').classList.remove('hidden')}
