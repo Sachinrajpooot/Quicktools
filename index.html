@@ -380,4 +380,4 @@ async function pdfEditorDownload(){if(!pdfEditDoc)return;const btn=document.getE
 (function(){const c=document.getElementById('signaturePad'),ctx=c.getContext('2d');let drawing=false;ctx.strokeStyle='#111827';ctx.lineWidth=2.5;ctx.lineCap='round';c.addEventListener('pointerdown',e=>{drawing=true;c.setPointerCapture(e.pointerId);const r=c.getBoundingClientRect();ctx.beginPath();ctx.moveTo((e.clientX-r.left)*c.width/r.width,(e.clientY-r.top)*c.height/r.height);});c.addEventListener('pointermove',e=>{if(!drawing)return;const r=c.getBoundingClientRect();ctx.lineTo((e.clientX-r.left)*c.width/r.width,(e.clientY-r.top)*c.height/r.height);ctx.stroke();});['pointerup','pointercancel'].forEach(n=>c.addEventListener(n,()=>drawing=false));})();
 
 </script>
-</body></html>
+<div style="text-align:center;padding:24px 16px"><a href="/articles/" style="color:#4f46e5;font-weight:700;text-decoration:none">SEO Guides & Tutorials</a></div></body></html>
