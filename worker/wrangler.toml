@@ -1,3 +1,7 @@
 name = "quicktools24-admin"
 main = "index.js"
 compatibility_date = "2026-11-19"
+preview_urls = false
+
+[vars]
+GITHUB_CLIENT_ID = "Ov23liYBTmFzv7o5RZcq"
