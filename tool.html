@@ -420,7 +420,7 @@ function addField(label,type,id,placeholder='',multiple=false,targetId='fields')
  let input;
  if(type==='select'){
   input=document.createElement('select');input.id=id;input.className='field mt-1';
-  const choices=id==='format'?[['PNG','image/png'],['JPEG','image/jpeg'],['WebP','image/webp']]:id==='angle'?[['90°','90'],['180°','180'],['270°','270']]:id==='flip'?[['Horizontal','horizontal'],['Vertical','vertical']]:id==='case'?[['UPPERCASE','upper'],['lowercase','lower'],['Title Case','title']]:id==='splitMode'?[['Pages per PDF','pages'],['Even / Odd pages','evenodd'],['Halve PDF','halve'],['By file size (KB)','size'],['Custom page ranges','custom']]:id==='insertWhere'?[['Before page','before'],['After page','after'],['Beginning','first'],['End','last']]:id==='position'?[['Top left','top-left'],['Top centre','top-center'],['Top right','top-right'],['Middle left','middle-left'],['Centre','middle-center'],['Middle right','middle-right'],['Bottom left','bottom-left'],['Bottom centre','bottom-center'],['Bottom right','bottom-right']]:id==='watermarkType'?[['Text','text'],['Image','image']]:id==='color'?[['Black','#111111'],['Dark blue','#1e3a8a'],['Blue','#1d4ed8'],['Red','#b91c1c'],['Grey','#64748b']]:[];
+  const choices=id==='format'?[['PNG','image/png'],['JPEG','image/jpeg'],['WebP','image/webp']]:id==='angle'?[['90°','90'],['180°','180'],['270°','270']]:id==='flip'?[['Horizontal','horizontal'],['Vertical','vertical']]:id==='case'?[['UPPERCASE','upper'],['lowercase','lower'],['Title Case','title']]:id==='splitMode'?[['Pages per PDF','pages'],['Even / Odd pages','evenodd'],['Halve PDF','halve'],['By file size (KB)','size'],['Custom page ranges','custom']]:id==='insertWhere'?[['Before page','before'],['After page','after'],['Beginning','first'],['End','last']]:id==='position'?[['Top left','top-left'],['Top centre','top-center'],['Top right','top-right'],['Middle left','middle-left'],['Centre','middle-center'],['Middle right','middle-right'],['Bottom left','bottom-left'],['Bottom centre','bottom-center'],['Bottom right','bottom-right']]:id==='watermarkType'?[['Text','text'],['Image','image']]:id==='imageFit'?[['Fit inside (no crop)','contain'],['Fill area (crop edges)','cover'],['Stretch to exact size','stretch']]:id==='reverseMode'?[['Reverse characters','chars'],['Reverse words','words'],['Reverse lines','lines']]:id==='sortOrder'?[['A to Z','asc'],['Z to A','desc']]:id==='duplicateMode'?[['Exact duplicates','exact'],['Ignore letter case','case']]:id==='cleanMode'?[['Clean spaces and remove blank lines','full'],['Keep blank lines','keep'],['Trim each line only','trim']]:id==='color'?[['Black','#111111'],['Dark blue','#1e3a8a'],['Blue','#1d4ed8'],['Red','#b91c1c'],['Grey','#64748b']]:[];
   choices.forEach(([name,value])=>{const option=document.createElement('option');option.value=value;option.textContent=name;input.appendChild(option)});
   if(placeholder)input.value=placeholder;
   wrap.appendChild(input);
@@ -531,17 +531,17 @@ else if(id==='images'||id.startsWith('img-')){const imageInput=addField('Choose 
 else {addField('Choose PDF file'+(active[4]===2?'s':''),'file','files','',active[4]===2,'filePickerTop').accept='application/pdf';}
 const configs={
 'img-resizekb':[['Target size in KB','number','targetkb','200']],
-'img-resize':[['Width in pixels','number','width','800'],['Height in pixels','number','height','800']],
+'img-resize':[['Width in pixels','number','width','800'],['Height in pixels','number','height','800'],['Image fit','select','imageFit','contain']],
 'img-crop':[['X position (px)','number','x','0'],['Y position (px)','number','y','0'],['Crop width (px)','number','cw','500'],['Crop height (px)','number','ch','500']],
 'img-convert':[['Output format','select','format','image/png']],
 'img-bw':[], 'img-rotate':[['Rotation','select','angle','90']],
-'img-watermark':[['Watermark text','text','watermark','QuickTools24'],['Text size','number','fontsize','28']],
+'img-watermark':[['Watermark text','text','watermark','QuickTools24'],['Text size','number','fontsize','28'],['Position','select','position','bottom-right'],['Visibility (0.05–1)','number','opacity','0.65']],
 'img-compress':[['JPEG quality (10–100)','number','quality','75']],
 'img-flip':[['Flip direction','select','flip','horizontal']],
-'img-passport':[['Background color (white/blue)','text','bg','white']],
+'img-passport':[['Background color (white/blue)','text','bg','white'],['Photo fit','select','imageFit','cover']],
 'img-pngjpg':[], 'img-jpgpng':[],
 'txt-count':[], 'txt-case':[['Case','select','case','upper']],
-'txt-clean':[], 'txt-sort':[], 'txt-duplicate':[], 'txt-reverse':[],
+'txt-clean':[['Cleaning mode','select','cleanMode','full']], 'txt-sort':[['Sort order','select','sortOrder','asc']], 'txt-duplicate':[['Duplicate handling','select','duplicateMode','exact']], 'txt-reverse':[['Reverse mode','select','reverseMode','chars']],
 extract:[['Page numbers (e.g. 1,3,5)','text','pages','1,3']],
 delete:[['Page numbers to delete','text','pages','2']],
 split:[['Split mode','select','splitMode','pages'],['Pages per PDF','number','pagesPerFile','1'],['Maximum size per part (KB)','number','sizeKB','500'],['Custom ranges (e.g. 1-3,4-6)','text','ranges','']],
