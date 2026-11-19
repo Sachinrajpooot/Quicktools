@@ -639,13 +639,16 @@ if(id==='img-passport')mime='image/jpeg',blob=await new Promise(resolve=>canvas.
 const ext=mime==='image/png'?'png':mime==='image/webp'?'webp':'jpg',stem=(file.name||'image').replace(/\.[^.]+$/,'');download(await blob.arrayBuffer(),stem+'-processed.'+ext,mime);
 return 'Image processed: '+canvas.width+' × '+canvas.height+' px · '+Math.round(blob.size/1024)+' KB';
 }
-async function processText(id){let s=val('txt'),out=s;if(id==='txt-count'){const words=s.trim()?s.trim().split(/\s+/).length:0;return 'Words: '+words+' | Characters: '+s.length+' | Characters (no spaces): '+s.replace(/\s/g,'').length+' | Lines: '+(s?s.split(/\r?\n/).length:0)+' | Paragraphs: '+(s.trim()?s.trim().split(/\n\s*\n/).length:0)}
-if(id==='txt-case'){const mode=val('case');out=mode==='upper'?s.toUpperCase():mode==='lower'?s.toLowerCase():s.toLowerCase().replace(/\b\w/g,x=>x.toUpperCase())}
-if(id==='txt-clean')out=s.split(/\r?\n/).map(x=>x.trim().replace(/\s+/g,' ')).filter(Boolean).join('\n');
-if(id==='txt-sort')out=s.split(/\r?\n/).sort((a,b)=>a.localeCompare(b)).join('\n');
-if(id==='txt-duplicate')out=[...new Set(s.split(/\r?\n/))].join('\n');
-if(id==='txt-reverse')out=s.split('').reverse().join('');
-download(new Blob([out],{type:'text/plain;charset=utf-8'}),'quicktools24-text.txt','text/plain');return 'Text tool completed. Download is ready.'}
+async function processText(id){
+ let s=val('txt'),out=s;
+ if(id==='txt-count'){const words=s.trim()?s.trim().split(/\s+/).length:0;return 'Words: '+words+' | Characters: '+s.length+' | Characters (no spaces): '+s.replace(/\s/g,'').length+' | Lines: '+(s?s.split(/\r?\n/).length:0)+' | Paragraphs: '+(s.trim()?s.trim().split(/\n\s*\n/).length:0)}
+ if(id==='txt-case'){const mode=val('case');out=mode==='upper'?s.toUpperCase():mode==='lower'?s.toLowerCase():s.toLowerCase().replace(/(^|[\s-])([\p{L}])/gu,(_,sep,ch)=>sep+ch.toLocaleUpperCase())}
+ if(id==='txt-clean'){const mode=val('cleanMode')||'full';out=mode==='trim'?s.split(/\r?\n/).map(x=>x.trim()).join('\n'):mode==='keep'?s.split(/\r?\n/).map(x=>x.trim().replace(/[ \t]+/g,' ')).join('\n'):s.split(/\r?\n/).map(x=>x.trim().replace(/[ \t]+/g,' ')).filter(Boolean).join('\n')}
+ if(id==='txt-sort'){const lines=s.split(/\r?\n/),dir=val('sortOrder')==='desc'?-1:1;out=lines.sort((a,b)=>dir*a.localeCompare(b,undefined,{sensitivity:'base',numeric:true})).join('\n')}
+ if(id==='txt-duplicate'){const seen=new Set();out=s.split(/\r?\n/).filter(line=>{const key=val('duplicateMode')==='case'?line.trim().toLocaleLowerCase():line;if(seen.has(key))return false;seen.add(key);return true}).join('\n')}
+ if(id==='txt-reverse'){const mode=val('reverseMode')||'chars';out=mode==='lines'?s.split(/\r?\n/).reverse().join('\n'):mode==='words'?s.trim().split(/\s+/).reverse().join(' '):Array.from(s).reverse().join('')}
+ download(new Blob([out],{type:'text/plain;charset=utf-8'}),(id||'text')+'-result.txt','text/plain');return 'Text tool completed. Your result is ready below.';
+}
 async function runTool(){const btn=document.getElementById('run'),status=document.getElementById('status');btn.disabled=true;status.textContent='Working…';try{const id=active[0],files=[...(document.getElementById('files')?.files||[])];let doc,out,name=files[0]?.name?files[0].name.replace(/\.pdf$/i,'')+'-processed.pdf':'quicktools24.pdf';
 if(id.startsWith('img-')){if(!files[0])throw Error('Choose an image first.');status.textContent=await processImage(id,files[0]);return}
 if(id.startsWith('txt-')){if(id!=='txt-count'&&!val('txt'))throw Error('Enter some text first.');status.textContent=await processText(id);return}
