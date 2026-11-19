@@ -82,8 +82,8 @@ async function publish(p,token) {
   const entries=[];
   for(const item of listing.filter(x=>x.type==="file"&&x.name.endsWith(".html")&&x.name!=="index.html")){
     const file=await gh("/repos/"+OWNER+"/"+REPO+"/contents/"+item.path+"?ref="+encodeURIComponent(branch),token);
-    const raw=dec.decode(Uint8Array.from(atob(file.content.replace(/\\n/g,"")),ch=>ch.charCodeAt(0)));
-    const t=(raw.match(/<h1[^>]*>([\\s\\S]*?)<\\/h1>/i)||[])[1]||item.name.replace(/\\.html$/,"").replace(/-/g," ");
+    const raw=dec.decode(Uint8Array.from(atob(file.content.replace(/\n/g,"")),ch=>ch.charCodeAt(0)));
+    const t=(()=>{const a=raw.indexOf("<h1"),b=raw.indexOf(">",a),e=raw.indexOf("</h1>",b);return a>=0&&b>=0&&e>b?raw.slice(b+1,e):item.name.slice(0,-5).replace(/-/g," ")})();
     const d=(raw.match(/<meta name="description" content="([^"]*)"/i)||[])[1]||"Read this practical guide on QuickTools24.";
     entries.push('<article><h2><a href="/articles/'+item.name+'">'+t+'</a></h2><p>'+d+'</p></article>');
   }
@@ -131,7 +131,7 @@ export default {
   if(request.method==="GET"&&path==="/api/me"){const s=await session(request,env);return json(s?{authenticated:true,login:s.login}:{authenticated:false});}
   if(request.method==="GET"&&path==="/api/articles"){
    const s=await session(request,env);if(!s)return json({error:"Please sign in again."},401);
-   try{const files=await gh("/repos/"+OWNER+"/"+REPO+"/contents/articles?ref="+BASE,s.accessToken);const articles=files.filter(x=>x.type==="file"&&x.name.endsWith(".html")&&x.name!=="index.html").map(x=>({slug:x.name.replace(/\\.html$/,""),title:x.name.replace(/\\.html$/,"").replace(/-/g," "),url:SITE+"/articles/"+x.name}));return json({category:"SEO Guides",articles});}catch(e){return json({error:e.message},502);}
+   try{const files=await gh("/repos/"+OWNER+"/"+REPO+"/contents/articles?ref="+BASE,s.accessToken);const articles=files.filter(x=>x.type==="file"&&x.name.endsWith(".html")&&x.name!=="index.html").map(x=>({slug:x.name.slice(0,-5),title:x.name.slice(0,-5).replace(/-/g," "),url:SITE+"/articles/"+x.name}));return json({category:"SEO Guides",articles});}catch(e){return json({error:e.message},502);}
   }
   if(request.method==="GET"&&path==="/api/analytics"){
    const s=await session(request,env);if(!s)return json({error:"Please sign in again."},401);
