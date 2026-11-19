@@ -361,17 +361,17 @@ pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/p
 const {PDFDocument, StandardFonts, rgb, degrees}=PDFLib;
 const tools=[
 ['merge','Merge PDF','Combine multiple PDF files into one.','📚',2],
-['split','Split PDF','Save each page as a separate PDF.','✂️',1],
+['split','Split PDF','Split by page count, even/odd pages, file size or custom ranges.','✂️',1],
 ['extract','Extract PDF Pages','Select page numbers and create a new PDF.','📄',1],
 ['delete','Delete PDF Pages','Remove selected pages from a PDF.','🗑️',1],
-['rotate','Rotate PDF Pages','Rotate all pages or selected pages.','🔄',1],
+['rotate','Rotate PDF Pages','Rotate each page separately or rotate the full document.','🔄',1],
 ['reorder','Reorder PDF Pages','Set a new page order, e.g. 3,1,2.','↕️',1],
-['addblank','Add Blank Pages','Insert blank pages into a PDF.','➕',1],
-['crop','Crop PDF Pages','Set crop margins in points.','▣',1],
-['watermark','Add PDF Watermark','Place a text watermark on every page.','💧',1],
-['pagenum','Add Page Numbers','Number pages at the bottom.','🔢',1],
-['text','Add Text to PDF','Add a text note to every page.','✍️',1],
-['signature','Add Signature Text','Place a typed signature on each page.','🖊️',1],
+['addblank','Insert Blank Pages','Insert blank pages before, after, at the start or at the end.','➕',1],
+['crop','Crop PDF Pages','Drag with your finger or mouse to crop each page visually.','▣',1],
+['watermark','Add PDF Watermark','Add text or image watermarks with position, opacity and page range.','💧',1],
+['pagenum','Add Page Numbers','Choose position, number pattern, font size and starting page.','🔢',1],
+['text','Add Text to PDF','Place text at a chosen position, size, colour and page range.','✍️',1],
+['signature','Add Signature','Place a typed signature at a chosen position and on selected pages.','🖊️',1],
 ['metadata','Edit PDF Metadata','Change title, author and subject.','🏷️',1],
 ['inspect','PDF Information','View page count, size and metadata.','🔍',1],
 ['textout','Extract PDF Text','Download selectable text as a TXT file.','📝',1],
@@ -598,7 +598,7 @@ function setupToolFilePreview(id){
      if(id==='rotate'||id==='rotateone'){
       card.classList.add('q-rotate-card');const rot=document.createElement('button');rot.type='button';rot.className='q-page-rotate';rot.textContent='↻ 90°';rot.onclick=ev=>{ev.preventDefault();ev.stopPropagation();window.quickRotateMap[n-1]=((window.quickRotateMap[n-1]||0)+90)%360;rot.textContent='↻ '+(window.quickRotateMap[n-1]||360)+'°';card.classList.add('selected')};card.appendChild(rot);
      }
-     if(selectionTools&&fi===0){card.addEventListener('click',()=>{if(id==='reorder'){const at=order.indexOf(n);if(at>=0){order.splice(at,1);card.classList.remove('selected')}else{order.push(n);card.classList.add('selected')}if(orderField)orderField.value=order.join(',')}else{if(selected.has(n)){selected.delete(n);card.classList.remove('selected')}else{selected.add(n);card.classList.add('selected')}if(pagesField)pagesField.value=[...selected].sort((x,y)=>x-y).join(',')}})}else if(id!=='crop'){card.disabled=true;card.classList.add('page-thumb-static')}
+     if(selectionTools&&fi===0){card.addEventListener('click',()=>{if(id==='reorder'){const at=order.indexOf(n);if(at>=0){order.splice(at,1);card.classList.remove('selected')}else{order.push(n);card.classList.add('selected')}if(orderField)orderField.value=order.join(',')}else{if(selected.has(n)){selected.delete(n);card.classList.remove('selected')}else{selected.add(n);card.classList.add('selected')}if(pagesField)pagesField.value=[...selected].sort((x,y)=>x-y).join(',')}})}else if(id!=='crop'&&id!=='rotate'&&id!=='rotateone'){card.disabled=true;card.classList.add('page-thumb-static')}
      grid.appendChild(card);
     }
    }
@@ -644,7 +644,7 @@ if(id==='txt-sort')out=s.split(/\r?\n/).sort((a,b)=>a.localeCompare(b)).join('\n
 if(id==='txt-duplicate')out=[...new Set(s.split(/\r?\n/))].join('\n');
 if(id==='txt-reverse')out=s.split('').reverse().join('');
 download(new Blob([out],{type:'text/plain;charset=utf-8'}),'quicktools24-text.txt','text/plain');return 'Text tool completed. Download is ready.'}
-async function runTool(){const btn=document.getElementById('run'),status=document.getElementById('status');btn.disabled=true;status.textContent='Working…';try{const id=active[0],files=[...(document.getElementById('files')?.files||[])];let doc,out,name='quicktools24.pdf';
+async function runTool(){const btn=document.getElementById('run'),status=document.getElementById('status');btn.disabled=true;status.textContent='Working…';try{const id=active[0],files=[...(document.getElementById('files')?.files||[])];let doc,out,name=files[0]?.name?files[0].name.replace(/\\.pdf$/i,'')+'-processed.pdf':'quicktools24.pdf';
 if(id.startsWith('img-')){if(!files[0])throw Error('Choose an image first.');status.textContent=await processImage(id,files[0]);return}
 if(id.startsWith('txt-')){if(id!=='txt-count'&&!val('txt'))throw Error('Enter some text first.');status.textContent=await processText(id);return}
 if(id==='create'){if(!val('txt').trim())throw Error('Enter some text before creating a PDF.');doc=await PDFDocument.create();const font=await doc.embedFont(StandardFonts.Helvetica);let page=doc.addPage();const lines=val('txt').split(/\r?\n/);let y=page.getHeight()-55;for(const line of lines){if(y<45){page=doc.addPage();y=page.getHeight()-55}page.drawText(line.slice(0,140),{x:45,y,size:12,font});y-=18}out=await doc.save();}
