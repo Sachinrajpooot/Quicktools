@@ -87,14 +87,17 @@ export default {
   if(request.method==="GET"&&path==="/health")return new Response("QuickTools24 Admin Worker is running",{headers:{"content-type":"text/plain; charset=utf-8","cache-control":"no-store"}});
   if(request.method==="GET"&&path==="/admin"){
    const s=await session(request,env);
+   // Render the authenticated dashboard on the server; do not depend on browser JavaScript.
    let page=ADMIN;
    if(s){
-    page=page.replace('<div id="login">','<div id="login" class="hidden">')
+    page=page
+      .replace('<div id="login">','<div id="login" class="hidden" aria-hidden="true">')
       .replace('<div id="editor" class="hidden">','<div id="editor">')
       .replace('<p id="who" class="muted"></p>','<p id="who" class="muted">Signed in as '+esc(s.login)+'</p>')
       .replace('Checking login…','You are securely signed in.');
    }
-   return new Response(page,{headers:{"content-type":"text/html; charset=utf-8","cache-control":"no-store","x-content-type-options":"nosniff","content-security-policy":"default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'"}});
+   const headers={"content-type":"text/html; charset=utf-8","cache-control":"no-store, no-cache, must-revalidate, max-age=0","pragma":"no-cache","x-content-type-options":"nosniff","content-security-policy":"default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'","x-qt-admin-build":"admin-session-render-v2"};
+   return new Response(page,{headers});
   }
   if(request.method==="GET"&&path==="/auth/login"){
    if(!env.GITHUB_CLIENT_ID)return new Response("Missing GITHUB_CLIENT_ID variable.",{status:500});
