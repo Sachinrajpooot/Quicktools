@@ -878,4 +878,18 @@ async function pdfEditorDownload(){if(!pdfEditDoc)return;const btn=document.getE
  document.addEventListener("change",e=>{if(e.target&&e.target.type==="file"&&e.target.files&&e.target.files.length)record();},true);
  document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("button,[role=button]");if(b&&!/back|home|cancel|close/i.test(b.textContent||""))record();},true);
 })();
-</script></body></html>
+</script><style>
+@media(max-width:768px){
+ .q24-mobile-toggle{display:inline-flex!important;align-items:center;justify-content:center;width:44px;height:44px;border:0;border-radius:12px;background:#eef0ff;color:#4f46e5;font-size:28px;font-weight:700;line-height:1;cursor:pointer;margin-left:auto;flex:0 0 auto}
+ header nav:not(.q24-mobile-panel){display:none!important}
+ .q24-mobile-panel{display:none;position:fixed;top:76px;left:14px;right:14px;z-index:99999;padding:14px;background:#fff;border:1px solid #e5e7eb;border-radius:18px;box-shadow:0 16px 45px rgba(15,23,42,.18)}
+ .q24-mobile-panel.q24-open{display:grid;gap:5px}
+ .q24-mobile-panel a{display:block;padding:13px 14px;border-radius:10px;color:#172033;text-decoration:none;font-weight:650}
+ .q24-mobile-panel a:active,.q24-mobile-panel a:hover{background:#eef0ff;color:#4f46e5}
+}
+.q24-mobile-toggle{display:none}
+</style>
+<script>
+(()=>{function setup(){const h=document.querySelector('header');if(!h||document.querySelector('.q24-mobile-toggle'))return;const host=h.querySelector(':scope > div')||h;const b=document.createElement('button');b.className='q24-mobile-toggle';b.type='button';b.setAttribute('aria-label','Open menu');b.setAttribute('aria-expanded','false');b.textContent='☰';const panel=document.createElement('nav');panel.className='q24-mobile-panel';panel.setAttribute('aria-label','Mobile navigation');panel.innerHTML='<a href="/">Home</a><a href="/#tools">All Tools</a><a href="/articles/">Blog &amp; Guides</a><a href="/#about">About</a><a href="/#contact">Contact</a><a href="/#categories">Browse by Category</a>';host.appendChild(b);document.body.appendChild(panel);b.addEventListener('click',()=>{const open=panel.classList.toggle('q24-open');b.textContent=open?'×':'☰';b.setAttribute('aria-expanded',String(open));b.setAttribute('aria-label',open?'Close menu':'Open menu')});panel.addEventListener('click',e=>{if(e.target.closest('a')){panel.classList.remove('q24-open');b.textContent='☰';b.setAttribute('aria-expanded','false')}});document.addEventListener('click',e=>{if(!panel.contains(e.target)&&!b.contains(e.target)){panel.classList.remove('q24-open');b.textContent='☰';b.setAttribute('aria-expanded','false')}})}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup);else setup()})();
+</script>
+</body></html>
