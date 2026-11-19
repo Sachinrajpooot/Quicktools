@@ -874,7 +874,7 @@ async function pdfEditorDownload(){if(!pdfEditDoc)return;const btn=document.getE
  const params=new URLSearchParams(location.search);
  const tool=(params.get("tool")||document.title||"unknown").toLowerCase().replace(/[^a-z0-9_-]/g,"").slice(0,60)||"unknown";
  let sent=false;
- function record(){if(sent)return;sent=true;fetch("/api/track",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({tool}),keepalive:true}).catch(()=>{});}
+ function record(){if(sent)return;sent=true;fetch("https://quicktools24-admin.sachindonmuz.workers.dev/api/track",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({tool}),keepalive:true}).catch(()=>{});}
  document.addEventListener("change",e=>{if(e.target&&e.target.type==="file"&&e.target.files&&e.target.files.length)record();},true);
  document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("button,[role=button]");if(b&&!/back|home|cancel|close/i.test(b.textContent||""))record();},true);
 })();
