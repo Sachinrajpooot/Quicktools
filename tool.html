@@ -869,4 +869,13 @@ async function pdfEditorDownload(){if(!pdfEditDoc)return;const btn=document.getE
 (function(){const c=document.getElementById('signaturePad'),ctx=c.getContext('2d');let drawing=false;ctx.strokeStyle='#111827';ctx.lineWidth=2.5;ctx.lineCap='round';c.addEventListener('pointerdown',e=>{drawing=true;c.setPointerCapture(e.pointerId);const r=c.getBoundingClientRect();ctx.beginPath();ctx.moveTo((e.clientX-r.left)*c.width/r.width,(e.clientY-r.top)*c.height/r.height);});c.addEventListener('pointermove',e=>{if(!drawing)return;const r=c.getBoundingClientRect();ctx.lineTo((e.clientX-r.left)*c.width/r.width,(e.clientY-r.top)*c.height/r.height);ctx.stroke();});['pointerup','pointercancel'].forEach(n=>c.addEventListener(n,()=>drawing=false));})();
 
 </script>
-</body></html>
+<script>
+(function(){
+ const params=new URLSearchParams(location.search);
+ const tool=(params.get("tool")||document.title||"unknown").toLowerCase().replace(/[^a-z0-9_-]/g,"").slice(0,60)||"unknown";
+ let sent=false;
+ function record(){if(sent)return;sent=true;fetch("/api/track",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({tool}),keepalive:true}).catch(()=>{});}
+ document.addEventListener("change",e=>{if(e.target&&e.target.type==="file"&&e.target.files&&e.target.files.length)record();},true);
+ document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("button,[role=button]");if(b&&!/back|home|cancel|close/i.test(b.textContent||""))record();},true);
+})();
+</script></body></html>
