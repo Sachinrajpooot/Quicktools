@@ -569,7 +569,8 @@ let filePreviewRun=0;
 function setupToolFilePreview(id){
  const fileInput=document.getElementById('files');if(!fileInput)return;
  const host=document.createElement('div');host.id='filePreviewArea';host.className='mt-3';(fileInput.closest('label')||fileInput.parentElement).appendChild(host);
- if(id.startsWith('img-')||id==='images'||id.startsWith('txt-')||id==='create')return;
+ if(id.startsWith('txt-')||id==='create')return;
+ if(id.startsWith('img-')||id==='images'){fileInput.addEventListener('change',()=>{host.replaceChildren();[...fileInput.files].forEach(file=>{const row=document.createElement('div');row.className='q-file-info-row';const icon=document.createElement('span');icon.className='q-file-type';icon.textContent='IMG';const name=document.createElement('span');name.textContent=file.name;name.style.cssText='min-width:0;overflow-wrap:anywhere;font-weight:750;font-size:13px';const size=document.createElement('span');size.className='q-file-size';size.textContent=formatBytes(file.size);row.append(icon,name,size);host.appendChild(row)})});return;}
  fileInput.addEventListener('change',async()=>{
   const run=++filePreviewRun;host.replaceChildren();const files=[...fileInput.files];if(!files.length)return;
   window.quickCropRects={};window.quickRotateMap={};
@@ -634,7 +635,7 @@ if(id==='img-resizekb'||id==='img-compress'||id==='img-convert'||id==='img-pngjp
 let blob=await new Promise(resolve=>canvas.toBlob(resolve,mime,quality));
 if(id==='img-resizekb'){const target=Math.max(10,Number(val('targetkb'))||200)*1024;for(let q=.8;q>=.15&&blob.size>target;q-=.1)blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',q))}
 if(id==='img-passport')mime='image/jpeg',blob=await new Promise(resolve=>canvas.toBlob(resolve,mime,.92));
-const ext=mime==='image/png'?'png':mime==='image/webp'?'webp':'jpg';download(await blob.arrayBuffer(),'quicktools24-image.'+ext,mime);
+const ext=mime==='image/png'?'png':mime==='image/webp'?'webp':'jpg',stem=(file.name||'image').replace(/\.[^.]+$/,'');download(await blob.arrayBuffer(),stem+'-processed.'+ext,mime);
 return 'Image processed: '+canvas.width+' × '+canvas.height+' px · '+Math.round(blob.size/1024)+' KB';
 }
 async function processText(id){let s=val('txt'),out=s;if(id==='txt-count'){const words=s.trim()?s.trim().split(/\s+/).length:0;return 'Words: '+words+' | Characters: '+s.length+' | Characters (no spaces): '+s.replace(/\s/g,'').length+' | Lines: '+(s?s.split(/\r?\n/).length:0)+' | Paragraphs: '+(s.trim()?s.trim().split(/\n\s*\n/).length:0)}
