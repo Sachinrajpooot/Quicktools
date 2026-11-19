@@ -5,3 +5,7 @@ preview_urls = false
 
 [vars]
 GITHUB_CLIENT_ID = "Ov23liYBTmFzv7o5RZcq"
+
+[[kv_namespaces]]
+binding = "USAGE_KV"
+id = "6f1e96f513ee4e2c8673e7680b5b592f"
