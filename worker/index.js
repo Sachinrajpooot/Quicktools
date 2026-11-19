@@ -139,10 +139,12 @@ export default {
    const totals={};for(let i=0;i<7;i++){const d=new Date(Date.now()-i*86400000).toISOString().slice(0,10);const raw=await env.USAGE_KV.get("usage:"+d);if(!raw)continue;try{const day=JSON.parse(raw);for(const [name,count] of Object.entries(day))totals[name]=(totals[name]||0)+Number(count||0);}catch{}}
    return json({configured:true,tools:Object.entries(totals).map(([name,uses])=>({name,uses})).sort((a,b)=>b.uses-a.uses)});
   }
+  if(request.method==="OPTIONS"&&path==="/api/track")return new Response(null,{headers:{"access-control-allow-origin":SITE,"access-control-allow-methods":"POST, OPTIONS","access-control-allow-headers":"Content-Type","access-control-max-age":"86400","vary":"Origin"}});
   if(request.method==="POST"&&path==="/api/track"){
-   if(request.headers.get("Origin")!==u.origin)return json({error:"Origin rejected."},403);
-   if(!env.USAGE_KV)return json({ok:false,reason:"analytics-not-configured"},202);
-   try{const p=await request.json(),name=String(p.tool||"unknown").replace(/[^a-z0-9_-]/gi,"").slice(0,60)||"unknown";const day=new Date().toISOString().slice(0,10),key="usage:"+day;const data=JSON.parse(await env.USAGE_KV.get(key)||"{}");data[name]=Math.min(100000000,Number(data[name]||0)+1);await env.USAGE_KV.put(key,JSON.stringify(data),{expirationTtl:60*60*24*400});return json({ok:true});}catch{return json({ok:false},400);}
+   const origin=request.headers.get("Origin");const headers={"content-type":"application/json; charset=utf-8","access-control-allow-origin":SITE,"vary":"Origin","cache-control":"no-store"};
+   if(origin!==SITE)return new Response(JSON.stringify({error:"Origin rejected."}),{status:403,headers});
+   if(!env.USAGE_KV)return new Response(JSON.stringify({ok:false,reason:"analytics-not-configured"}),{status:202,headers});
+   try{const p=await request.json(),name=String(p.tool||"unknown").replace(/[^a-z0-9_-]/gi,"").slice(0,60)||"unknown";const day=new Date().toISOString().slice(0,10),key="usage:"+day;const data=JSON.parse(await env.USAGE_KV.get(key)||"{}");data[name]=Math.min(100000000,Number(data[name]||0)+1);await env.USAGE_KV.put(key,JSON.stringify(data),{expirationTtl:60*60*24*400});return new Response(JSON.stringify({ok:true}),{headers});}catch{return new Response(JSON.stringify({ok:false}),{status:400,headers:{"content-type":"application/json; charset=utf-8","access-control-allow-origin":SITE,"vary":"Origin"}});}
   }
   if(request.method==="POST"&&path==="/api/logout")return new Response('{"ok":true}',{headers:{"content-type":"application/json","Set-Cookie":clear(COOKIE),"cache-control":"no-store"}});
   if(request.method==="POST"&&path==="/api/articles"){
