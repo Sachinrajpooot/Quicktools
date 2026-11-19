@@ -572,47 +572,39 @@ function setupToolFilePreview(id){
  if(id.startsWith('img-')||id==='images'||id.startsWith('txt-')||id==='create')return;
  fileInput.addEventListener('change',async()=>{
   const run=++filePreviewRun;host.replaceChildren();const files=[...fileInput.files];if(!files.length)return;
-  const selectionTools=['extract','delete','rotateone','reorder'].includes(id);
-  const selected=new Set(),order=[];
-  const pagesField=document.getElementById('pages'),orderField=document.getElementById('order');
-  if(pagesField)pagesField.value='';if(orderField)orderField.value='';
+  window.quickCropRects={};window.quickRotateMap={};
+  const info=document.createElement('div');info.className='q-file-info';
+  files.forEach(file=>{const row=document.createElement('div');row.className='q-file-info-row';const icon=document.createElement('span');icon.className='q-file-type';icon.textContent='PDF';const name=document.createElement('span');name.textContent=file.name;name.style.cssText='min-width:0;overflow-wrap:anywhere;font-weight:750;font-size:13px';const size=document.createElement('span');size.className='q-file-size';size.textContent=formatBytes(file.size);row.append(icon,name,size);info.appendChild(row)});host.appendChild(info);
+  const selectionTools=['extract','delete','rotateone','reorder'].includes(id),selected=new Set(),order=[];
+  const pagesField=document.getElementById('pages'),orderField=document.getElementById('order');if(pagesField)pagesField.value='';if(orderField)orderField.value='';
   const note=document.createElement('p');note.className='text-sm muted mt-2';note.textContent='Loading PDF page previews…';host.appendChild(note);
   try{
    let totalPages=0;
-   for(let fileIndex=0;fileIndex<files.length;fileIndex++){
-    if(run!==filePreviewRun)return;
-    const file=files[fileIndex];
-    const pdf=await pdfjsLib.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise;
-    totalPages+=pdf.numPages;
-    const section=document.createElement('section');section.className='page-preview-section mt-3';
-    const title=document.createElement('p');title.className='text-sm font-bold mb-2';title.textContent=(id==='merge'?'PDF '+(fileIndex+1)+' · '+file.name+' — ':'')+pdf.numPages+' page'+(pdf.numPages===1?'':'s');section.appendChild(title);
+   for(let fi=0;fi<files.length;fi++){
+    if(run!==filePreviewRun)return;const pdf=await pdfjsLib.getDocument({data:new Uint8Array(await files[fi].arrayBuffer())}).promise;totalPages+=pdf.numPages;
+    const section=document.createElement('section');section.className='page-preview-section mt-3';const title=document.createElement('p');title.className='text-sm font-bold mb-2';title.textContent=(id==='merge'?'PDF '+(fi+1)+' · '+files[fi].name+' — ':'')+pdf.numPages+' pages';section.appendChild(title);
     const grid=document.createElement('div');grid.className='page-thumb-grid';section.appendChild(grid);host.appendChild(section);
     for(let n=1;n<=pdf.numPages;n++){
-     if(run!==filePreviewRun)return;
-     const page=await pdf.getPage(n),viewport=page.getViewport({scale:.22}),canvas=document.createElement('canvas');
-     canvas.width=Math.max(1,Math.ceil(viewport.width));canvas.height=Math.max(1,Math.ceil(viewport.height));
-     await page.render({canvasContext:canvas.getContext('2d'),viewport}).promise;
+     if(run!==filePreviewRun)return;const page=await pdf.getPage(n),vp=page.getViewport({scale:.25}),canvas=document.createElement('canvas');canvas.width=Math.ceil(vp.width);canvas.height=Math.ceil(vp.height);await page.render({canvasContext:canvas.getContext('2d'),viewport:vp}).promise;
      const card=document.createElement('button');card.type='button';card.className='page-thumb';card.setAttribute('aria-label','Page '+n);
-     card.appendChild(canvas);const label=document.createElement('span');label.textContent='Page '+n;card.appendChild(label);
-     if(selectionTools&&fileIndex===0){
-      card.addEventListener('click',()=>{
-       if(id==='reorder'){
-        const at=order.indexOf(n);if(at>=0){order.splice(at,1);card.classList.remove('selected')}else{order.push(n);card.classList.add('selected')}
-        if(orderField)orderField.value=order.join(',');
-       }else{
-        if(selected.has(n)){selected.delete(n);card.classList.remove('selected')}else{selected.add(n);card.classList.add('selected')}
-        if(pagesField)pagesField.value=[...selected].sort((a,b)=>a-b).join(',');
-       }
-      });
-     }else{card.disabled=true;card.classList.add('page-thumb-static');}
+     if(id==='crop'&&fi===0){
+      const wrap=document.createElement('div');wrap.className='q-crop-wrap';wrap.style.width=canvas.width+'px';wrap.appendChild(canvas);const overlay=document.createElement('canvas');overlay.className='q-crop-overlay';overlay.width=canvas.width;overlay.height=canvas.height;wrap.appendChild(overlay);card.appendChild(wrap);
+      let start=null,rect=null;const draw=()=>{const c=overlay.getContext('2d');c.clearRect(0,0,overlay.width,overlay.height);if(rect){c.fillStyle='rgba(79,70,229,.18)';c.strokeStyle='#4f46e5';c.lineWidth=2;c.fillRect(rect.x,rect.y,rect.w,rect.h);c.strokeRect(rect.x,rect.y,rect.w,rect.h)}};
+      overlay.addEventListener('pointerdown',ev=>{ev.preventDefault();ev.stopPropagation();const r=overlay.getBoundingClientRect();start={x:(ev.clientX-r.left)*overlay.width/r.width,y:(ev.clientY-r.top)*overlay.height/r.height};rect={x:start.x,y:start.y,w:0,h:0};overlay.setPointerCapture(ev.pointerId);draw()});
+      overlay.addEventListener('pointermove',ev=>{if(!start)return;const r=overlay.getBoundingClientRect(),x=(ev.clientX-r.left)*overlay.width/r.width,y=(ev.clientY-r.top)*overlay.height/r.height;rect={x:Math.min(start.x,x),y:Math.min(start.y,y),w:Math.abs(x-start.x),h:Math.abs(y-start.y)};draw()});
+      overlay.addEventListener('pointerup',()=>{if(!start)return;start=null;if(rect&&rect.w>5&&rect.h>5)window.quickCropRects[n]={x:rect.x/overlay.width,y:rect.y/overlay.height,w:rect.w/overlay.width,h:rect.h/overlay.height};else delete window.quickCropRects[n];draw()});
+     }else card.appendChild(canvas);
+     const label=document.createElement('span');label.textContent='Page '+n;card.appendChild(label);
+     if(id==='rotate'||id==='rotateone'){
+      card.classList.add('q-rotate-card');const rot=document.createElement('button');rot.type='button';rot.className='q-page-rotate';rot.textContent='↻ 90°';rot.onclick=ev=>{ev.preventDefault();ev.stopPropagation();window.quickRotateMap[n-1]=((window.quickRotateMap[n-1]||0)+90)%360;rot.textContent='↻ '+(window.quickRotateMap[n-1]||360)+'°';card.classList.add('selected')};card.appendChild(rot);
+     }
+     if(selectionTools&&fi===0){card.addEventListener('click',()=>{if(id==='reorder'){const at=order.indexOf(n);if(at>=0){order.splice(at,1);card.classList.remove('selected')}else{order.push(n);card.classList.add('selected')}if(orderField)orderField.value=order.join(',')}else{if(selected.has(n)){selected.delete(n);card.classList.remove('selected')}else{selected.add(n);card.classList.add('selected')}if(pagesField)pagesField.value=[...selected].sort((x,y)=>x-y).join(',')}})}else if(id!=='crop'){card.disabled=true;card.classList.add('page-thumb-static')}
      grid.appendChild(card);
     }
    }
-   if(run===filePreviewRun){
-    note.textContent='PDF preview ready · '+totalPages+' page'+(totalPages===1?'':'s')+' shown below.';
-    if(selectionTools){const hint=document.createElement('p');hint.className='text-xs muted mt-2';hint.textContent=id==='reorder'?'Tap pages in the order you want. Tap again to remove a page from the order.': 'Tap a page thumbnail to select or deselect it.';host.insertBefore(hint,host.firstChild);}
-   }
-  }catch(e){if(run===filePreviewRun){host.replaceChildren();const error=document.createElement('p');error.className='text-sm text-red-600 mt-2';error.textContent='PDF preview could not be loaded: '+(e&&e.message?e.message:'Please check that this is a valid, non-password-protected PDF.');host.appendChild(error);}}
+   note.textContent='PDF preview ready · '+totalPages+' pages shown below.';
+   const hint=document.createElement('p');hint.className='text-xs muted mt-2';hint.textContent=id==='crop'?'Finger ya mouse se har page par crop area drag karke select karein.':(id==='rotate'||id==='rotateone')?'Har page ke upar ↻ 90° dabakar us page ko alag rotate karein.':selectionTools?'Page thumbnail par tap karke select/deselect karein.':'';if(hint.textContent)host.insertBefore(hint,host.children[1]);
+  }catch(e){if(run===filePreviewRun){const error=document.createElement('p');error.className='text-sm text-red-600 mt-2';error.textContent='PDF preview could not be loaded: '+(e?.message||'Please choose a valid, unlocked PDF.');host.appendChild(error)}}
  });
 }
 function closeModal(){document.getElementById('modal').classList.add('hidden')}
