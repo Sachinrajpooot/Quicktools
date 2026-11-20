@@ -159,8 +159,18 @@ export default {
 async function readJsonLimited(request,maxBytes){
   const declared=Number(request.headers.get("Content-Length")||0);
   if(declared>maxBytes)throw new Error("Request is too large.");
-  const raw=await request.text();
-  if(enc.encode(raw).byteLength>maxBytes)throw new Error("Request is too large.");
-  try{return JSON.parse(raw)}catch{throw new Error("Invalid JSON request.")}
+  if(!request.body)throw new Error("Request body is required.");
+  const reader=request.body.getReader(),chunks=[];let total=0;
+  try{
+    while(true){
+      const part=await reader.read();if(part.done)break;
+      total+=part.value.byteLength;
+      if(total>maxBytes){await reader.cancel();throw new Error("Request is too large.");}
+      chunks.push(part.value);
+    }
+  }finally{reader.releaseLock();}
+  const bytes=new Uint8Array(total);let offset=0;
+  for(const chunk of chunks){bytes.set(chunk,offset);offset+=chunk.byteLength;}
+  try{return JSON.parse(dec.decode(bytes))}catch{throw new Error("Invalid JSON request.");}
 }
 function urlParam(u,k){return u.searchParams.get(k)||"";}
