@@ -19,6 +19,8 @@ The repository's latest deployment history shows a GitHub Pages deployment workf
 
 Recommended public-site headers: `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()`, and HSTS after confirming HTTPS is enforced on the public hostname.
 
+The site currently pins PDF.js 3.11.174. The upstream PDF.js release line has advanced to 6.5.438, so this dependency needs a dedicated major-version migration. Do not replace the CDN URLs blindly: the current code expects the older global build and worker filename, while newer releases use module builds and have API changes. Migrate the loader and worker together, then run PDF merge/split/preview/editor/raster regression tests across Android and desktop. The current PDF.js calls set `isEvalSupported: false` to disable eval-based font support in the pinned version.
+
 A site-wide Content Security Policy is intentionally not enabled yet. The current pages use inline scripts and third-party CDN dependencies (including a dynamic background-removal module). A strict CSP added without a dependency inventory would break tools. The safer long-term path is to self-host and pin dependencies, remove inline script handlers, then roll out CSP in report-only mode before enforcement.
 
 ## Manual Cloudflare/GitHub controls still required
