@@ -1,0 +1,18 @@
+{
+  "id": "/",
+  "name": "QuickTools24 - PDF & Image Tools",
+  "short_name": "QuickTools24",
+  "description": "Free PDF, image and everyday tools from QuickTools24.",
+  "lang": "en-IN",
+  "start_url": "/?source=android-app",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f7fb",
+  "theme_color": "#4f46e5",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    { "src": "/favicon-96x96.png", "sizes": "96x96", "type": "image/png", "purpose": "any" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
