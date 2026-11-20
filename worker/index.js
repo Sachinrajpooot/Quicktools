@@ -7,7 +7,7 @@ const COOKIE = "__Host-qt_admin";
 const STATE = "__Host-qt_state";
 const enc = new TextEncoder();
 const dec = new TextDecoder();
-const json = (data, status) => new Response(JSON.stringify(data), {status: status || 200, headers: {"content-type":"application/json; charset=utf-8","cache-control":"no-store"}});
+const json = (data, status) => new Response(JSON.stringify(data), {status: status || 200, headers: {"content-type":"application/json; charset=utf-8","cache-control":"no-store","x-content-type-options":"nosniff","referrer-policy":"no-referrer","x-frame-options":"DENY"}});
 function getCookie(req, name) {
   const part = (req.headers.get("Cookie") || "").split(";").map(x => x.trim()).find(x => x.startsWith(name + "="));
   return part ? part.slice(name.length + 1) : "";
@@ -68,10 +68,11 @@ const ADMIN = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta 
 async function publish(p,token) {
   const slug=slugify(p.slug||p.title),title=String(p.title||"").trim().slice(0,100),description=String(p.description||"").trim().slice(0,180),body=String(p.body||"").trim();
   if(!slug||!title||title.length<8||description.length<40||body.length<300)throw new Error("Title 8+, description 40+ and article content 300+ characters required.");
+  const path="articles/"+slug+".html";
+  try{await gh("/repos/"+OWNER+"/"+REPO+"/contents/"+path+"?ref="+encodeURIComponent(BASE),token);throw new Error("This article URL already exists. Choose a different slug to avoid replacing an existing article.");}catch(e){if(!String(e.message).includes("Not Found"))throw e;}
   const branch="admin/article-"+slug+"-"+Date.now();
   const main=await gh("/repos/"+OWNER+"/"+REPO+"/git/ref/heads/"+BASE,token);
   await gh("/repos/"+OWNER+"/"+REPO+"/git/refs",token,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({ref:"refs/heads/"+branch,sha:main.object.sha})});
-  const path="articles/"+slug+".html";
   await gh("/repos/"+OWNER+"/"+REPO+"/contents/"+path,token,{method:"PUT",headers:{"content-type":"application/json"},body:JSON.stringify({message:"Add SEO article: "+title,content:b64utf8(articlePage({title,description,slug,body})),branch})});
   const sm=await gh("/repos/"+OWNER+"/"+REPO+"/contents/sitemap.xml?ref="+encodeURIComponent(branch),token);
   const bytes=Uint8Array.from(atob(sm.content.replace(/\n/g,"")),c=>c.charCodeAt(0)); let xml=dec.decode(bytes);
@@ -109,7 +110,7 @@ export default {
       .replace('<p id="who" class="muted"></p>','<p id="who" class="muted">Signed in as '+esc(s.login)+'</p>')
       .replace('Checking login…','You are securely signed in.');
    }
-   const headers={"content-type":"text/html; charset=utf-8","cache-control":"no-store, no-cache, must-revalidate, max-age=0","pragma":"no-cache","x-content-type-options":"nosniff","content-security-policy":"default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'","x-qt-admin-build":"admin-session-render-v2"};
+   const headers={"content-type":"text/html; charset=utf-8","cache-control":"no-store, no-cache, must-revalidate, max-age=0","pragma":"no-cache","x-content-type-options":"nosniff","x-frame-options":"DENY","referrer-policy":"no-referrer","permissions-policy":"camera=(), microphone=(), geolocation=()","strict-transport-security":"max-age=15552000","content-security-policy":"default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'","x-qt-admin-build":"admin-session-render-v2"};
    return new Response(page,{headers});
   }
   if(request.method==="GET"&&path==="/auth/login"){
@@ -141,18 +142,35 @@ export default {
   }
   if(request.method==="OPTIONS"&&path==="/api/track")return new Response(null,{headers:{"access-control-allow-origin":SITE,"access-control-allow-methods":"POST, OPTIONS","access-control-allow-headers":"Content-Type","access-control-max-age":"86400","vary":"Origin"}});
   if(request.method==="POST"&&path==="/api/track"){
-   const origin=request.headers.get("Origin");const headers={"content-type":"application/json; charset=utf-8","access-control-allow-origin":SITE,"vary":"Origin","cache-control":"no-store"};
+   const origin=request.headers.get("Origin");const headers={"content-type":"application/json; charset=utf-8","access-control-allow-origin":SITE,"vary":"Origin","cache-control":"no-store","x-content-type-options":"nosniff","referrer-policy":"no-referrer"};
    if(origin!==SITE)return new Response(JSON.stringify({error:"Origin rejected."}),{status:403,headers});
    if(!env.USAGE_KV)return new Response(JSON.stringify({ok:false,reason:"analytics-not-configured"}),{status:202,headers});
-   try{const p=await request.json(),name=String(p.tool||"unknown").replace(/[^a-z0-9_-]/gi,"").slice(0,60)||"unknown";const day=new Date().toISOString().slice(0,10),key="usage:"+day;const data=JSON.parse(await env.USAGE_KV.get(key)||"{}");data[name]=Math.min(100000000,Number(data[name]||0)+1);await env.USAGE_KV.put(key,JSON.stringify(data),{expirationTtl:60*60*24*400});return new Response(JSON.stringify({ok:true}),{headers});}catch{return new Response(JSON.stringify({ok:false}),{status:400,headers:{"content-type":"application/json; charset=utf-8","access-control-allow-origin":SITE,"vary":"Origin"}});}
+   try{if(!request.headers.get("content-type")?.toLowerCase().startsWith("application/json"))return new Response(JSON.stringify({error:"JSON required."}),{status:415,headers});const p=await readJsonLimited(request,1024),name=String(p.tool||"").replace(/[^a-z0-9_-]/gi,"").slice(0,60);const allowed=new Set(["merge","split","extract","delete","rotate","reorder","addblank","crop","watermark","pagenum","text","signature","metadata","inspect","textout","images","render","grayscale","compress","form","flatten","header","rotateone","create","pdf-editor","img-resizekb","img-resize","img-crop","img-convert","img-bw","img-rotate","img-watermark","img-compress","img-flip","img-passport","img-pngjpg","img-jpgpng","bg-remove","txt-count","txt-case","txt-clean","txt-sort","txt-duplicate","txt-reverse"]);if(!allowed.has(name))return new Response(JSON.stringify({error:"Unknown tool."}),{status:400,headers});const day=new Date().toISOString().slice(0,10),key="usage:"+day;const data=JSON.parse(await env.USAGE_KV.get(key)||"{}");data[name]=Math.min(100000000,Number(data[name]||0)+1);await env.USAGE_KV.put(key,JSON.stringify(data),{expirationTtl:60*60*24*400});return new Response(JSON.stringify({ok:true}),{headers});}catch(e){return new Response(JSON.stringify({ok:false,error:e.message||"Invalid request."}),{status:400,headers});}
   }
-  if(request.method==="POST"&&path==="/api/logout")return new Response('{"ok":true}',{headers:{"content-type":"application/json","Set-Cookie":clear(COOKIE),"cache-control":"no-store"}});
+  if(request.method==="POST"&&path==="/api/logout"){if(request.headers.get("Origin")!==u.origin)return json({error:"Origin rejected."},403);return new Response('{"ok":true}',{headers:{"content-type":"application/json","Set-Cookie":clear(COOKIE),"cache-control":"no-store","x-content-type-options":"nosniff"}});}
   if(request.method==="POST"&&path==="/api/articles"){
    if(request.headers.get("Origin")!==u.origin)return json({error:"Origin rejected."},403);
    const s=await session(request,env);if(!s)return json({error:"Please sign in again."},401);
-   try{return json(await publish(await request.json(),s.accessToken),201)}catch(e){return json({error:e.message||"Could not create article."},400);}
+   try{if(!request.headers.get("content-type")?.toLowerCase().startsWith("application/json"))return json({error:"JSON required."},415);return json(await publish(await readJsonLimited(request,40000),s.accessToken),201)}catch(e){return json({error:e.message||"Could not create article."},400);}
   }
   return new Response("Not found",{status:404});
  }
 };
+async function readJsonLimited(request,maxBytes){
+  const declared=Number(request.headers.get("Content-Length")||0);
+  if(declared>maxBytes)throw new Error("Request is too large.");
+  if(!request.body)throw new Error("Request body is required.");
+  const reader=request.body.getReader(),chunks=[];let total=0;
+  try{
+    while(true){
+      const part=await reader.read();if(part.done)break;
+      total+=part.value.byteLength;
+      if(total>maxBytes){await reader.cancel();throw new Error("Request is too large.");}
+      chunks.push(part.value);
+    }
+  }finally{reader.releaseLock();}
+  const bytes=new Uint8Array(total);let offset=0;
+  for(const chunk of chunks){bytes.set(chunk,offset);offset+=chunk.byteLength;}
+  try{return JSON.parse(dec.decode(bytes))}catch{throw new Error("Invalid JSON request.");}
+}
 function urlParam(u,k){return u.searchParams.get(k)||"";}
