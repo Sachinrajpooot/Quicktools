@@ -775,7 +775,7 @@ async function q24ValidateFiles(id,files){
  }
  if(id==='merge'&&files.length<2)throw new Error('Choose at least two PDF files to merge.');
  const total=files.reduce((n,f)=>n+f.size,0);if(id==='merge'&&total>Q24_LIMITS.mergeTotal)throw new Error('Combined PDFs exceed the 60 MB merge limit.');
- for(const f of files){if(f.size>Q24_LIMITS.pdfFile)throw new Error('Each PDF must be 40 MB or smaller: '+f.name);const head=new Uint8Array(await f.slice(0,1024).arrayBuffer());if(!q24PdfHeader(head))throw new Error('This file does not appear to be a valid PDF: '+f.name);}
+ for(const f of files){if(f.size>Q24_LIMITS.pdfFile)throw new Error('Each PDF must be 25 MB or smaller: '+f.name);const head=new Uint8Array(await f.slice(0,1024).arrayBuffer());if(!q24PdfHeader(head))throw new Error('This file does not appear to be a valid PDF: '+f.name);}
 }
 async function fileBytes(file){return new Uint8Array(await file.arrayBuffer())}
 async function loadPdf(file){if(file.size>Q24_LIMITS.pdfFile)throw new Error('PDF files must be 25 MB or smaller.');const bytes=await fileBytes(file);if(!q24PdfHeader(bytes))throw new Error('This file does not appear to be a valid PDF.');const doc=await PDFDocument.load(bytes,{ignoreEncryption:false});if(doc.getPageCount()>Q24_LIMITS.pdfPages)throw new Error('This PDF has more than 300 pages. Split it into smaller files first.');return doc}
