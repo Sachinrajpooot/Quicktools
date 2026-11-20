@@ -10,6 +10,11 @@
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#4f46e5">
 <link rel="canonical" href="https://quicktools24.in/">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="QuickTools24">
 <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Quick Tools 24","alternateName":["QuickTools24","Quick Tool 24","Quick Tools","quicktools24.in"],"url":"https://quicktools24.in/"}</script>
@@ -409,4 +414,7 @@ async function pdfEditorDownload(){if(!pdfEditDoc)return;const btn=document.getE
 </style>
 <script>
 (()=>{function addFooter(){if(document.querySelector('.q24-site-footer'))return;const f=document.createElement('footer');f.className='q24-site-footer';f.innerHTML='<div class="q24-footer-brand">Quick<span>Tools</span>24</div><p class="q24-footer-desc">Free online PDF, image and everyday tools. Fast, simple and privacy-friendly — process your files directly in your browser.</p><nav class="q24-footer-links" aria-label="Footer navigation"><a href="/">Home</a><a href="/#tools">All Tools</a><a href="/articles/">Blog &amp; Guides</a><a href="/#about">About Us</a><a href="/#contact">Contact</a><a href="/sitemap.xml">Sitemap</a></nav><div class="q24-footer-cats"><a href="/#pdf-tools">PDF Tools</a><a href="/#image-tools">Image Tools</a><a href="/#converters">Converters</a><a href="/#text-tools">Text Tools</a><a href="/#calculators">Calculators</a></div><div class="q24-footer-copy">© '+new Date().getFullYear()+' QuickTools24. All rights reserved.</div>';document.body.appendChild(f)}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addFooter);else addFooter()})();
-</script></body></html>
+</script><script>
+if ("serviceWorker" in navigator) { window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {})); }
+</script>
+</body></html>
