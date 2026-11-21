@@ -338,10 +338,10 @@ body{background:#f5f7fb;color:#172033} .tool{background:white;border:1px solid #
  <p class="muted text-sm mb-4">Last updated: 18 November 2026</p>
  <div class="space-y-3 text-sm">
   <h3 class="font-bold">How files are processed</h3><p class="muted">The PDF and image tools on this version are designed to process selected files locally in your browser. The website code does not intentionally upload the contents of your selected documents to a QuickTools24 server. Keep in mind that the page loads libraries and styling from third-party content delivery networks, which may receive normal connection information such as your IP address.</p>
-  <h3 class="font-bold">Information you choose to send</h3><p class="muted">If you contact us, your email application opens with a message addressed to our support email. Sending that message is handled by your email provider, not stored by this website. You may also contact us by phone.</p>
-  <h3 class="font-bold">Cookies and analytics</h3><p class="muted">This version does not intentionally set analytics or advertising cookies. Your browser or third-party services used to load site resources may handle technical data under their own policies.</p>
+  <h3 class="font-bold">Information you choose to send</h3><p class="muted">If you contact us, your email application opens with a message addressed to our support email. Sending that message is handled by your email provider.</p>
+  <h3 class="font-bold">Analytics, advertising and cookies</h3><p class="muted">QuickTools24 may use Google Analytics to understand site usage. If advertising is enabled or displayed, advertising providers such as Google may use cookies or similar technologies to serve and measure ads. These services may receive technical information such as IP address, browser/device details, page requests, cookie identifiers and usage or ad-interaction data under their own policies. You can manage cookies in your browser and review Google privacy and ad settings.</p>
   <h3 class="font-bold">Children and security</h3><p class="muted">Do not submit sensitive documents on a shared or untrusted device. Close the page and clear downloaded files when appropriate. Contact us if you have a privacy question.</p>
-  <h3 class="font-bold">Contact</h3><p class="muted">Email: <a class="text-indigo-700 underline" href="mailto:sachindonmuz@gmail.com">sachindonmuz@gmail.com</a> · Phone: <a class="text-indigo-700 underline" href="tel:+918969674232">+91 8969674232</a></p>
+  <h3 class="font-bold">Contact</h3><p class="muted">Email: <a class="text-indigo-700 underline" href="mailto:sachindonmuz@gmail.com">sachindonmuz@gmail.com</a></p>
  </div>
 </section>
 <section id="terms" class="bg-white border rounded-2xl p-6 md:p-8 mb-10">
@@ -536,7 +536,7 @@ function setToolSeo(tool,id){
  setMeta('meta[name="keywords"]','keywords',detail[2]+', QuickTools24');
  setMeta('meta[property="og:title"]','og:title',title);setMeta('meta[property="og:description"]','og:description',description);setMeta('meta[property="og:url"]','og:url',location.href);
  setMeta('meta[name="twitter:title"]','twitter:title',title);setMeta('meta[name="twitter:description"]','twitter:description',description);
- const canonical=document.querySelector('link[rel="canonical"]');if(canonical)canonical.href='https://quicktools24.in'+toolPageUrl(id);
+ let canonical=document.querySelector('link[rel="canonical"]');if(!canonical){canonical=document.createElement('link');canonical.rel='canonical';document.head.appendChild(canonical);}canonical.href='https://quicktools24.in'+toolPageUrl(id);
  const heading=document.getElementById('toolSeoHeading');if(!heading)return;
  heading.textContent=detail[0];
  document.getElementById('toolSeoIntro').textContent=detail[1]+' Select your file or enter text, use the available options and download the result. This tool runs in your browser; processing speed depends on your device and file size.';
