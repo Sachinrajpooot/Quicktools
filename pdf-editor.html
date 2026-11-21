@@ -79,7 +79,17 @@ body{background:#eef1f6;color:#202938}
 }
 </style><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6462138886231010"
      crossorigin="anonymous"></script>
-</head><body>
+<style>
+/* Mobile usability and accessible tap targets */
+button,.btn,.file-picker-shell,.tool-card-action,.toolcard{min-height:44px}
+button,.btn,a{touch-action:manipulation}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #a5b4fc;outline-offset:2px}
+@media(max-width:640px){
+ input:not([type=checkbox]):not([type=radio]),select,textarea{font-size:16px;max-width:100%}
+ button,.btn,.file-picker-shell{min-height:46px}
+ .tool-workspace-inner{padding:16px}
+}
+</style></head><body>
 <header class="top"><a class="brand" href="/">⚡ QuickTools24</a><div class="top-actions"><button id="openBtn">Open PDF</button><button id="undoBtn" disabled>↶ Undo</button><button id="redoBtn" disabled>↷ Redo</button><button class="primary" id="saveBtn" disabled>Download PDF</button></div><input id="file" type="file" accept="application/pdf" hidden></header>
 <h1 style="font-size:1.5rem;font-weight:800;padding:8px 16px;color:#172554">Free Online PDF Editor</h1>
 <div class="layout">
