@@ -58,7 +58,8 @@ const imageTools=[
 ['img-flip','Flip Image','Flip a photo horizontally or vertically.','↔️',1],
 ['img-passport','Passport Photo Maker','Create a standard 3.5 × 4.5 cm photo canvas.','🪪',1],
 ['img-pngjpg','PNG to JPG','Convert a PNG image to JPG.','🖼️',1],
-['img-jpgpng','JPG to PNG','Convert a JPG image to PNG.','🖼️',1]
+['img-jpgpng','JPG to PNG','Convert a JPG image to PNG.','🖼️',1],
+['bg-remove','AI Background Remover','Remove photo backgrounds automatically, preview transparent cutouts and download HD PNGs.','✂️',1]
 ];
 const textTools=[
 ['txt-count','Word & Character Counter','Count words, characters, lines and paragraphs.','🔢',0],
@@ -70,7 +71,10 @@ const textTools=[
 ];
 
 const allTools=[...tools,...imageTools,...textTools];
-function card(t){const cat=t[0].startsWith('img-')||t[0]==='images'?'Image':t[0].startsWith('txt-')?'Text':'PDF';const href=t[0]==='pdf-editor'?'/pdf-editor.html':'/tool.html?tool='+encodeURIComponent(t[0]);return '<a class="toolcard" href="'+href+'"><div class="text-2xl mb-2">'+t[3]+'</div><div class="font-extrabold">'+t[1]+'</div><div class="text-xs muted mt-1">'+t[2]+'</div><div class="text-xs font-bold text-indigo-700 mt-3">Open tool →</div></a>'}
+const toolPagePaths={"merge":"pdf-merger","split":"pdf-splitter","extract":"extract-pdf-pages","delete":"delete-pdf-pages","rotate":"rotate-pdf-pages","reorder":"reorder-pdf-pages","addblank":"add-blank-pages-to-pdf","crop":"crop-pdf-pages","watermark":"add-pdf-watermark","pagenum":"add-page-numbers-to-pdf","text":"add-text-to-pdf","signature":"add-signature-to-pdf","metadata":"edit-pdf-metadata","inspect":"pdf-information","textout":"extract-pdf-text","images":"images-to-pdf","render":"pdf-to-images","grayscale":"grayscale-pdf","compress":"pdf-compressor","form":"fill-pdf-form","flatten":"flatten-pdf-forms","header":"add-pdf-header-footer","rotateone":"rotate-selected-pdf-pages","create":"create-pdf-from-text","pdf-editor":"pdf-editor","img-resizekb":"photo-size-reducer","img-resize":"image-resizer","img-crop":"image-cropper","img-convert":"image-format-converter","img-bw":"black-white-photo","img-rotate":"rotate-image","img-watermark":"add-image-watermark","img-compress":"image-compressor","img-flip":"flip-image","img-passport":"passport-photo-maker","img-pngjpg":"png-to-jpg","img-jpgpng":"jpg-to-png","bg-remove":"ai-background-remover","txt-count":"word-character-counter","txt-case":"text-case-converter","txt-clean":"clean-text","txt-sort":"sort-text-lines","txt-duplicate":"remove-duplicate-lines","txt-reverse":"reverse-text"};
+function toolPageUrl(id){return '/'+(toolPagePaths[id]||('tool.html?tool='+encodeURIComponent(id)));}
+
+function card(t){const cat=t[0].startsWith('img-')||t[0]==='images'?'Image':t[0].startsWith('txt-')?'Text':'PDF';const href=toolPageUrl(t[0]);return '<a class="toolcard" href="'+href+'"><div class="text-2xl mb-2">'+t[3]+'</div><div class="font-extrabold">'+t[1]+'</div><div class="text-xs muted mt-1">'+t[2]+'</div><div class="text-xs font-bold text-indigo-700 mt-3">Open tool →</div></a>'}
 document.getElementById('pdfGrid').innerHTML=allTools.filter(t=>!t[0].startsWith('img-')&&!t[0].startsWith('txt-')&&t[0]!=='bg-remove').map(card).join('');
 document.getElementById('imageGrid').innerHTML=allTools.filter(t=>t[0].startsWith('img-')||t[0]==='images'||t[0]==='bg-remove').map(card).join('');
 document.getElementById('textGrid').innerHTML=textTools.map(card).join('');
@@ -89,4 +93,4 @@ function plCalc(){let c=num('plCost'),s=num('plSell'),d=s-c;if(c<=0)return out('
 function avgCalc(){let a=document.getElementById('avgNums').value.split(',').map(x=>Number(x.trim()));if(!a.length||a.some(x=>!Number.isFinite(x)))return out('avgOut','Enter comma-separated numbers.');out('avgOut','Average: '+fmt(a.reduce((x,y)=>x+y,0)/a.length))}
 function ageCalc(){let d=new Date(document.getElementById('dob').value);if(!document.getElementById('dob').value||isNaN(d))return out('ageOut','Choose your date of birth.');let n=new Date(),y=n.getFullYear()-d.getFullYear(),m=n.getMonth()-d.getMonth(),day=n.getDate()-d.getDate();if(day<0){m--;day+=new Date(n.getFullYear(),n.getMonth(),0).getDate()}if(m<0){y--;m+=12}out('ageOut',y+' years, '+m+' months, '+day+' days')}
 loadUnits();
-</script></body></html>
+</script><footer style="max-width:1180px;margin:30px auto;padding:24px;text-align:center;border-top:1px solid #e5eaf4;font-size:13px"><a href="/">Home</a> · <a href="/privacy-policy.html">Privacy Policy</a> · <a href="/terms-of-use.html">Terms of Use</a> · <a href="/contact.html">Contact</a></footer></body></html>
