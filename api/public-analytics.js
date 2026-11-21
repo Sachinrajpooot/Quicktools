@@ -108,10 +108,10 @@ module.exports = async function handler(req, res) {
       }),
       googlePost("https://www.googleapis.com/webmasters/v3/sites/" + encodeURIComponent(siteUrl) + "/searchAnalytics/query", token, {
         startDate, endDate
-      }),
+      }).catch(error => ({ __error: error.message })),
       googlePost("https://www.googleapis.com/webmasters/v3/sites/" + encodeURIComponent(siteUrl) + "/searchAnalytics/query", token, {
         startDate, endDate, dimensions: ["page"], rowLimit: 5
-      })
+      }).catch(error => ({ __error: error.message }))
     ]);
 
     const sm = summary.rows && summary.rows[0] ? summary.rows[0].metricValues : [];
@@ -125,10 +125,11 @@ module.exports = async function handler(req, res) {
       status: "ok",
       periodLabel: range,
       updatedAt: new Date().toISOString(),
-      searchConsole: {
+      searchConsole: searchTotal.__error ? null : {
         impressions, clicks, ctr: impressions ? clicks / impressions : 0,
         averagePosition: impressions ? weightedPosition / impressions : null
       },
+      searchConsoleError: searchTotal.__error || searchPages.__error || null,
       analytics: { activeUsers: value(0), sessions: value(1), pageViews: value(2) },
       realtimeActiveUsers: realtime.rows && realtime.rows[0] && realtime.rows[0].metricValues[0] ? Number(realtime.rows[0].metricValues[0].value || 0) : 0,
       topPages: rows(pages, "path", "views"),
