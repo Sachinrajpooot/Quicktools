@@ -847,12 +847,24 @@ async function runBackgroundRemoval(file){
  try{
   const original=await createImageBitmap(file);preview.width=original.width;preview.height=original.height;preview.getContext('2d').drawImage(original,0,0);
   status.textContent='Removing background… Your photo preview is visible.';
-  const mod=await import('https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.5.5/+esm');
-  const result=await mod.removeBackground(file,{output:{format:'image/png',quality:1}});
+  progress.textContent='Loading the background-removal AI model… This may take a little longer the first time.';
+  const mod=await import('https://esm.sh/@imgly/background-removal@1.5.6?bundle');
+  const removeBackground=mod.default||mod.removeBackground;
+  if(typeof removeBackground!=='function')throw new Error('The background-removal engine did not load correctly. Please refresh and try again.');
+  const result=await removeBackground(file,{
+   device:'cpu',
+   model:'isnet_quint8',
+   output:{format:'image/png',quality:1},
+   debug:true,
+   progress:(key,current,total)=>{
+    const pct=total>0?Math.round(current/total*100):0;
+    progress.textContent=key.startsWith('fetch:')?'Downloading AI model… '+pct+'%':key.startsWith('compute:')?'Removing background… '+pct+'%':'Preparing AI model…';
+   }
+  });
   const processed=await createImageBitmap(result);cutout=document.createElement('canvas');cutout.width=original.width;cutout.height=original.height;cutout.getContext('2d').drawImage(processed,0,0,original.width,original.height);
   ready=true;drawPreview();overlay.remove();downloadButton.disabled=false;downloadButton.style.opacity='1';
   heading.textContent='Background removed — preview your result';status.textContent='Background removed successfully. Choose a colour and download your HD PNG.';
- }catch(error){overlay.style.background='#fff';spinner.remove();progress.textContent='Could not remove the background. Please try again with a different photo.';status.textContent='Background removal failed: '+(error&&error.message?error.message:'Please try another image.');throw error}
+ }catch(error){overlay.style.background='#fff';spinner.remove();const detail=error&&error.message?error.message:String(error||'Unknown error');progress.textContent='Background removal could not finish. '+detail;status.textContent='Background removal failed. '+detail+' Please check your internet connection and try again.';throw error}
 }
 async function runTool(){const btn=document.getElementById('run'),status=document.getElementById('status');btn.disabled=true;status.textContent='Checking your files…';try{const id=active[0],files=[...(id==='merge'?(window.q24MergeFiles||document.getElementById('files')?.files||[]):(document.getElementById('files')?.files||[]))];await q24ValidateFiles(id,files);let doc,out,name=files[0]?.name?files[0].name.replace(/\.pdf$/i,'')+'-processed.pdf':'quicktools24.pdf';
 if(id==='bg-remove'){if(!files[0])throw Error('Choose a photo first.');await runBackgroundRemoval(files[0]);return}
