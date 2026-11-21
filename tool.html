@@ -835,36 +835,55 @@ async function runBackgroundRemoval(file){
  const paletteTitle=document.createElement('div');paletteTitle.textContent='Background';paletteTitle.style.cssText='font-size:14px;font-weight:850;color:#172554;margin-bottom:10px';
  const swatches=document.createElement('div');swatches.style.cssText='display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px';
  const colors=[['Transparent','transparent'],['White','#ffffff'],['Black','#111827'],['Red','#ef4444'],['Blue','#2563eb'],['Green','#16a34a'],['Yellow','#facc15'],['Pink','#ec4899'],['Grey','#94a3b8'],['Purple','#8b5cf6'],['Orange','#f97316'],['Navy','#1e3a8a']];
- let selected='transparent',cutout=null,ready=false;
+ let selected='transparent',cutout=null,ready=false,original=null,currentMode='fast';
  const drawPreview=()=>{if(!cutout)return;const c=preview.getContext('2d');c.clearRect(0,0,preview.width,preview.height);if(selected!=='transparent'){c.fillStyle=selected;c.fillRect(0,0,preview.width,preview.height)}c.drawImage(cutout,0,0,preview.width,preview.height)};
  colors.forEach(([name,color])=>{const button=document.createElement('button');button.type='button';button.title=name;button.setAttribute('aria-label',name+' background');button.style.cssText='display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;padding:5px 2px;border:2px solid #e2e8f0;border-radius:10px;background:#fff;font-size:10px;font-weight:700;color:#475569';const dot=document.createElement('span');dot.style.cssText='width:27px;height:27px;border-radius:50%;border:1px solid #cbd5e1;background:'+(color==='transparent'?'repeating-conic-gradient(#d1d5db 0 25%,#fff 0 50%) 50%/10px 10px':color);const label=document.createElement('span');label.textContent=name;button.append(dot,label);button.addEventListener('click',()=>{selected=color;swatches.querySelectorAll('button').forEach(x=>x.style.borderColor='#e2e8f0');button.style.borderColor='#4f46e5';drawPreview()});swatches.appendChild(button);if(color==='transparent')button.style.borderColor='#4f46e5'});
  palette.append(paletteTitle,swatches);layout.append(stage,palette);stage.append(preview,overlay);
  const help=document.createElement('p');help.textContent='Choose a background colour to preview your cutout. Transparent keeps the PNG background clear.';help.style.cssText='font-size:12px;line-height:1.6;color:#64748b;margin:12px 0';
  const downloadButton=document.createElement('button');downloadButton.type='button';downloadButton.className='btn';downloadButton.textContent='Download HD';downloadButton.disabled=true;downloadButton.style.cssText='display:block;width:100%;max-width:360px;min-height:50px;margin:16px auto 0;font-size:15px;opacity:.55';
  downloadButton.addEventListener('click',()=>{if(!ready||!cutout)return;const out=document.createElement('canvas');out.width=preview.width;out.height=preview.height;const c=out.getContext('2d');if(selected!=='transparent'){c.fillStyle=selected;c.fillRect(0,0,out.width,out.height)}c.drawImage(cutout,0,0,out.width,out.height);out.toBlob(blob=>{if(blob)download(blob,'quicktools24-background-removed.png','image/png')},'image/png')});
- panel.append(heading,layout,help,downloadButton);main?.appendChild(panel);
+ const modeBar=document.createElement('div');modeBar.style.cssText='display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:0 0 14px';
+ const modeLabel=document.createElement('strong');modeLabel.textContent='Processing quality:';modeLabel.style.cssText='font-size:13px;color:#334155;margin-right:4px';
+ const fastButton=document.createElement('button');fastButton.type='button';fastButton.textContent='⚡ Fast (Recommended)';fastButton.style.cssText='border:1px solid #4f46e5;background:#eef2ff;color:#3730a3;border-radius:9px;padding:9px 12px;font-size:12px;font-weight:800';
+ const hdButton=document.createElement('button');hdButton.type='button';hdButton.textContent='HD Quality';hdButton.style.cssText='border:1px solid #cbd5e1;background:#fff;color:#334155;border-radius:9px;padding:9px 12px;font-size:12px;font-weight:800';
+ const modeNote=document.createElement('span');modeNote.textContent='Fast mode processes a smaller copy, then restores the original image size.';modeNote.style.cssText='width:100%;font-size:11px;color:#64748b;line-height:1.5';
+ modeBar.append(modeLabel,fastButton,hdButton,modeNote);
+ panel.append(heading,modeBar,layout,help,downloadButton);main?.appendChild(panel);
  if(!document.getElementById('q24BgSpinStyle')){const style=document.createElement('style');style.id='q24BgSpinStyle';style.textContent='@keyframes q24bgspin{to{transform:rotate(360deg)}}@media(max-width:640px){#bgEditor>div:nth-child(2){grid-template-columns:minmax(0,1fr)!important}#bgEditor aside{order:2}#bgEditor aside>div:nth-child(2){grid-template-columns:repeat(6,minmax(0,1fr))!important}}';document.head.appendChild(style)}
- try{
-  const original=await createImageBitmap(file);preview.width=original.width;preview.height=original.height;preview.getContext('2d').drawImage(original,0,0);
-  status.textContent='Removing background… Your photo preview is visible.';
-  progress.textContent='Loading the background-removal AI model… This may take a little longer the first time.';
-  const mod=await import('https://esm.sh/@imgly/background-removal@1.5.6?bundle');
-  const removeBackground=mod.default||mod.removeBackground;
-  if(typeof removeBackground!=='function')throw new Error('The background-removal engine did not load correctly. Please refresh and try again.');
-  const result=await removeBackground(file,{
-   device:'cpu',
-   model:'isnet_quint8',
-   output:{format:'image/png',quality:1},
-   debug:true,
-   progress:(key,current,total)=>{
-    const pct=total>0?Math.round(current/total*100):0;
-    progress.textContent=key.startsWith('fetch:')?'Downloading AI model… '+pct+'%':key.startsWith('compute:')?'Removing background… '+pct+'%':'Preparing AI model…';
+ const setModeButtons=mode=>{currentMode=mode;fastButton.style.borderColor=mode==='fast'?'#4f46e5':'#cbd5e1';fastButton.style.background=mode==='fast'?'#eef2ff':'#fff';hdButton.style.borderColor=mode==='hd'?'#4f46e5':'#cbd5e1';hdButton.style.background=mode==='hd'?'#eef2ff':'#fff'};
+ async function startProcessing(mode){
+  setModeButtons(mode);ready=false;downloadButton.disabled=true;downloadButton.style.opacity='.55';heading.textContent=mode==='fast'?'Removing background — Fast Mode':'Removing background — HD Mode';
+  overlay.style.display='flex';overlay.style.background='#ffffffc9';if(!overlay.contains(spinner))overlay.prepend(spinner);progress.textContent=mode==='fast'?'Preparing a smaller image for faster processing…':'Preparing the original image for HD processing…';status.textContent=mode==='fast'?'Fast Mode: processing a resized copy for quicker results…':'HD Mode: processing the full-resolution photo…';
+  try{
+   if(!original){original=await createImageBitmap(file);preview.width=original.width;preview.height=original.height;preview.getContext('2d').drawImage(original,0,0)}
+   let source=file;
+   if(mode==='fast'){
+    const maxSide=1280,scale=Math.min(1,maxSide/Math.max(original.width,original.height));
+    if(scale<1){const small=document.createElement('canvas');small.width=Math.max(1,Math.round(original.width*scale));small.height=Math.max(1,Math.round(original.height*scale));small.getContext('2d',{alpha:false}).drawImage(original,0,0,small.width,small.height);source=await new Promise((resolve,reject)=>small.toBlob(blob=>blob?resolve(blob):reject(new Error('Could not prepare the fast preview.')),'image/jpeg',.88));}
    }
-  });
-  const processed=await createImageBitmap(result);cutout=document.createElement('canvas');cutout.width=original.width;cutout.height=original.height;cutout.getContext('2d').drawImage(processed,0,0,original.width,original.height);
-  ready=true;drawPreview();overlay.remove();downloadButton.disabled=false;downloadButton.style.opacity='1';
-  heading.textContent='Background removed — preview your result';status.textContent='Background removed successfully. Choose a colour and download your HD PNG.';
- }catch(error){overlay.style.background='#fff';spinner.remove();const detail=error&&error.message?error.message:String(error||'Unknown error');progress.textContent='Background removal could not finish. '+detail;status.textContent='Background removal failed. '+detail+' Please check your internet connection and try again.';throw error}
+   progress.textContent=mode==='fast'?'Loading AI model and removing background…':'Loading AI model for full-resolution removal…';
+   const mod=await import('https://esm.sh/@imgly/background-removal@1.5.6?bundle');
+   const removeBackground=mod.default||mod.removeBackground;
+   if(typeof removeBackground!=='function')throw new Error('The background-removal engine did not load correctly. Please refresh and try again.');
+   const result=await removeBackground(source,{
+    device:'cpu',
+    model:'isnet_quint8',
+    output:{format:'image/png',quality:1},
+    debug:true,
+    progress:(key,current,total)=>{
+     const pct=total>0?Math.round(current/total*100):0;
+     progress.textContent=key.startsWith('fetch:')?'Downloading AI model… '+pct+'%':key.startsWith('compute:')?(mode==='fast'?'Fast mode — removing background… ':'HD mode — removing background… ')+pct+'%':'Preparing AI model…';
+    }
+   });
+   const processed=await createImageBitmap(result);cutout=document.createElement('canvas');cutout.width=original.width;cutout.height=original.height;cutout.getContext('2d').drawImage(processed,0,0,original.width,original.height);
+   ready=true;drawPreview();overlay.style.display='none';downloadButton.disabled=false;downloadButton.style.opacity='1';
+   heading.textContent='Background removed — preview your result';status.textContent=(mode==='fast'?'Fast Mode completed.':'HD Mode completed.')+' Choose a colour and download your PNG.';
+   modeNote.textContent=mode==='fast'?'Fast mode is quicker; choose HD Quality to run the original full-resolution photo.':'HD mode uses the original photo for maximum detail and may take longer.';
+  }catch(error){overlay.style.display='flex';overlay.style.background='#fff';spinner.remove();const detail=error&&error.message?error.message:String(error||'Unknown error');progress.textContent='Background removal could not finish. '+detail;status.textContent='Background removal failed. '+detail+' Please check your internet connection and try again.';downloadButton.disabled=true}
+ }
+ fastButton.addEventListener('click',()=>{if(currentMode!=='fast'||!ready)startProcessing('fast')});
+ hdButton.addEventListener('click',()=>{if(currentMode!=='hd'||!ready)startProcessing('hd')});
+ startProcessing('fast');
 }
 async function runTool(){const btn=document.getElementById('run'),status=document.getElementById('status');btn.disabled=true;status.textContent='Checking your files…';try{const id=active[0],files=[...(id==='merge'?(window.q24MergeFiles||document.getElementById('files')?.files||[]):(document.getElementById('files')?.files||[]))];await q24ValidateFiles(id,files);let doc,out,name=files[0]?.name?files[0].name.replace(/\.pdf$/i,'')+'-processed.pdf':'quicktools24.pdf';
 if(id==='bg-remove'){if(!files[0])throw Error('Choose a photo first.');await runBackgroundRemoval(files[0]);return}
