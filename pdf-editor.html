@@ -7,6 +7,7 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-J5JGSX2GKQ');
+  gtag('event','tool_open',{tool_id:'pdf-editor',tool_name:'PDF Editor'});
 </script>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PDF Text Editor — QuickTools24</title><meta name="description" content="Edit PDF text visually, add text, images, signatures, links, shapes, annotations and manage pages in your browser."><meta name="robots" content="index,follow"><link rel="canonical" href="https://quicktools24.in/pdf-editor.html"><meta property="og:type" content="website"><meta property="og:site_name" content="QuickTools24"><meta property="og:title" content="PDF Text Editor | QuickTools24"><meta property="og:description" content="Edit PDF pages, add text, images and signatures, and manage PDF documents in your browser."><meta property="og:url" content="https://quicktools24.in/pdf-editor.html"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="PDF Text Editor | QuickTools24"><meta name="twitter:description" content="Edit PDF pages and add text, images and signatures online."><meta name="theme-color" content="#4f46e5"><link rel="icon" href="/favicon.svg"><script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script><script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
 <style>
@@ -179,7 +180,7 @@ const bytes=await out.save();showPdfDownloadReady(bytes);say('PDF ready. Rename 
 let preparedPdfUrl=null;
 function showPdfDownloadReady(bytes){
  if(preparedPdfUrl)URL.revokeObjectURL(preparedPdfUrl);
- const blob=new Blob([bytes],{type:'application/pdf'});preparedPdfUrl=URL.createObjectURL(blob);
+ const blob=new Blob([bytes],{type:'application/pdf'});if(typeof gtag==='function')gtag('event','tool_output_created',{tool_id:'pdf-editor',tool_name:'PDF Editor',output_mime_type:'application/pdf',output_size_bytes:blob.size});preparedPdfUrl=URL.createObjectURL(blob);
  const formatSize=n=>n<1024?n+' B':n<1048576?(n/1024).toFixed(1)+' KB':(n/1048576).toFixed(2)+' MB';
  const original=$('pdfEditFile')?.files?.[0]?.name||'document.pdf',base=original.replace(/\.pdf$/i,'');
  let panel=document.getElementById('pdfDownloadReady');
