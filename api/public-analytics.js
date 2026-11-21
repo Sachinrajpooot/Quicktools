@@ -87,7 +87,7 @@ module.exports = async function handler(req, res) {
     const endDate = new Date(Date.now() - 3 * 86400000).toISOString().slice(0, 10);
     const dateRanges = [{ startDate: days + "daysAgo", endDate: "yesterday" }];
 
-    const [summary, pages, devices, sources, events, realtime, search] = await Promise.all([
+    const [summary, pages, devices, sources, events, realtime, searchTotal, searchPages] = await Promise.all([
       googlePost("https://analyticsdata.googleapis.com/v1beta/properties/" + property + ":runReport", token, {
         dateRanges, metrics: [{ name: "activeUsers" }, { name: "sessions" }, { name: "screenPageViews" }]
       }),
@@ -107,16 +107,19 @@ module.exports = async function handler(req, res) {
         metrics: [{ name: "activeUsers" }]
       }),
       googlePost("https://www.googleapis.com/webmasters/v3/sites/" + encodeURIComponent(siteUrl) + "/searchAnalytics/query", token, {
+        startDate, endDate
+      }),
+      googlePost("https://www.googleapis.com/webmasters/v3/sites/" + encodeURIComponent(siteUrl) + "/searchAnalytics/query", token, {
         startDate, endDate, dimensions: ["page"], rowLimit: 5
       })
     ]);
 
     const sm = summary.rows && summary.rows[0] ? summary.rows[0].metricValues : [];
     const value = (i) => sm[i] ? Number(sm[i].value || 0) : 0;
-    const searchRows = search.rows || [];
-    const impressions = searchRows.reduce((n, r) => n + Number(r.impressions || 0), 0);
-    const clicks = searchRows.reduce((n, r) => n + Number(r.clicks || 0), 0);
-    const weightedPosition = searchRows.reduce((n, r) => n + Number(r.position || 0) * Number(r.impressions || 0), 0);
+    const searchTotals = searchTotal.rows && searchTotal.rows[0] ? searchTotal.rows[0] : {};
+    const impressions = Number(searchTotals.impressions || 0);
+    const clicks = Number(searchTotals.clicks || 0);
+    const weightedPosition = Number(searchTotals.position || 0) * impressions;
     const eventRows = rows(events, "name", "uses", (name, uses) => ({ name: name.replace(/^tool_use_/, ""), uses }));
     const result = {
       status: "ok",
@@ -129,6 +132,7 @@ module.exports = async function handler(req, res) {
       analytics: { activeUsers: value(0), sessions: value(1), pageViews: value(2) },
       realtimeActiveUsers: realtime.rows && realtime.rows[0] && realtime.rows[0].metricValues[0] ? Number(realtime.rows[0].metricValues[0].value || 0) : 0,
       topPages: rows(pages, "path", "views"),
+      searchTopPages: (searchPages.rows || []).map(r => ({ path: r.keys && r.keys[0] || "", clicks: Number(r.clicks || 0), impressions: Number(r.impressions || 0) })),
       topTools: eventRows,
       devices: rows(devices, "name", "users"),
       sources: rows(sources, "name", "sessions")
