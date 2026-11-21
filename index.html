@@ -278,7 +278,8 @@ const imageTools=[
 ['img-flip','Flip Image','Flip a photo horizontally or vertically.','↔️',1],
 ['img-passport','Passport Photo Maker','Create a standard 3.5 × 4.5 cm photo canvas.','🪪',1],
 ['img-pngjpg','PNG to JPG','Convert a PNG image to JPG.','🖼️',1],
-['img-jpgpng','JPG to PNG','Convert a JPG image to PNG.','🖼️',1]
+['img-jpgpng','JPG to PNG','Convert a JPG image to PNG.','🖼️',1],
+['bg-remove','AI Background Remover','Remove photo backgrounds automatically, preview transparent cutouts and download HD PNGs.','✂️',1]
 ];
 const textTools=[
 ['txt-count','Word & Character Counter','Count words, characters, lines and paragraphs.','🔢',0],
@@ -290,7 +291,7 @@ const textTools=[
 ];
 const allTools=[...tools,...imageTools,...textTools];
 let active=null, selected=[];
-function renderTools(list=allTools){document.getElementById('grid').innerHTML=list.map(t=>{const category=t[0].startsWith('img-')||t[0]==='images'?'Image':t[0].startsWith('txt-')?'Text':'PDF';return '<a class="tool-card" href="'+(t[0]==='pdf-editor'?'/pdf-editor.html':'/tool.html?tool='+encodeURIComponent(t[0]))+'"><div class="tool-card-top"><span class="tool-card-icon">'+t[3]+'</span><span class="tool-card-category">'+category+'</span></div><div class="tool-card-title">'+t[1]+'</div><div class="tool-card-desc">'+t[2]+'</div><div class="tool-card-action"><span>Choose File</span><span>→</span></div></a>'}).join('')}
+function renderTools(list=allTools){document.getElementById('grid').innerHTML=list.map(t=>{const category=t[0].startsWith('img-')||t[0]==='bg-remove'||t[0]==='images'?'Image':t[0].startsWith('txt-')?'Text':'PDF';return '<a class="tool-card" href="'+(t[0]==='pdf-editor'?'/pdf-editor.html':'/tool.html?tool='+encodeURIComponent(t[0]))+'"><div class="tool-card-top"><span class="tool-card-icon">'+t[3]+'</span><span class="tool-card-category">'+category+'</span></div><div class="tool-card-title">'+t[1]+'</div><div class="tool-card-desc">'+t[2]+'</div><div class="tool-card-action"><span>Choose File</span><span>→</span></div></a>'}).join('')}
  function filterTools(){const q=document.getElementById('search').value.toLowerCase();renderTools(allTools.filter(t=>(t[1]+' '+t[2]).toLowerCase().includes(q)))}
 function sendContact(event){event.preventDefault();const name=document.getElementById('contactName').value.trim(),email=document.getElementById('contactEmail').value.trim(),subject=document.getElementById('contactSubject').value.trim(),message=document.getElementById('contactMessage').value.trim();if(!name||!email||!subject||!message)return;const body='Name: '+name+'%0D%0AEmail: '+email+'%0D%0A%0D%0A'+encodeURIComponent(message);document.getElementById('contactStatus').textContent='Opening your email app…';window.location.href='mailto:sachindonmuz@gmail.com?subject='+encodeURIComponent('[QuickTools24] '+subject)+'&body='+body;}
 
