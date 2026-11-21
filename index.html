@@ -130,7 +130,17 @@ body{background:#f7f8fc;color:#172033}
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6462138886231010"
      crossorigin="anonymous"></script>
-</head>
+<style>
+/* Mobile usability and accessible tap targets */
+button,.btn,.file-picker-shell,.tool-card-action,.toolcard{min-height:44px}
+button,.btn,a{touch-action:manipulation}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #a5b4fc;outline-offset:2px}
+@media(max-width:640px){
+ input:not([type=checkbox]):not([type=radio]),select,textarea{font-size:16px;max-width:100%}
+ button,.btn,.file-picker-shell{min-height:46px}
+ .tool-workspace-inner{padding:16px}
+}
+</style></head>
 <body class="min-h-screen">
 <header class="home-header sticky top-0 z-20"><div class="home-header-inner"><a href="/" class="home-brand"><img src="/favicon-96x96.png" alt="Quick Tools 24 logo"><span><span class="home-brand-word">QuickTools<span>24</span></span><span class="home-brand-tag block">SIMPLE TOOLS. SMART RESULTS.</span></span></a><nav class="home-nav"><a href="/all-tools.html">All Tools</a><a href="/pdf-editor.html">PDF Editor</a><a href="/about.html#q24-public-analytics" class="home-analysis-link">Analysis</a><a href="/all-tools.html#categories">Browse by Category</a><a href="#contact">Contact</a></nav></div></header>
 
