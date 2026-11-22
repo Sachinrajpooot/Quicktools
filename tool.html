@@ -111,6 +111,18 @@ body{background:#f5f7fb;color:#172033} .tool{background:white;border:1px solid #
 #modal.toolpage-modal .toolpage-main>.tool-workspace{width:min(100%,980px)!important;max-width:980px!important;min-width:0!important;margin:0 auto 34px!important;align-self:center!important;box-sizing:border-box!important}
 #modal.toolpage-modal .tool-workspace-inner{width:100%!important;max-width:100%!important}
 @media(max-width:700px){#modal.toolpage-modal .toolpage-main{padding:12px!important}#modal.toolpage-modal .toolpage-main>.tool-workspace{width:100%!important;max-width:100%!important}}
+
+/* Restore the earlier compact, centred tool window. Keep tool navigation out of the workspace. */
+#modal.toolpage-modal{position:fixed!important;inset:0!important;z-index:40!important;overflow-y:auto!important;padding:12px!important;background:rgba(2,6,23,.62)!important;box-sizing:border-box!important}
+#modal.toolpage-modal>.toolpage-shell{display:block!important;max-width:980px!important;width:100%!important;min-height:0!important;height:auto!important;margin:clamp(12px,4vh,42px) auto!important;padding:0!important;border-radius:20px!important;background:#fff!important;box-shadow:0 24px 70px rgba(2,6,23,.24)!important;overflow:visible!important}
+#modal.toolpage-modal .toolpage-sidebar{display:none!important}
+#modal.toolpage-modal .toolpage-main{display:block!important;width:100%!important;max-width:980px!important;min-width:0!important;margin:0 auto!important;padding:clamp(16px,3vw,30px)!important;box-sizing:border-box!important}
+#modal.toolpage-modal .toolpage-main>.tool-brandbar{width:100%!important;max-width:100%!important;margin:0 auto 14px!important}
+#modal.toolpage-modal .toolpage-main>.file-picker-top{width:100%!important;max-width:100%!important;margin:0 auto 14px!important}
+#modal.toolpage-modal .toolpage-main>.tool-workspace{width:100%!important;max-width:100%!important;margin:0 auto 18px!important;box-sizing:border-box!important}
+#modal.toolpage-modal #toolSeoContent{margin-top:22px!important}
+@media(max-width:640px){#modal.toolpage-modal{padding:8px!important}#modal.toolpage-modal>.toolpage-shell{margin:8px auto!important;border-radius:16px!important}#modal.toolpage-modal .toolpage-main{padding:14px!important}}
+
 /* PDF page previews and output panels */
 #fields{width:100%}.file-preview-list{display:grid;gap:8px;margin-top:12px}.file-preview-row{display:flex;align-items:center;gap:10px;border:1px solid #e2e8f0;border-radius:12px;padding:10px;background:#f8fafc;min-width:0}.file-preview-row .file-name{overflow-wrap:anywhere;flex:1;font-size:13px;font-weight:700}.pdf-mini{width:38px;height:44px;display:grid;place-items:center;border-radius:7px;background:#fee2e2;color:#b91c1c;font-size:11px;font-weight:900;border:1px solid #fecaca;flex:none}.page-preview-section{padding:12px;border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc}.page-thumb-static{cursor:default;opacity:1}.page-thumb:disabled{color:inherit;opacity:1}
 .page-thumb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:10px;margin-top:12px}.page-thumb{border:2px solid #e2e8f0;border-radius:10px;padding:6px;background:#fff;text-align:center;cursor:pointer}.page-thumb.selected{border-color:#4f46e5;background:#eef2ff}.page-thumb canvas{display:block;width:100%;height:auto;box-shadow:0 1px 5px #0f172a22}.page-thumb span{display:block;font-size:12px;font-weight:700;margin-top:5px}.output-panel{margin-top:18px;border:1px solid #c7d2fe;border-radius:16px;padding:16px;background:#f8faff}.output-card{display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:10px;padding:12px;background:white;border:1px solid #e2e8f0;border-radius:12px;margin-top:10px}.output-card input{min-width:0}.output-preview{grid-column:1/-1;max-height:180px;overflow:hidden;border-radius:8px;background:#f1f5f9}.output-preview img{max-height:170px;max-width:100%;display:block;margin:auto;object-fit:contain}.output-preview iframe{width:100%;height:170px;border:0}
@@ -464,7 +476,7 @@ function addField(label,type,id,placeholder='',multiple=false,targetId='fields')
  }else if(type==='textarea'){
   input=document.createElement('textarea');input.id=id;input.placeholder=placeholder;input.rows=5;input.className='field mt-1';wrap.appendChild(input);
  }else if(type==='file'){
-  input=document.createElement('input');input.type='file';input.id=id;input.multiple=!!multiple;input.accept=(active&&(active[0].startsWith('img-')||active[0]==='bg-remove'||active[0]==='images'))?'image/*':(id==='watermarkImage'?'image/png,image/jpeg':'application/pdf');input.setAttribute('aria-label',label);
+  input=document.createElement('input');input.type='file';input.id=id;input.multiple=!!multiple;const toolId=active?.[0]||'';const imageTool=toolId==='images'||toolId==='bg-remove'||toolId.startsWith('img-');input.accept=id==='watermarkImage'?'image/png,image/jpeg':(id==='files'?(imageTool?(toolId==='images'?'image/png,image/jpeg':'image/*'):'application/pdf'):'application/pdf');input.setAttribute('aria-label',label);
   const shell=document.createElement('span');shell.className='file-picker-shell';
   const buttonText=document.createElement('span');buttonText.className='file-picker-button';buttonText.textContent=multiple?'Choose files':'Choose file';
   input.className='file-picker-input';shell.append(buttonText,input);
@@ -788,6 +800,9 @@ async function q24ImageDimensions(file,kind){
 function q24AssertCanvas(width,height){if(!Number.isFinite(width)||!Number.isFinite(height)||width<1||height<1||width>Q24_LIMITS.canvasSide||height>Q24_LIMITS.canvasSide||width*height>Q24_LIMITS.canvasPixels)throw new Error('This image is too large for safe processing on this device. Reduce the dimensions and try again (maximum 4096 px per side and 12 megapixels).')}
 async function q24ValidateFiles(id,files){
  const imageMode=id==='images'||id==='bg-remove'||id.startsWith('img-');
+ const expectedKind=imageMode?'image':(id==='create'||id.startsWith('txt-')?'text':'pdf');
+ if(expectedKind==='pdf'&&files.some(f=>f.type&&f.type!=='application/pdf'&&!['application/octet-stream',''].includes(f.type))){const bad=files.find(f=>f.type&&f.type!=='application/pdf'&&!['application/octet-stream',''].includes(f.type));throw new Error('This is an image or another file type. Please choose a PDF file for this tool: '+bad.name)}
+ if(expectedKind==='image'&&files.some(f=>f.type&&!f.type.startsWith('image/'))){const bad=files.find(f=>f.type&&!f.type.startsWith('image/'));throw new Error('This is not a photo. Please choose an image file: '+bad.name)}
  if(id.startsWith('txt-')||id==='create'){if((val('txt')||'').length>Q24_LIMITS.textChars)throw new Error('Text is too long. Please keep it under 100,000 characters.');return}
  if(!files.length)throw new Error(imageMode?'Choose an image first.':'Choose a PDF file first.');
  if(imageMode){
