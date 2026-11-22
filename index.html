@@ -391,7 +391,7 @@ if(!out)out=await doc.save();download(out,name);status.textContent='Done. Your f
 catch(e){status.textContent='Error: '+(e.message||'Could not process this file.');}
 finally{btn.disabled=false}}
 renderTools();
-const initialTool=new URLSearchParams(location.search).get('tool');if(initialTool)openTool(initialTool);
+const initialTool=new URLSearchParams(location.search).get('tool');if(initialTool&&allTools.some(t=>t[0]===initialTool)){location.replace(initialTool==='pdf-editor'?'/pdf-editor.html':'/tool.html?tool='+encodeURIComponent(initialTool));}
 window.addEventListener('popstate',()=>{if(!new URLSearchParams(location.search).get('tool'))location.reload();});
 
 /* PDF overlay editor: add/move/resize text, images and drawn signatures */
