@@ -81,7 +81,7 @@ const textTools=[
 ];
 
 const allTools=[...tools,...imageTools,...textTools];
-function toolPageUrl(id){return id==='pdf-editor'?'/pdf-editor.html':'/index.html?tool='+encodeURIComponent(id);}
+function toolPageUrl(id){return id==='pdf-editor'?'/pdf-editor.html':'/tool.html?tool='+encodeURIComponent(id);}
 
 function card(t){const cat=t[0].startsWith('img-')||t[0]==='images'||t[0]==='bg-remove'?'Image':t[0].startsWith('txt-')?'Text':'PDF';const href=toolPageUrl(t[0]);return '<a class="toolcard" href="'+href+'"><div class="text-2xl mb-2">'+t[3]+'</div><div class="font-extrabold">'+t[1]+'</div><div class="text-xs muted mt-1">'+t[2]+'</div><div class="text-xs font-bold text-indigo-700 mt-3">Choose File →</div></a>'}
 document.getElementById('pdfGrid').innerHTML=allTools.filter(t=>!t[0].startsWith('img-')&&!t[0].startsWith('txt-')&&t[0]!=='bg-remove').map(card).join('');
