@@ -300,7 +300,7 @@ const textTools=[
 ['txt-reverse','Reverse Text','Reverse characters or line order.','🔃',0]
 ];
 const allTools=[...tools,...imageTools,...textTools];
-function toolPageUrl(id){return '/'+(toolPagePaths[id]||('index.html?tool='+encodeURIComponent(id)));}
+function toolPageUrl(id){return id==='pdf-editor'?'/pdf-editor.html':'/tool.html?tool='+encodeURIComponent(id);}
 
 let active=null, selected=[];
 function renderTools(list=allTools){document.getElementById('grid').innerHTML=list.map(t=>{const category=t[0].startsWith('img-')||t[0]==='bg-remove'||t[0]==='images'?'Image':t[0].startsWith('txt-')?'Text':'PDF';return '<a class="tool-card" href="'+toolPageUrl(t[0])+'"><div class="tool-card-top"><span class="tool-card-icon">'+t[3]+'</span><span class="tool-card-category">'+category+'</span></div><div class="tool-card-title">'+t[1]+'</div><div class="tool-card-desc">'+t[2]+'</div><div class="tool-card-action"><span>Choose File</span><span>→</span></div></a>'}).join('')}
