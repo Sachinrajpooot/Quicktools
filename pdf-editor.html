@@ -226,6 +226,35 @@ $('saveBtn').onclick=save;
 .q24-site-footer .q24-footer-cats a{padding:9px 15px;border:1px solid #e3e6ef;border-radius:999px;background:#fff;font-size:14px}
 .q24-site-footer .q24-footer-copy{border-top:1px solid #e5e7ef;padding-top:20px;color:#7b8494;font-size:13px}
 @media(max-width:600px){.q24-site-footer{padding:38px 18px 22px}.q24-site-footer .q24-footer-links{flex-direction:column;gap:0}.q24-site-footer .q24-footer-links a{padding:12px 8px;font-size:17px}.q24-site-footer .q24-footer-cats{gap:8px}}
+
+/* Consistent developer profile card across the interactive tool workspaces */
+.q24-developer-link{
+ display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+ gap:9px!important;width:min(260px,100%)!important;max-width:calc(100% - 24px)!important;
+ margin:14px auto 22px!important;padding:16px 20px 18px!important;
+ border:1px solid #c7d2fe!important;border-radius:20px!important;
+ background:linear-gradient(145deg,#172554 0%,#3730a3 62%,#4f46e5 100%)!important;
+ color:#e0e7ff!important;text-decoration:none!important;text-align:center!important;
+ box-shadow:0 12px 28px #312e8133!important;box-sizing:border-box!important;
+}
+.q24-developer-link img{
+ display:block!important;width:150px!important;height:172px!important;max-width:100%!important;
+ border-radius:12px!important;object-fit:contain!important;object-position:center!important;
+ background:#fff!important;padding:4px!important;flex:0 0 auto!important;
+}
+.q24-developer-link span{display:block!important;color:#e0e7ff!important;font-size:13px!important;line-height:1.45!important}
+.q24-developer-link strong{
+ display:block!important;margin-top:3px!important;color:#fde68a!important;
+ font-family:Georgia,'Times New Roman',serif!important;font-size:21px!important;
+ line-height:1.2!important;font-weight:800!important;letter-spacing:.01em!important;
+}
+.q24-developer-link:hover{transform:translateY(-2px);border-color:#a5b4fc!important;box-shadow:0 16px 34px #312e8144!important}
+@media(max-width:600px){
+ .q24-developer-link{width:min(230px,100%)!important;margin:10px auto 18px!important;padding:13px 16px 15px!important}
+ .q24-developer-link img{width:132px!important;height:152px!important}
+ .q24-developer-link strong{font-size:19px!important}
+}
+
 </style>
 <script>
 (()=>{function addFooter(){if(document.querySelector('.q24-site-footer'))return;const f=document.createElement('footer');f.className='q24-site-footer';f.innerHTML='<div class="q24-footer-brand">Quick<span>Tools</span>24</div><p class="q24-footer-desc">Free online PDF, image and everyday tools. Fast, simple and privacy-friendly — process your files directly in your browser.</p><nav class="q24-footer-links" aria-label="Footer navigation"><a href="/">Home</a><a href="/#tools">All Tools</a><a href="/articles/">Blog &amp; Guides</a><a href="/#about">About Us</a><a href="/contact.html">Contact</a><a href="/privacy-policy.html">Privacy Policy</a><a href="/terms-of-use.html">Terms of Use</a><a href="/sitemap.xml">Sitemap</a></nav><div class="q24-footer-cats"><a href="/all-tools.html#pdf-tools">PDF Tools</a><a href="/all-tools.html#image-tools">Image Tools</a><a href="/all-tools.html#converters">Converters</a><a href="/all-tools.html#text-tools">Text Tools</a><a href="/all-tools.html#calculators">Calculators</a></div><div class="q24-footer-copy">© '+new Date().getFullYear()+' QuickTools24. All rights reserved.</div>';document.body.appendChild(f)}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addFooter);else addFooter()})();
