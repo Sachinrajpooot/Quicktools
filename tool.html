@@ -777,7 +777,7 @@ function renderOutputFiles(){
   list.appendChild(row);
  });panel.style.display=outputFiles.length?'block':'none'
 }
-const Q24_LIMITS={pdfFile:25*1024*1024,mergeTotal:60*1024*1024,imageFile:15*1024*1024,imageTotal:40*1024*1024,imageCount:30,pdfPages:300,rasterPages:60,imagePixels:24000000,canvasPixels:12000000,canvasSide:4096,textChars:100000};
+const Q24_LIMITS={pdfFile:25*1024*1024,mergeTotal:60*1024*1024,imageFile:15*1024*1024,imageTotal:40*1024*1024,imageCount:40,pdfPages:300,rasterPages:60,imagePixels:24000000,canvasPixels:12000000,canvasSide:4096,textChars:100000};
 function q24PdfHeader(bytes){const head=new TextDecoder().decode(bytes.subarray(0,Math.min(bytes.length,1024)));return head.includes('%PDF-')}
 async function q24ImageKind(file){const b=new Uint8Array(await file.slice(0,16).arrayBuffer());if(b.length>=8&&b[0]===137&&b[1]===80&&b[2]===78&&b[3]===71)return 'png';if(b.length>=3&&b[0]===255&&b[1]===216&&b[2]===255)return 'jpeg';if(b.length>=12&&String.fromCharCode(...b.slice(0,4))==='RIFF'&&String.fromCharCode(...b.slice(8,12))==='WEBP')return 'webp';if(b.length>=6&&['GIF87a','GIF89a'].includes(String.fromCharCode(...b.slice(0,6))))return 'gif';if(b.length>=2&&b[0]===66&&b[1]===77)return 'bmp';return ''}
 async function q24ImageDimensions(file,kind){
