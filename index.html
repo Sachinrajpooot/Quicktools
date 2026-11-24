@@ -199,7 +199,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
    <label class="text-sm font-bold">Message<textarea id="contactMessage" class="field mt-1" name="message" rows="5" required maxlength="4000" placeholder="Write your message here..."></textarea></label>
    <div class="flex flex-wrap items-center gap-3"><button class="btn" type="submit">Send Message</button><span id="contactStatus" class="text-sm muted" aria-live="polite"></span></div>
   </form>
-  <p class="text-xs muted mt-4">When you send this form, your device’s email app will open with your message addressed to our support email. This form does not send or store messages on this website.</p>
+  
  </div>
 </section>
 </main>
@@ -392,7 +392,7 @@ async function pdfEditorDownload(){if(!pdfEditDoc)return;const btn=document.getE
 </script>
 <style>
 .q24-site-footer{margin-top:64px;padding:48px 20px 24px;background:#f7f8fc;border-top:1px solid #e8eaf1;text-align:center;color:#273247}
-.q24-site-footer .q24-footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 30px;margin:0 auto 28px;max-width:760px}
+.q24-site-footer .q24-footer-links{display:flex;flex-flow:row wrap;align-items:center;justify-content:center;column-gap:30px;row-gap:14px;margin:0 auto 28px;max-width:900px;width:100%}.q24-site-footer .q24-footer-links a{display:inline-block;white-space:nowrap;padding:4px 0}
 .q24-site-footer a{color:#334155;text-decoration:none;font-size:16px}
 .q24-site-footer a:hover{color:#6554e8;text-decoration:underline}
 .q24-site-footer .q24-footer-brand{font-size:23px;font-weight:800;letter-spacing:-.5px;margin-bottom:10px}
@@ -405,7 +405,7 @@ async function pdfEditorDownload(){if(!pdfEditDoc)return;const btn=document.getE
 @media(max-width:600px){.q24-site-footer{padding:38px 18px 22px}.q24-site-footer .q24-footer-links{flex-direction:column;gap:0}.q24-site-footer .q24-footer-links a{padding:12px 8px;font-size:17px}.q24-site-footer .q24-footer-cats{gap:8px}}
 </style>
 <script>
-(()=>{function addFooter(){if(document.querySelector('.q24-site-footer'))return;const f=document.createElement('footer');f.className='q24-site-footer';f.innerHTML='<div class="q24-footer-brand">Quick<span>Tools</span>24</div><p class="q24-footer-desc">Free online PDF, image and everyday tools. Fast, simple and privacy-friendly — process your files directly in your browser.</p><nav class="q24-footer-links" aria-label="Footer navigation"><a href="/">Home</a><a href="/#tools">All Tools</a><a href="/articles/">Blog &amp; Guides</a><a href="/about.html">About Us</a><a href="/contact.html">Contact</a><a href="/privacy-policy.html">Privacy Policy</a><a href="/terms-of-use.html">Terms of Use</a><a href="/sitemap.xml">Sitemap</a></nav><div class="q24-footer-cats"><a href="/all-tools.html#pdf-tools">PDF Tools</a><a href="/all-tools.html#image-tools">Image Tools</a><a href="/all-tools.html#converters">Converters</a><a href="/all-tools.html#text-tools">Text Tools</a><a href="/all-tools.html#calculators">Calculators</a></div><div class="q24-footer-copy">© '+new Date().getFullYear()+' QuickTools24. All rights reserved. <span aria-hidden="true">·</span> <a href="https://quicktools24-admin.sachindonmuz.workers.dev/admin" rel="nofollow" style="font-size:12px;color:#7b8494">Admin Login</a></div>';document.body.appendChild(f)}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addFooter);else addFooter()})();
+(()=>{function addFooter(){if(document.querySelector('.q24-site-footer'))return;const f=document.createElement('footer');f.className='q24-site-footer';f.innerHTML='<div class="q24-footer-brand">Quick<span>Tools</span>24</div><p class="q24-footer-desc">Free online PDF, image and everyday tools. Fast, simple and privacy-friendly — process your files directly in your browser.</p><nav class="q24-footer-links" aria-label="Footer navigation"><a href="/">Home</a><a href="/#tools">All Tools</a><a href="/articles/">Blog &amp; Guides</a><a href="/about.html">About Us</a><a href="/contact.html">Contact</a><a href="/privacy-policy.html">Privacy Policy</a><a href="/terms-of-use.html">Terms of Use</a><a href="/sitemap.xml">Sitemap</a><a href="https://quicktools24-admin.sachindonmuz.workers.dev/admin" rel="nofollow">Admin Login</a></nav><div class="q24-footer-cats"><a href="/all-tools.html#pdf-tools">PDF Tools</a><a href="/all-tools.html#image-tools">Image Tools</a><a href="/all-tools.html#converters">Converters</a><a href="/all-tools.html#text-tools">Text Tools</a><a href="/all-tools.html#calculators">Calculators</a></div><div class="q24-footer-copy">© '+new Date().getFullYear()+' QuickTools24. All rights reserved.</div>';document.body.appendChild(f)}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addFooter);else addFooter()})();
 </script><script>
 if ("serviceWorker" in navigator) { window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {})); }
 </script>
