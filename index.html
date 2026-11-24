@@ -199,7 +199,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
    <label class="text-sm font-bold">Message<textarea id="contactMessage" class="field mt-1" name="message" rows="5" required maxlength="4000" placeholder="Write your message here..."></textarea></label>
    <div class="flex flex-wrap items-center gap-3"><button class="btn" type="submit">Send Message</button><span id="contactStatus" class="text-sm muted" aria-live="polite"></span></div>
   </form>
-  
+  <p class="text-xs muted mt-4">When you send this form, your device’s email app will open with your message addressed to our support email. This form does not send or store messages on this website.</p>
  </div>
 </section>
 </main>
@@ -377,6 +377,7 @@ async function pdfEditorDownload(){if(!pdfEditDoc)return;const btn=document.getE
 
 </script>
 <div style="text-align:center;padding:24px 16px"><a href="/articles/" style="color:#4f46e5;font-weight:700;text-decoration:none">SEO Guides & Tutorials</a></div><style>
+.q24-mobile-panel{display:none}
 @media(max-width:768px){
  .q24-mobile-toggle{display:inline-flex!important;align-items:center;justify-content:center;width:44px;height:44px;border:0;border-radius:12px;background:#eef0ff;color:#4f46e5;font-size:28px;font-weight:700;line-height:1;cursor:pointer;margin-left:auto;flex:0 0 auto}
  header nav:not(.q24-mobile-panel){display:none!important}
