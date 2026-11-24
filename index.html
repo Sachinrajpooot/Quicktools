@@ -65,8 +65,6 @@ body{background:#f5f7fb;color:#172033} .tool{background:white;border:1px solid #
 .toolpage-link:hover,.toolpage-link.active{background:#eef2ff;color:#4338ca}
 .toolpage-back{display:inline-flex;align-items:center;gap:7px;color:#4f46e5;font-weight:700;margin-bottom:18px}
 @media(max-width:760px){.toolpage-shell{grid-template-columns:1fr}.toolpage-sidebar{position:relative;height:auto;max-height:190px;border-right:0;border-bottom:1px solid #e2e8f0}.toolpage-sidebar-list{display:flex;overflow-x:auto;gap:6px;padding-bottom:6px}.toolpage-link{white-space:nowrap}.toolpage-main{padding:16px}}
-#pdf-editor{display:none}
-
 /* QuickTools24 premium home refresh */
 body{background:#f7f8fc;color:#172033}
 .home-header{background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid #e8ecf4}
@@ -143,7 +141,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 }
 </style></head>
 <body class="min-h-screen">
-<header class="home-header sticky top-0 z-20"><div class="home-header-inner"><a href="/" class="home-brand"><img src="/favicon-96x96.png" alt="Quick Tools 24 logo"><span><span class="home-brand-word">QuickTools<span>24</span></span><span class="home-brand-tag block">SIMPLE TOOLS. SMART RESULTS.</span></span></a><nav class="home-nav"><a href="/all-tools.html">All Tools</a><a href="/pdf-editor.html">PDF Editor</a><a href="/about.html#q24-public-analytics" class="home-analysis-link">Analysis</a><a href="/all-tools.html#categories">Browse by Category</a><a href="#contact">Contact</a></nav></div></header>
+<header class="home-header sticky top-0 z-20"><div class="home-header-inner"><a href="/" class="home-brand"><img src="/favicon-96x96.png" alt="Quick Tools 24 logo"><span><span class="home-brand-word">QuickTools<span>24</span></span><span class="home-brand-tag block">SIMPLE TOOLS. SMART RESULTS.</span></span></a><nav class="home-nav"><a href="/all-tools.html">All Tools</a><a href="/about.html#q24-public-analytics" class="home-analysis-link">Analysis</a><a href="/all-tools.html#categories">Browse by Category</a><a href="#contact">Contact</a></nav></div></header>
 
 <main class="home-main">
  <section class="home-hero"><div class="home-kicker"><span>✦</span> FREE ONLINE TOOLS · NO SIGN-UP</div><h1>Everything you need.<br><span>All in one place.</span></h1>
@@ -159,48 +157,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
    </div>
 
   </section>
- <section id="pdf-editor" class="bg-white border rounded-2xl p-5 md:p-7 mb-10">
- <div class="mb-5"><div class="inline-block bg-indigo-50 text-indigo-700 rounded-full px-3 py-1 text-xs font-bold mb-2">NEW · PDF EDITOR</div><h2 class="text-2xl md:text-3xl font-black">Edit PDF — Text, Photos & Signatures</h2><p class="muted mt-2">Add text, place photos or signatures, move and resize them, and download your edited PDF. Existing PDF text is not directly rewritten; new content is placed as an overlay.</p></div>
- <div class="grid md:grid-cols-2 gap-3 mb-4">
-  <label class="text-sm font-bold">Choose PDF<input id="pdfEditFile" class="field mt-1" type="file" accept="application/pdf"></label>
-  <label class="text-sm font-bold">Page number<div class="flex gap-2 mt-1"><button class="border rounded-lg px-3" type="button" onclick="pdfEditorPage(-1)">←</button><input id="pdfEditPage" class="field" type="number" min="1" value="1"><button class="border rounded-lg px-3" type="button" onclick="pdfEditorPage(1)">→</button></div></label>
- </div>
- <div class="editor-layout">
-  <div><div class="editor-stage" id="pdfStage"><canvas id="pdfPreview"></canvas><div id="pdfOverlay"></div><div id="pdfEditorHint" class="muted text-sm text-center">Choose a PDF to start editing.</div></div><p class="text-xs muted mt-2">Tip: Tap or drag an item to reposition it. The purple outline shows the selected item.</p></div>
-  <div class="space-y-3">
-   <div class="border rounded-xl p-3 space-y-2">
-    <h3 class="font-extrabold">Add text / replace existing text</h3><textarea id="pdfEditText" class="field" rows="2" placeholder="Type text to add"></textarea>
-    <div class="grid grid-cols-2 gap-2"><label class="text-xs font-bold">Font size<input id="pdfEditFontSize" class="field mt-1" type="number" min="6" max="120" value="18"></label><label class="text-xs font-bold">Text color<input id="pdfEditColor" class="field mt-1 h-10" type="color" value="#111827"></label></div>
-    <button class="btn w-full" type="button" onclick="pdfEditorAddText()">Add text to page</button>
-    <div class="border-t pt-3 mt-3 space-y-2"><p class="text-xs font-bold">Replace text in an existing area</p><p class="text-xs muted">Enter the approximate area to cover the old text, then place your replacement. This visually replaces the text; it does not rewrite the original PDF text layer.</p><div class="grid grid-cols-2 gap-2"><label class="text-xs font-bold">X<input id="pdfReplaceX" class="field mt-1" type="number" value="30"></label><label class="text-xs font-bold">Y<input id="pdfReplaceY" class="field mt-1" type="number" value="30"></label><label class="text-xs font-bold">Area width<input id="pdfReplaceW" class="field mt-1" type="number" value="220"></label><label class="text-xs font-bold">Area height<input id="pdfReplaceH" class="field mt-1" type="number" value="36"></label></div><button class="btn w-full" type="button" onclick="pdfEditorReplaceText()">Cover area & add replacement text</button></div>
-   </div>
-   <div class="border rounded-xl p-3 space-y-2">
-    <h3 class="font-extrabold">Add photo / signature image</h3><input id="pdfEditImage" class="field" type="file" accept="image/png,image/jpeg">
-    <button class="btn w-full" type="button" onclick="pdfEditorAddImage()">Add image to page</button>
-   </div>
-   <div class="border rounded-xl p-3 space-y-2">
-    <h3 class="font-extrabold">Draw signature</h3><canvas id="signaturePad" class="signature-pad" width="260" height="100"></canvas>
-    <div class="flex gap-2"><button class="border rounded-lg px-3 py-2 text-sm" type="button" onclick="pdfEditorClearSignature()">Clear</button><button class="btn flex-1" type="button" onclick="pdfEditorAddSignature()">Add signature</button></div>
-   </div>
-   <div class="border rounded-xl p-3 space-y-2">
-    <h3 class="font-extrabold">Annotations & shapes</h3>
-    <label class="text-xs font-bold">Tool<select id="pdfShapeType" class="field mt-1"><option value="highlight">Highlight area</option><option value="whiteout">Whiteout / cover area</option><option value="rectangle">Rectangle</option><option value="ellipse">Ellipse</option></select></label>
-    <label class="text-xs font-bold">Color<input id="pdfShapeColor" class="field mt-1 h-10" type="color" value="#ffeb3b"></label>
-    <button class="btn w-full" type="button" onclick="pdfEditorAddShape()">Add annotation</button>
-   </div>
-   <div class="border rounded-xl p-3 space-y-2">
-    <h3 class="font-extrabold">Selected item</h3><p id="pdfSelectedLabel" class="text-xs muted">No item selected</p>
-    <div class="grid grid-cols-2 gap-2"><label class="text-xs font-bold">Width (px)<input id="pdfItemWidth" class="field mt-1" type="number" min="10" value="180"></label><label class="text-xs font-bold">Height (px)<input id="pdfItemHeight" class="field mt-1" type="number" min="10" value="50"></label></div>
-    <div class="flex gap-2"><button class="border rounded-lg px-3 py-2 text-sm flex-1" type="button" onclick="pdfEditorApplySize()">Apply size</button><button class="border border-red-300 text-red-600 rounded-lg px-3 py-2 text-sm" type="button" onclick="pdfEditorRemoveSelected()">Delete</button></div>
-    <button class="border rounded-lg px-3 py-2 text-sm w-full" type="button" onclick="pdfEditorClearPage()">Clear items on this page</button>
-   </div>
-   <button class="btn w-full" id="pdfEditDownload" type="button" onclick="pdfEditorDownload()" disabled>Download edited PDF</button>
-   <p id="pdfEditStatus" class="text-xs muted" aria-live="polite">Your PDF stays in this browser; processing depends on your device.</p>
-  </div>
- </div>
-</section>
-
-<section id="categories" class="bg-white border rounded-2xl p-6 md:p-8 mb-10"><div class="text-center mb-6"><span class="inline-block bg-indigo-50 text-indigo-700 rounded-full px-3 py-1 text-xs font-bold">EXPLORE QUICKTOOLS24</span><h2 class="text-2xl md:text-3xl font-black mt-3">Browse by Category</h2><p class="muted mt-2">Open a complete collection of working tools by category.</p></div><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+ <section id="categories" class="bg-white border rounded-2xl p-6 md:p-8 mb-10"><div class="text-center mb-6"><span class="inline-block bg-indigo-50 text-indigo-700 rounded-full px-3 py-1 text-xs font-bold">EXPLORE QUICKTOOLS24</span><h2 class="text-2xl md:text-3xl font-black mt-3">Browse by Category</h2><p class="muted mt-2">Open a complete collection of working tools by category.</p></div><div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
 <a class="tool-card" href="/all-tools.html#pdf-tools"><div class="tool-card-icon">📄</div><div class="tool-card-title">PDF Tools</div><div class="tool-card-desc">Merge, split, compress, edit and organise PDF files.</div><div class="tool-card-action">Explore PDF tools →</div></a>
 <a class="tool-card" href="/all-tools.html#image-tools"><div class="tool-card-icon">🖼️</div><div class="tool-card-title">Image Tools</div><div class="tool-card-desc">Resize, crop, compress, convert and improve photos.</div><div class="tool-card-action">Explore image tools →</div></a>
 <a class="tool-card" href="/all-tools.html#converters"><div class="tool-card-icon">🔄</div><div class="tool-card-title">Converters</div><div class="tool-card-desc">Convert length, weight, temperature, area, volume and more.</div><div class="tool-card-action">Explore converters →</div></a>
@@ -225,7 +182,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
  <div class="space-y-2 text-sm muted"><p>QuickTools24 provides browser-based utilities for general personal and business use. You are responsible for ensuring that you have the right to edit or process files you select.</p><p>Results may vary depending on file format, PDF restrictions, browser support, memory and device performance. Always review the output before using or submitting it.</p><p>Do not use the service for unlawful activity or to process documents in a way that violates another person's rights. The service is provided on an “as available” basis without a guarantee that every tool will work with every file.</p><p>We may update, suspend or change tools and these terms as the website develops. Continued use after changes means you accept the updated terms.</p></div>
 </section>
 <section id="disclaimer" class="bg-white border rounded-2xl p-6 mb-10"><h2 class="font-extrabold text-2xl mb-2">Disclaimer</h2><p class="muted text-sm">QuickTools24 is an independent utility website and is not affiliated with, endorsed by, or an official service of any government department, bank, school, employer or document-issuing authority. Passport photo dimensions and PDF edits are user-controlled and are not a certification of official compliance. Verify every edited document with the receiving organization before use. Keep original copies of important files.</p></section>
-<section id="faq" class="bg-white border rounded-2xl p-6 mb-10"><h2 class="font-extrabold text-2xl mb-4">Frequently Asked Questions</h2><div class="space-y-4 text-sm"><div><h3 class="font-bold">Are my files uploaded?</h3><p class="muted">The current tools process selected files locally in your browser; the site code does not intentionally send document contents to a QuickTools24 server.</p></div><div><h3 class="font-bold">Can I edit existing PDF words?</h3><p class="muted">The PDF Editor adds text, photos and signatures as overlays. It does not erase or rewrite original PDF text.</p></div><div><h3 class="font-bold">Why is a large PDF slow?</h3><p class="muted">Processing takes place on your device, so speed and file-size limits depend on your phone or computer memory and browser.</p></div><div><h3 class="font-bold">How do I report a problem?</h3><p class="muted">Use Contact Us or email <a class="text-indigo-700 underline" href="mailto:sachindonmuz@gmail.com">sachindonmuz@gmail.com</a>.</p></div></div></section>
+<section id="faq" class="bg-white border rounded-2xl p-6 mb-10"><h2 class="font-extrabold text-2xl mb-4">Frequently Asked Questions</h2><div class="space-y-4 text-sm"><div><h3 class="font-bold">Are my files uploaded?</h3><p class="muted">The current tools process selected files locally in your browser; the site code does not intentionally send document contents to a QuickTools24 server.</p></div><div><h3 class="font-bold">Why is a large PDF slow?</h3><p class="muted">Processing takes place on your device, so speed and file-size limits depend on your phone or computer memory and browser.</p></div><div><h3 class="font-bold">How do I report a problem?</h3><p class="muted">Use Contact Us or email <a class="text-indigo-700 underline" href="mailto:sachindonmuz@gmail.com">sachindonmuz@gmail.com</a>.</p></div></div></section>
 
 <section id="contact" class="bg-white border rounded-2xl p-6 md:p-8 mb-12">
  <div class="max-w-3xl mx-auto">
@@ -247,7 +204,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 </section>
 </main>
 <div id="modal" class="hidden fixed inset-0 bg-slate-950/60 z-40 p-3 overflow-y-auto"><div class="toolpage-shell bg-white shadow-2xl"><aside class="toolpage-sidebar"><a class="toolpage-back" href="/">← All tools</a><h3 class="font-black text-lg mb-3">QuickTools24</h3><p class="text-xs muted mb-3">Choose another tool</p><div id="toolSidebar" class="toolpage-sidebar-list"></div></aside><div class="toolpage-main"><div class="max-w-4xl bg-white rounded-2xl p-5 md:p-7"><div class="flex justify-between gap-3"><div><h2 id="mtitle" class="text-xl font-extrabold"></h2><p id="mdesc" class="text-sm muted mt-1"></p></div><button onclick="closeModal()" class="text-2xl leading-none" aria-label="Close">×</button></div><div id="fields" class="space-y-3 mt-6"></div><div id="status" class="text-sm mt-4 muted" aria-live="polite"></div><div class="flex gap-3 mt-5"><button id="run" class="btn" onclick="runTool()">Process PDF</button><button class="border rounded-xl px-4 py-2 font-semibold" onclick="closeModal()">Cancel</button></div></div></div></div>
-<footer class="text-center text-xs muted py-8 border-t bg-white"><div class="font-bold text-slate-700 mb-2">QuickTools24.in</div><div class="flex flex-wrap justify-center gap-x-4 gap-y-2 mb-2"><a href="/all-tools.html">All Tools</a><a href="#pdf-editor">PDF Editor</a><a href="/privacy-policy.html">Privacy Policy</a><a href="/terms-of-use.html">Terms of Use</a><a href="#disclaimer">Disclaimer</a><a href="#faq">FAQ</a><a href="/contact.html">Contact Us</a><a href="mailto:sachindonmuz@gmail.com">Email Support</a></div>© 2026 QuickTools24.in · Free online PDF, image and text tools</footer>
+<footer class="text-center text-xs muted py-8 border-t bg-white"><div class="font-bold text-slate-700 mb-2">QuickTools24.in</div><div class="flex flex-wrap justify-center gap-x-4 gap-y-2 mb-2"><a href="/all-tools.html">All Tools</a><a href="/privacy-policy.html">Privacy Policy</a><a href="/terms-of-use.html">Terms of Use</a><a href="#disclaimer">Disclaimer</a><a href="#faq">FAQ</a><a href="/contact.html">Contact Us</a><a href="mailto:sachindonmuz@gmail.com">Email Support</a></div>© 2026 QuickTools24.in · Free online PDF, image and text tools</footer>
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 const {PDFDocument, StandardFonts, rgb, degrees}=PDFLib;
@@ -276,7 +233,6 @@ const tools=[
 ['header','Add Header & Footer','Add custom header and footer text.','↔️',1],
 ['rotateone','Rotate Selected Pages','Rotate only the page numbers you choose.','⤴️',1],
 ['create','Create PDF from Text','Turn typed text into a downloadable PDF.','📃',0],
-['pdf-editor','PDF Text Editor','Edit existing text, add text and images, sign, annotate, add links and manage pages.','📝',1]
 ];
 const imageTools=[
 ['img-resizekb','Photo Size Resizer (KB)','Compress a photo to a target file size.','📉',1],
@@ -302,7 +258,7 @@ const textTools=[
 ['txt-reverse','Reverse Text','Reverse characters or line order.','🔃',0]
 ];
 const allTools=[...tools,...imageTools,...textTools];
-function toolPageUrl(id){return id==='pdf-editor'?'/pdf-editor.html':'/tool.html?tool='+encodeURIComponent(id);}
+function toolPageUrl(id){return '/tool.html?tool='+encodeURIComponent(id);}
 
 let active=null, selected=[];
 function renderTools(list=allTools){document.getElementById('grid').innerHTML=list.map(t=>{const category=t[0].startsWith('img-')||t[0]==='bg-remove'||t[0]==='images'?'Image':t[0].startsWith('txt-')?'Text':'PDF';return '<a class="tool-card" href="'+toolPageUrl(t[0])+'"><div class="tool-card-top"><span class="tool-card-icon">'+t[3]+'</span><span class="tool-card-category">'+category+'</span></div><div class="tool-card-title">'+t[1]+'</div><div class="tool-card-desc">'+t[2]+'</div><div class="tool-card-action"><span>Choose File</span><span>→</span></div></a>'}).join('')}
@@ -311,7 +267,7 @@ function sendContact(event){event.preventDefault();const name=document.getElemen
 
 function el(tag,attrs={},txt=''){const e=document.createElement(tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));e.textContent=txt;return e}
 function addField(label,type,id,placeholder='',multiple=false){const wrap=el('label',{class:'block text-sm font-bold'},label);let input;if(type==='select'){input=el('select',{class:'field mt-1',id});const choices=id==='format'?[['PNG','image/png'],['JPEG','image/jpeg'],['WebP','image/webp']]:id==='angle'?[['90°','90'],['180°','180'],['270°','270']]:id==='flip'?[['Horizontal','horizontal'],['Vertical','vertical']]:id==='case'?[['UPPERCASE','upper'],['lowercase','lower'],['Title Case','title']]:[];choices.forEach(([label,value])=>{const o=el('option',{value},label);input.appendChild(o)});if(placeholder)input.value=placeholder;}else{input=el(type==='textarea'?'textarea':'input',{class:'field mt-1',...(type==='textarea'?{id,placeholder,rows:'5'}:{type,id,placeholder})});if(type==='number'&&placeholder)input.value=placeholder;}if(multiple)input.multiple=true;wrap.appendChild(input);document.getElementById('fields').appendChild(wrap);return input}
-function openTool(id){active=allTools.find(t=>t[0]===id);if(!active)return;if(id==='pdf-editor'){openPdfEditorPage();return;}selected=[];history.pushState({},'', '?tool='+encodeURIComponent(id));document.title=active[1]+' — QuickTools24';document.querySelectorAll('main>section').forEach(x=>x.style.display='none');document.querySelector('header').style.display='none';document.querySelector('footer').style.display='none';document.getElementById('toolSidebar').innerHTML=allTools.map(t=>'<a class="toolpage-link '+(t[0]===id?'active':'')+'" href="'+(t[0]==='pdf-editor'?'/pdf-editor.html':'/tool.html?tool='+encodeURIComponent(t[0]))+'">'+t[3]+' '+t[1]+'</a>').join('');document.getElementById('modal').classList.add('toolpage-modal');document.getElementById('mtitle').textContent=active[1];document.getElementById('mdesc').textContent=active[2];document.getElementById('fields').innerHTML='';document.getElementById('status').textContent='';document.getElementById('run').textContent=id.startsWith('img-')?'Process Image':id.startsWith('txt-')?'Process Text':id==='create'?'Create PDF':'Process PDF';
+function openTool(id){active=allTools.find(t=>t[0]===id);if(!active)return;selected=[];history.pushState({},'', '?tool='+encodeURIComponent(id));document.title=active[1]+' — QuickTools24';document.querySelectorAll('main>section').forEach(x=>x.style.display='none');document.querySelector('header').style.display='none';document.querySelector('footer').style.display='none';document.getElementById('toolSidebar').innerHTML=allTools.map(t=>'<a class="toolpage-link '+(t[0]===id?'active':'')+'" href="'+(t[0]==='pdf-editor'?'/pdf-editor.html':'/tool.html?tool='+encodeURIComponent(t[0]))+'">'+t[3]+' '+t[1]+'</a>').join('');document.getElementById('modal').classList.add('toolpage-modal');document.getElementById('mtitle').textContent=active[1];document.getElementById('mdesc').textContent=active[2];document.getElementById('fields').innerHTML='';document.getElementById('status').textContent='';document.getElementById('run').textContent=id.startsWith('img-')?'Process Image':id.startsWith('txt-')?'Process Text':id==='create'?'Create PDF':'Process PDF';
 if(id==='create'||id.startsWith('txt-')){addField('Enter or paste your text','textarea','txt','Type or paste your text');}
 else if(id==='images'||id.startsWith('img-')){addField('Choose image'+(id==='images'?'s':''),'file','files','',id==='images').accept='image/*';}
 else {addField('Choose PDF file'+(active[4]===2?'s':''),'file','files','',active[4]===2).accept='application/pdf';}
@@ -333,7 +289,7 @@ extract:[['Page numbers (e.g. 1,3,5)','text','pages','1,3']],delete:[['Page numb
 (configs[id]||[]).forEach(c=>addField(c[0],c[1],c[2],c[3]));
 if(['extract','delete','rotateone','reorder'].includes(id))addField('Page numbers use 1-based numbering','text','hint','Separate numbers with commas');
 document.getElementById('modal').classList.remove('hidden')}
-function openPdfEditorPage(){history.pushState({},'','?tool=pdf-editor');document.title='PDF Text Editor — QuickTools24';document.querySelector('header').style.display='none';document.querySelector('footer').style.display='none';document.querySelectorAll('main>section').forEach(x=>x.style.display='none');let shell=document.getElementById('pdfEditorPageShell');if(!shell){const sec=document.getElementById('pdf-editor');shell=document.createElement('div');shell.id='pdfEditorPageShell';shell.className='toolpage-shell bg-white';const side=document.createElement('aside');side.className='toolpage-sidebar';side.innerHTML='<a class="toolpage-back" href="/">← All tools</a><h3 class="font-black text-lg mb-3">QuickTools24</h3><p class="text-xs muted mb-3">Other tools</p><div id="pdfEditorToolSidebar" class="toolpage-sidebar-list"></div>';const main=document.createElement('div');main.className='toolpage-main';sec.parentNode.insertBefore(shell,sec);shell.append(side,main);main.appendChild(sec);sec.classList.remove('bg-white','border','rounded-2xl','mb-10');sec.style.display='block';}document.getElementById('pdfEditorToolSidebar').innerHTML=allTools.filter(t=>t[0]!=='pdf-editor').map(t=>'<a class="toolpage-link" href="'+(t[0]==='pdf-editor'?'/pdf-editor.html':'/tool.html?tool='+encodeURIComponent(t[0]))+'">'+t[3]+' '+t[1]+'</a>').join('');shell.style.display='grid';document.getElementById('pdf-editor').style.display='block';}
+
 function closeModal(){document.getElementById('modal').classList.add('hidden')}
 function val(id){return document.getElementById(id)?.value||''}
 function nums(s){return s.split(',').map(x=>parseInt(x.trim(),10)).filter(Number.isFinite)}
