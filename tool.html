@@ -861,16 +861,36 @@ async function runBackgroundRemoval(file){
    const mod=await import('https://esm.sh/@imgly/background-removal@1.5.6?bundle');
    const removeBackground=mod.default||mod.removeBackground;
    if(typeof removeBackground!=='function')throw new Error('The background-removal engine did not load correctly. Please refresh and try again.');
-   const result=await removeBackground(source,{
-    device:'cpu',
-    model:'isnet_quint8',
-    output:{format:'image/png',quality:1},
-    debug:true,
-    progress:(key,current,total)=>{
-     const pct=total>0?Math.round(current/total*100):0;
-     progress.textContent=key.startsWith('fetch:')?'Downloading AI model… '+pct+'%':key.startsWith('compute:')?(mode==='fast'?'Fast mode — removing background… ':'HD mode — removing background… ')+pct+'%':'Preparing AI model…';
+   const onProgress=(key,current,total)=>{
+    const pct=total>0?Math.round(current/total*100):0;
+    progress.textContent=key.startsWith('fetch:')?'Downloading AI model… '+pct+'%':key.startsWith('compute:')?(mode==='fast'?'Fast mode — removing background… ':'HD mode — removing background… ')+pct+'%':'Preparing AI model…';
+   };
+   let result;
+   // Prefer WebGPU on supported devices; fall back to the lightweight CPU model.
+   if(navigator.gpu){
+    try{
+     progress.textContent='Starting GPU-accelerated background removal…';
+     result=await removeBackground(source,{
+      device:'gpu',
+      model:'isnet',
+      output:{format:'image/png',quality:1},
+      debug:false,
+      progress:onProgress
+     });
+    }catch(gpuError){
+     console.warn('QuickTools24: GPU processing unavailable; switching to CPU.',gpuError);
+     progress.textContent='GPU unavailable. Switching to compatibility mode…';
     }
-   });
+   }
+   if(!result){
+    result=await removeBackground(source,{
+     device:'cpu',
+     model:'isnet_quint8',
+     output:{format:'image/png',quality:1},
+     debug:false,
+     progress:onProgress
+    });
+   }
    const processed=await createImageBitmap(result);cutout=document.createElement('canvas');cutout.width=original.width;cutout.height=original.height;cutout.getContext('2d').drawImage(processed,0,0,original.width,original.height);
    ready=true;drawPreview();overlay.style.display='none';downloadButton.disabled=false;downloadButton.style.opacity='1';
    heading.textContent='Background removed — preview your result';status.textContent=(mode==='fast'?'Fast Mode completed.':'HD Mode completed.')+' Choose a colour and download your PNG.';
