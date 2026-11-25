@@ -162,8 +162,9 @@ export default {
    const s=await session(request,env);if(!s)return Response.redirect(u.origin+"/admin",302);
    return new Response(FEEDBACK_ADMIN,{headers:{"content-type":"text/html; charset=utf-8","cache-control":"no-store","x-content-type-options":"nosniff","x-frame-options":"DENY","referrer-policy":"no-referrer","content-security-policy":"default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'"}});
   }
+  if(request.method==="OPTIONS"&&path==="/api/feedback")return new Response(null,{headers:{"access-control-allow-origin":SITE,"access-control-allow-methods":"POST, OPTIONS","access-control-allow-headers":"Content-Type","access-control-max-age":"86400","vary":"Origin"}});
   if(request.method==="POST"&&path==="/api/feedback"){
-   const headers={"content-type":"application/json; charset=utf-8","cache-control":"no-store","x-content-type-options":"nosniff"};
+   const headers={"content-type":"application/json; charset=utf-8","cache-control":"no-store","x-content-type-options":"nosniff","access-control-allow-origin":SITE,"vary":"Origin"};
    if(request.headers.get("Origin")!==SITE)return new Response(JSON.stringify({error:"Origin rejected."}),{status:403,headers});
    if(!env.USAGE_KV)return new Response(JSON.stringify({error:"Feedback storage is temporarily unavailable."}),{status:503,headers});
    try{
@@ -175,7 +176,7 @@ export default {
     const ip=request.headers.get("CF-Connecting-IP")||"unknown",digest=await crypto.subtle.digest("SHA-256",enc.encode(ip)),ipKey="feedback-rate:"+Array.from(new Uint8Array(digest)).map(x=>x.toString(16).padStart(2,"0")).join("");
     const count=Number(await env.USAGE_KV.get(ipKey)||0);if(count>=5)return new Response(JSON.stringify({error:"Too many messages. Please try again later."}),{status:429,headers});
     await env.USAGE_KV.put(ipKey,String(count+1),{expirationTtl:3600});
-    const id=Date.now().toString(36)+"-"+b64url(crypto.getRandomValues(new Uint8Array(9)));
+    const id=Date.now().toString(36)+"-"+Array.from(crypto.getRandomValues(new Uint8Array(12))).map(x=>x.toString(16).padStart(2,"0")).join("");
     const record={id,name,email,subject,message,status:"unread",createdAt:new Date().toISOString()};
     await env.USAGE_KV.put("feedback:"+id,JSON.stringify(record),{expirationTtl:60*60*24*365*2});
     return new Response(JSON.stringify({ok:true}),{headers});
