@@ -854,7 +854,7 @@ async function runBackgroundRemoval(file){
    if(!original){original=await createImageBitmap(file);preview.width=original.width;preview.height=original.height;preview.getContext('2d').drawImage(original,0,0)}
    let source=file;
    if(mode==='fast'){
-    const maxSide=1280,scale=Math.min(1,maxSide/Math.max(original.width,original.height));
+    const maxSide=1024,scale=Math.min(1,maxSide/Math.max(original.width,original.height));
     if(scale<1){const small=document.createElement('canvas');small.width=Math.max(1,Math.round(original.width*scale));small.height=Math.max(1,Math.round(original.height*scale));small.getContext('2d',{alpha:false}).drawImage(original,0,0,small.width,small.height);source=await new Promise((resolve,reject)=>small.toBlob(blob=>blob?resolve(blob):reject(new Error('Could not prepare the fast preview.')),'image/jpeg',.88));}
    }
    progress.textContent=mode==='fast'?'Loading AI model and removing background…':'Loading AI model for full-resolution removal…';
@@ -862,10 +862,10 @@ async function runBackgroundRemoval(file){
    const removeBackground=mod.default||mod.removeBackground;
    if(typeof removeBackground!=='function')throw new Error('The background-removal engine did not load correctly. Please refresh and try again.');
    const result=await removeBackground(source,{
-    device:'cpu',
+    device:'gpu',
     model:'isnet_quint8',
     output:{format:'image/png',quality:1},
-    debug:true,
+    debug:false,
     progress:(key,current,total)=>{
      const pct=total>0?Math.round(current/total*100):0;
      progress.textContent=key.startsWith('fetch:')?'Downloading AI model… '+pct+'%':key.startsWith('compute:')?(mode==='fast'?'Fast mode — removing background… ':'HD mode — removing background… ')+pct+'%':'Preparing AI model…';
