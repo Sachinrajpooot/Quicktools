@@ -37,8 +37,40 @@
 <meta name="twitter:title" content="QuickTools24 — Free Online Tools">
 <meta name="twitter:description" content="Free online PDF, image and text tools.">
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+/* Load heavy PDF libraries only when a visitor opens a PDF feature. */
+let q24PdfLibrariesPromise = null;
+function loadQ24Script(src) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.async = true;
+    script.onload = resolve;
+    script.onerror = () => reject(new Error('A PDF component could not load. Check your connection and try again.'));
+    document.head.appendChild(script);
+  });
+}
+async function ensurePdfLibraries() {
+  if (window.PDFLib && window.pdfjsLib) {
+    ({PDFDocument, StandardFonts, rgb, degrees} = PDFLib);
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    return;
+  }
+  if (!q24PdfLibrariesPromise) {
+    q24PdfLibrariesPromise = Promise.all([
+      loadQ24Script('https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js'),
+      loadQ24Script('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js')
+    ]).then(() => {
+      ({PDFDocument, StandardFonts, rgb, degrees} = PDFLib);
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }).catch(error => {
+      q24PdfLibrariesPromise = null;
+      throw error;
+    });
+  }
+  await q24PdfLibrariesPromise;
+}
+</script>
 <style>
 body{background:#f5f7fb;color:#172033} .tool{background:white;border:1px solid #e5e9f2;border-radius:18px;padding:18px;text-align:left;transition:.18s} .tool:hover{border-color:#6b7cff;transform:translateY(-2px);box-shadow:0 12px 28px #17203312} .btn{background:#4f46e5;color:white;border-radius:10px;padding:11px 16px;font-weight:700}.btn:disabled{opacity:.45} .field{width:100%;border:1px solid #d8deea;border-radius:10px;padding:10px;background:white} .muted{color:#64748b}
 
@@ -206,8 +238,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 <div id="modal" class="hidden fixed inset-0 bg-slate-950/60 z-40 p-3 overflow-y-auto"><div class="toolpage-shell bg-white shadow-2xl"><aside class="toolpage-sidebar"><a class="toolpage-back" href="/">← All tools</a><h3 class="font-black text-lg mb-3">QuickTools24</h3><p class="text-xs muted mb-3">Choose another tool</p><div id="toolSidebar" class="toolpage-sidebar-list"></div></aside><div class="toolpage-main"><div class="max-w-4xl bg-white rounded-2xl p-5 md:p-7"><div class="flex justify-between gap-3"><div><h2 id="mtitle" class="text-xl font-extrabold"></h2><p id="mdesc" class="text-sm muted mt-1"></p></div><button onclick="closeModal()" class="text-2xl leading-none" aria-label="Close">×</button></div><div id="fields" class="space-y-3 mt-6"></div><div id="status" class="text-sm mt-4 muted" aria-live="polite"></div><div class="flex gap-3 mt-5"><button id="run" class="btn" onclick="runTool()">Process PDF</button><button class="border rounded-xl px-4 py-2 font-semibold" onclick="closeModal()">Cancel</button></div></div></div></div>
 <footer class="text-center text-xs muted py-8 border-t bg-white"><div class="font-bold text-slate-700 mb-2">QuickTools24.in</div><div class="flex flex-wrap justify-center gap-x-4 gap-y-2 mb-2"><a href="/all-tools.html">All Tools</a><a href="/privacy-policy.html">Privacy Policy</a><a href="/terms-of-use.html">Terms of Use</a><a href="#disclaimer">Disclaimer</a><a href="#faq">FAQ</a><a href="/contact.html">Contact Us</a><a href="mailto:sachindonmuz@gmail.com">Email Support</a></div>© 2026 QuickTools24.in · Free online PDF, image and text tools</footer>
 <script>
-pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-const {PDFDocument, StandardFonts, rgb, degrees}=PDFLib;
+let PDFDocument, StandardFonts, rgb, degrees;
 const tools=[
 ['merge','Merge PDF','Combine multiple PDF files into one.','📚',2],
 ['split','Split PDF','Save each page as a separate PDF.','✂️',1],
@@ -323,7 +354,7 @@ if(id==='txt-sort')out=s.split(/\r?\n/).sort((a,b)=>a.localeCompare(b)).join('\n
 if(id==='txt-duplicate')out=[...new Set(s.split(/\r?\n/))].join('\n');
 if(id==='txt-reverse')out=s.split('').reverse().join('');
 download(new Blob([out],{type:'text/plain;charset=utf-8'}),'quicktools24-text.txt','text/plain');return 'Text tool completed. Download is ready.'}
-async function runTool(){const btn=document.getElementById('run'),status=document.getElementById('status');btn.disabled=true;status.textContent='Working…';try{const id=active[0],files=[...(document.getElementById('files')?.files||[])];let doc,out,name='quicktools24.pdf';
+async function runTool(){const btn=document.getElementById('run'),status=document.getElementById('status');btn.disabled=true;status.textContent='Working…';try{const id=active[0],files=[...(document.getElementById('files')?.files||[])];if(!id.startsWith('img-')&&!id.startsWith('txt-'))await ensurePdfLibraries();let doc,out,name='quicktools24.pdf';
 if(id.startsWith('img-')){if(!files[0])throw Error('Choose an image first.');status.textContent=await processImage(id,files[0]);return}
 if(id.startsWith('txt-')){if(id!=='txt-count'&&!val('txt'))throw Error('Enter some text first.');status.textContent=await processText(id);return}
 if(id==='create'){doc=await PDFDocument.create();const font=await doc.embedFont(StandardFonts.Helvetica);let page=doc.addPage();const lines=val('txt').split(/\r?\n/);let y=page.getHeight()-55;for(const line of lines){if(y<45){page=doc.addPage();y=page.getHeight()-55}page.drawText(line.slice(0,140),{x:45,y,size:12,font});y-=18}out=await doc.save();}
@@ -355,7 +386,7 @@ window.addEventListener('popstate',()=>{if(!new URLSearchParams(location.search)
 /* PDF overlay editor: add/move/resize text, images and drawn signatures */
 let pdfEditDoc=null,pdfEditPdfJs=null,pdfEditPageNum=1,pdfEditItems=[],pdfEditSelected=-1,pdfEditDisplayW=0,pdfEditDisplayH=0;
 const pdfCanvas=document.getElementById('pdfPreview'),pdfOverlay=document.getElementById('pdfOverlay'),pdfStage=document.getElementById('pdfStage');
-async function pdfEditorLoad(){const f=document.getElementById('pdfEditFile').files[0];if(!f)return;try{document.getElementById('pdfEditStatus').textContent='Loading PDF…';const bytes=await f.arrayBuffer();pdfEditDoc=await PDFDocument.load(bytes);pdfEditPdfJs=await pdfjsLib.getDocument({isEvalSupported:false,data:new Uint8Array(bytes.slice(0))}).promise;pdfEditPageNum=1;pdfEditItems=[];document.getElementById('pdfEditPage').max=pdfEditDoc.getPageCount();document.getElementById('pdfEditPage').value=1;document.getElementById('pdfEditDownload').disabled=false;await pdfEditorRender();document.getElementById('pdfEditStatus').textContent='PDF loaded · '+pdfEditDoc.getPageCount()+' pages. Add items and download.';}catch(e){document.getElementById('pdfEditStatus').textContent='Could not open PDF: '+e.message;}}
+async function pdfEditorLoad(){const f=document.getElementById('pdfEditFile').files[0];if(!f)return;try{document.getElementById('pdfEditStatus').textContent='Loading PDF libraries…';await ensurePdfLibraries();document.getElementById('pdfEditStatus').textContent='Loading PDF…';const bytes=await f.arrayBuffer();pdfEditDoc=await PDFDocument.load(bytes);pdfEditPdfJs=await pdfjsLib.getDocument({isEvalSupported:false,data:new Uint8Array(bytes.slice(0))}).promise;pdfEditPageNum=1;pdfEditItems=[];document.getElementById('pdfEditPage').max=pdfEditDoc.getPageCount();document.getElementById('pdfEditPage').value=1;document.getElementById('pdfEditDownload').disabled=false;await pdfEditorRender();document.getElementById('pdfEditStatus').textContent='PDF loaded · '+pdfEditDoc.getPageCount()+' pages. Add items and download.';}catch(e){document.getElementById('pdfEditStatus').textContent='Could not open PDF: '+e.message;}}
 document.getElementById('pdfEditFile').addEventListener('change',pdfEditorLoad);
 async function pdfEditorRender(){if(!pdfEditPdfJs)return;const page=await pdfEditPdfJs.getPage(pdfEditPageNum),vp=page.getViewport({scale:1.35});pdfCanvas.width=vp.width;pdfCanvas.height=vp.height;await page.render({canvasContext:pdfCanvas.getContext('2d'),viewport:vp}).promise;const rect=pdfCanvas.getBoundingClientRect();pdfEditDisplayW=rect.width;pdfEditDisplayH=rect.height;pdfOverlay.style.width=rect.width+'px';pdfOverlay.style.height=rect.height+'px';pdfOverlay.style.marginLeft='0';pdfOverlay.style.left='50%';pdfOverlay.style.transform='translateX(-50%)';document.getElementById('pdfEditorHint').style.display='none';pdfEditorRenderItems();}
 function pdfEditorRenderItems(){pdfOverlay.innerHTML='';pdfEditItems.forEach((it,i)=>{if(it.page!==pdfEditPageNum)return;const d=document.createElement('div');d.className='pdf-object'+(i===pdfEditSelected?' selected':'');d.style.left=it.x+'px';d.style.top=it.y+'px';d.style.width=it.w+'px';d.style.height=it.h+'px';if(it.type==='text'){d.textContent=it.text;d.style.fontSize=Math.max(8,it.fontSize*pdfEditDisplayW/pdfCanvas.width)+'px';d.style.color=it.color;d.style.fontWeight=it.bold?'700':'500';d.style.fontStyle=it.italic?'italic':'normal';}else if(it.type==='shape'){d.style.background=it.shape==='highlight'?it.color+'66':it.shape==='whiteout'?'#ffffff':'transparent';d.style.border=it.shape==='rectangle'||it.shape==='ellipse'?'2px solid '+it.color:'1px dashed '+it.color;d.style.borderRadius=it.shape==='ellipse'?'50%':'2px';}else{const im=document.createElement('img');im.src=it.data;d.appendChild(im);}d.addEventListener('pointerdown',e=>pdfEditorDragStart(e,i));d.addEventListener('click',()=>pdfEditorSelect(i));pdfOverlay.appendChild(d);});}
