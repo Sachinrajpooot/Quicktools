@@ -98,6 +98,7 @@ async function publish(p,token) {
   const pr=await gh("/repos/"+OWNER+"/"+REPO+"/pulls",token,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({title:"Publish SEO article: "+title,head:branch,base:BASE,body:"Review the article page and sitemap entry before merging.\n\nArticle: "+articleUrl+"\nSEO title and description included. Please proofread before publishing."})});
   return {pullRequestUrl:pr.html_url,articleUrl:articleUrl};
 }
+const FEEDBACK_ADMIN = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Feedback Inbox | QuickTools24 Admin</title><style>*{box-sizing:border-box}body{margin:0;background:#f3f6fb;color:#172238;font:15px/1.5 Arial}.wrap{max-width:900px;margin:28px auto;padding:0 14px}.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:20px;margin-bottom:14px}a{color:#155eef}button{border:0;border-radius:8px;background:#155eef;color:#fff;padding:9px 13px;font-weight:700;cursor:pointer;margin:4px 4px 4px 0}.muted{color:#64748b}.item{padding:15px 0;border-bottom:1px solid #e5eaf2;overflow-wrap:anywhere}.item:last-child{border:0}.msg{white-space:pre-wrap;margin:10px 0}.tag{font-size:12px;background:#eef2ff;padding:3px 8px;border-radius:20px}.danger{background:#b91c1c}.secondary{background:#e8eef8;color:#18345f}</style></head><body><main class="wrap"><p><a href="/admin">← Back to Admin</a></p><section class="card"><h1>Suggestions & Feedback Inbox</h1><p class="muted">Private messages submitted through QuickTools24. Only the authorized admin can view them.</p><p id="summary">Loading messages…</p><button id="refresh">Refresh</button></section><section class="card" id="list">Loading…</section></main><script>const box=document.getElementById("list"),summary=document.getElementById("summary");async function act(id,action){const r=await fetch("/api/feedback/action",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({id,action})});const d=await r.json();if(!r.ok)throw Error(d.error||"Action failed");load()}async function load(){box.textContent="Loading messages…";try{const r=await fetch("/api/feedback",{cache:"no-store"}),d=await r.json();if(!r.ok)throw Error(d.error||"Could not load inbox");summary.textContent=d.total+" messages · "+d.unread+" unread";box.replaceChildren();if(!d.messages.length){box.textContent="No suggestions received yet.";return}for(const m of d.messages){const article=document.createElement("article");article.className="item";const head=document.createElement("div");const strong=document.createElement("strong");strong.textContent=m.subject;head.append(strong);const tag=document.createElement("span");tag.className="tag";tag.textContent=m.status==="unread"?"NEW":"READ";head.append(" ",tag);const meta=document.createElement("p");meta.className="muted";meta.textContent=m.name+" · "+m.email+" · "+new Date(m.createdAt).toLocaleString();const body=document.createElement("p");body.className="msg";body.textContent=m.message;const reply=document.createElement("a");reply.href="mailto:"+encodeURIComponent(m.email)+"?subject="+encodeURIComponent("Re: "+m.subject);reply.textContent="Reply by email";const read=document.createElement("button");read.className="secondary";read.textContent=m.status==="unread"?"Mark as read":"Mark unread";read.onclick=()=>act(m.id,"toggle");const del=document.createElement("button");del.className="danger";del.textContent="Delete";del.onclick=()=>{if(confirm("Delete this message permanently?"))act(m.id,"delete")};article.append(head,meta,body,reply,document.createElement("br"),read,del);box.append(article)}}catch(e){box.textContent=e.message}}document.getElementById("refresh").onclick=load;load();</script></body></html>`
 export default {
  async fetch(request,env) {
   const u=new URL(request.url),path=u.pathname;
@@ -109,6 +110,7 @@ export default {
    let page=ADMIN;
    if(s){
     page=page
+      .replace('<section id="site-analysis-section"', "<p style=\"margin:12px 0\"><a href=\"/admin/feedback\" class=\"btn secondary\">Suggestions &amp; Feedback Inbox</a></p>"+'<section id="site-analysis-section"')
       .replace('<div id="login">','<div id="login" class="hidden" aria-hidden="true">')
       .replace('<div id="editor" class="hidden">','<div id="editor">')
       .replace('<p id="who" class="muted"></p>','<p id="who" class="muted">Signed in as '+esc(s.login)+'</p>')
@@ -155,6 +157,40 @@ export default {
    if(origin!==SITE)return new Response(JSON.stringify({error:"Origin rejected."}),{status:403,headers});
    if(!env.USAGE_KV)return new Response(JSON.stringify({ok:false,reason:"analytics-not-configured"}),{status:202,headers});
    try{if(!request.headers.get("content-type")?.toLowerCase().startsWith("application/json"))return new Response(JSON.stringify({error:"JSON required."}),{status:415,headers});const p=await readJsonLimited(request,1024),name=String(p.tool||"").replace(/[^a-z0-9_-]/gi,"").slice(0,60);const allowed=new Set(["merge","split","extract","delete","rotate","reorder","addblank","crop","watermark","pagenum","text","signature","metadata","inspect","textout","images","render","grayscale","compress","form","flatten","header","rotateone","create","pdf-editor","img-resizekb","img-resize","img-crop","img-convert","img-bw","img-rotate","img-watermark","img-compress","img-flip","img-passport","img-pngjpg","img-jpgpng","bg-remove","txt-count","txt-case","txt-clean","txt-sort","txt-duplicate","txt-reverse"]);if(!allowed.has(name))return new Response(JSON.stringify({error:"Unknown tool."}),{status:400,headers});const day=new Date().toISOString().slice(0,10),key="usage:"+day;const data=JSON.parse(await env.USAGE_KV.get(key)||"{}");data[name]=Math.min(100000000,Number(data[name]||0)+1);await env.USAGE_KV.put(key,JSON.stringify(data),{expirationTtl:60*60*24*400});return new Response(JSON.stringify({ok:true}),{headers});}catch(e){return new Response(JSON.stringify({ok:false,error:e.message||"Invalid request."}),{status:400,headers});}
+  }
+  if(request.method==="GET"&&path==="/admin/feedback"){
+   const s=await session(request,env);if(!s)return Response.redirect(u.origin+"/admin",302);
+   return new Response(FEEDBACK_ADMIN,{headers:{"content-type":"text/html; charset=utf-8","cache-control":"no-store","x-content-type-options":"nosniff","x-frame-options":"DENY","referrer-policy":"no-referrer","content-security-policy":"default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'"}});
+  }
+  if(request.method==="OPTIONS"&&path==="/api/feedback")return new Response(null,{headers:{"access-control-allow-origin":SITE,"access-control-allow-methods":"POST, OPTIONS","access-control-allow-headers":"Content-Type","access-control-max-age":"86400","vary":"Origin"}});
+  if(request.method==="POST"&&path==="/api/feedback"){
+   const headers={"content-type":"application/json; charset=utf-8","cache-control":"no-store","x-content-type-options":"nosniff","access-control-allow-origin":SITE,"vary":"Origin"};
+   if(request.headers.get("Origin")!==SITE)return new Response(JSON.stringify({error:"Origin rejected."}),{status:403,headers});
+   if(!env.USAGE_KV)return new Response(JSON.stringify({error:"Feedback storage is temporarily unavailable."}),{status:503,headers});
+   try{
+    if(!request.headers.get("content-type")?.toLowerCase().startsWith("application/json"))return new Response(JSON.stringify({error:"JSON required."}),{status:415,headers});
+    const p=await readJsonLimited(request,7000);
+    if(String(p.website||"").trim())return new Response(JSON.stringify({ok:true}),{headers});
+    const name=String(p.name||"").trim().slice(0,100),email=String(p.email||"").trim().slice(0,150),subject=String(p.subject||"").trim().slice(0,150),message=String(p.message||"").trim().slice(0,4000);
+    if(!name||!/^\S+@\S+\.\S+$/.test(email)||!subject||message.length<3)return new Response(JSON.stringify({error:"Please enter a valid name, email, subject and message."}),{status:400,headers});
+    const ip=request.headers.get("CF-Connecting-IP")||"unknown",digest=await crypto.subtle.digest("SHA-256",enc.encode(ip)),ipKey="feedback-rate:"+Array.from(new Uint8Array(digest)).map(x=>x.toString(16).padStart(2,"0")).join("");
+    const count=Number(await env.USAGE_KV.get(ipKey)||0);if(count>=5)return new Response(JSON.stringify({error:"Too many messages. Please try again later."}),{status:429,headers});
+    await env.USAGE_KV.put(ipKey,String(count+1),{expirationTtl:3600});
+    const id=Date.now().toString(36)+"-"+Array.from(crypto.getRandomValues(new Uint8Array(12))).map(x=>x.toString(16).padStart(2,"0")).join("");
+    const record={id,name,email,subject,message,status:"unread",createdAt:new Date().toISOString()};
+    await env.USAGE_KV.put("feedback:"+id,JSON.stringify(record),{expirationTtl:60*60*24*365*2});
+    return new Response(JSON.stringify({ok:true}),{headers});
+   }catch(e){return new Response(JSON.stringify({error:e.message||"Could not save your message."}),{status:400,headers});}
+  }
+  if(request.method==="GET"&&path==="/api/feedback"){
+   const s=await session(request,env);if(!s)return json({error:"Please sign in again."},401);
+   if(!env.USAGE_KV)return json({error:"Feedback storage is not configured."},503);
+   try{const listed=await env.USAGE_KV.list({prefix:"feedback:",limit:100}),messages=(await Promise.all(listed.keys.map(async k=>{const raw=await env.USAGE_KV.get(k.name);try{return raw?JSON.parse(raw):null}catch{return null}}))).filter(Boolean).sort((a,b)=>b.createdAt.localeCompare(a.createdAt));return json({messages,total:messages.length,unread:messages.filter(m=>m.status==="unread").length});}catch(e){return json({error:e.message||"Could not read feedback."},500);}
+  }
+  if(request.method==="POST"&&path==="/api/feedback/action"){
+   if(request.headers.get("Origin")!==u.origin)return json({error:"Origin rejected."},403);
+   const s=await session(request,env);if(!s)return json({error:"Please sign in again."},401);
+   try{const p=await readJsonLimited(request,1000),id=String(p.id||"");if(!/^[a-z0-9-]{5,80}$/i.test(id))return json({error:"Invalid message ID."},400);const k="feedback:"+id,raw=await env.USAGE_KV.get(k);if(!raw)return json({error:"Message not found."},404);if(p.action==="delete"){await env.USAGE_KV.delete(k);return json({ok:true})}if(p.action==="toggle"){const m=JSON.parse(raw);m.status=m.status==="unread"?"read":"unread";await env.USAGE_KV.put(k,JSON.stringify(m),{expirationTtl:60*60*24*365*2});return json({ok:true})}return json({error:"Unknown action."},400)}catch(e){return json({error:e.message||"Action failed."},400);}
   }
   if(request.method==="POST"&&path==="/api/logout"){if(request.headers.get("Origin")!==u.origin)return json({error:"Origin rejected."},403);return new Response('{"ok":true}',{headers:{"content-type":"application/json","Set-Cookie":clear(COOKIE),"cache-control":"no-store","x-content-type-options":"nosniff"}});}
   if(request.method==="POST"&&path==="/api/articles"){
