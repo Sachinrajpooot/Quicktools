@@ -171,6 +171,42 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
  button,.btn,.file-picker-shell{min-height:46px}
  .tool-workspace-inner{padding:16px}
 }
+</style><style id="q24-distinctive-colour-refresh">
+/* Distinctive QuickTools24 colour refresh — visual styling only */
+.home-header{background:rgba(255,253,248,.96);border-bottom:1px solid #f0dfd2}
+.home-brand-word{color:#203b36}.home-brand-word span{color:#e56b4a}
+.home-brand-tag{color:#718078}
+.home-nav{color:#405b53}.home-nav a:hover{color:#e56b4a}
+.home-hero:before{background:radial-gradient(circle,#a7f3d088,transparent 70%)}
+.home-hero:after{background:radial-gradient(circle,#fed7aa99,transparent 70%)}
+.home-kicker{border-color:#b8e8d9;background:#effcf6;color:#087f68}
+.home-hero h1{color:#203b36}.home-hero h1 span{background:linear-gradient(90deg,#0f9f83,#e56b4a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.home-hero p{color:#687b73}
+.home-search{border-color:#cde8dc!important;box-shadow:0 12px 35px #14534412!important}
+.home-search-wrap:before{color:#0f9f83}
+.home-trust{color:#687b73}.home-trust span:before{color:#0f9f83}
+.home-section-head h2{color:#203b36}
+.tool-card{border-color:#eadfd5;background:linear-gradient(155deg,#fff 0%,#fffdf9 100%);box-shadow:0 5px 18px #6b49320a}
+.tool-card:hover{border-color:#7bd6bd;box-shadow:0 16px 35px #0f766e18}
+.tool-card:nth-child(4n+1){border-top:4px solid #10a88a}
+.tool-card:nth-child(4n+2){border-top:4px solid #f08a55}
+.tool-card:nth-child(4n+3){border-top:4px solid #8b78d6}
+.tool-card:nth-child(4n){border-top:4px solid #e4b83f}
+.tool-card-icon{background:linear-gradient(145deg,#e5fbf2,#d3f4e8);color:#087f68}
+.tool-card:nth-child(4n+2) .tool-card-icon{background:linear-gradient(145deg,#fff0e4,#ffe0c8)}
+.tool-card:nth-child(4n+3) .tool-card-icon{background:linear-gradient(145deg,#f1edff,#e3dcff)}
+.tool-card:nth-child(4n) .tool-card-icon{background:linear-gradient(145deg,#fff8dc,#ffedaa)}
+.tool-card-category{color:#526a60;background:#f5faf6;border-color:#dcebe2}
+.tool-card-title{color:#203b36}.tool-card-desc{color:#718078}
+.tool-card-action{color:#0b9278;border-color:#f0e6dc}
+.home-overview{background:linear-gradient(135deg,#f0fcf6 0%,#fff8ef 52%,#f7f3ff 100%);border-color:#e5e8dc}
+.home-overview-kicker{background:#e4f8ef;color:#087f68}
+.home-overview-head h2,.home-feature-card h3{color:#203b36}
+.home-feature-card{border-color:#e8e3d8;background:#fffefa}
+.home-feature-icon{background:linear-gradient(145deg,#dff8ee,#fce8d9)}
+.q24-site-footer{background:#f5fbf7;border-color:#dcebe2;color:#29443c}
+.q24-site-footer a:hover{color:#e56b4a}
+.q24-site-footer .q24-footer-brand span{color:#e56b4a}
 </style></head>
 <body class="min-h-screen">
 <header class="home-header sticky top-0 z-20"><div class="home-header-inner"><a href="/" class="home-brand"><img src="/favicon-96x96.png" alt="Quick Tools 24 logo"><span><span class="home-brand-word">QuickTools<span>24</span></span><span class="home-brand-tag block">SIMPLE TOOLS. SMART RESULTS.</span></span></a><nav class="home-nav"><a href="/all-tools.html">All Tools</a><a href="/articles/" class="home-blog-link">Blogs</a><a href="/all-tools.html#categories">Browse by Category</a><a href="#contact">Contact</a></nav></div></header>
@@ -290,7 +326,7 @@ const textTools=[
 ];
 const allTools=[...tools,...imageTools,...textTools];
 const toolPagePaths={"merge":"pdf-merger","split":"pdf-splitter","extract":"extract-pdf-pages","delete":"delete-pdf-pages","rotate":"rotate-pdf-pages","reorder":"reorder-pdf-pages","addblank":"add-blank-pages-to-pdf","crop":"crop-pdf-pages","watermark":"add-pdf-watermark","pagenum":"add-page-numbers-to-pdf","text":"add-text-to-pdf","signature":"add-signature-to-pdf","metadata":"edit-pdf-metadata","inspect":"pdf-information","textout":"extract-pdf-text","images":"images-to-pdf","render":"pdf-to-images","grayscale":"grayscale-pdf","compress":"pdf-compressor","form":"fill-pdf-form","flatten":"flatten-pdf-forms","header":"add-pdf-header-footer","rotateone":"rotate-selected-pdf-pages","create":"create-pdf-from-text","img-resizekb":"photo-size-reducer","img-resize":"image-resizer","img-crop":"image-cropper","img-convert":"image-format-converter","img-bw":"black-white-photo","img-rotate":"rotate-image","img-watermark":"add-image-watermark","img-compress":"image-compressor","img-flip":"flip-image","img-passport":"passport-photo-maker","img-pngjpg":"png-to-jpg","img-jpgpng":"jpg-to-png","bg-remove":"ai-background-remover","txt-count":"word-character-counter","txt-case":"text-case-converter","txt-clean":"clean-text","txt-sort":"sort-text-lines","txt-duplicate":"remove-duplicate-lines","txt-reverse":"reverse-text"};
-function toolPageUrl(id){return toolPagePaths[id] ? '/'+toolPagePaths[id]+'.html' : '/tool.html?tool='+encodeURIComponent(id);}
+function toolPageUrl(id){return '/tool.html?tool='+encodeURIComponent(id);}
 
 let active=null, selected=[];
 function renderTools(list=allTools){document.getElementById('grid').innerHTML=list.map(t=>{const category=t[0].startsWith('img-')||t[0]==='bg-remove'||t[0]==='images'?'Image':t[0].startsWith('txt-')?'Text':'PDF';return '<a class="tool-card" href="'+toolPageUrl(t[0])+'"><div class="tool-card-top"><span class="tool-card-icon">'+t[3]+'</span><span class="tool-card-category">'+category+'</span></div><div class="tool-card-title">'+t[1]+'</div><div class="tool-card-desc">'+t[2]+'</div><div class="tool-card-action"><span>Choose File</span><span>→</span></div></a>'}).join('')}
