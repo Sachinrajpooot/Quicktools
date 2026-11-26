@@ -14,6 +14,6 @@
   <path d="M56 12v17a3 3 0 0 0 3 3h16" fill="#B7F0DB"/>
   <path d="M29 40h29M29 50h22" stroke="#0B9278" stroke-width="5.5" stroke-linecap="round"/>
   <path d="M29 65c4.5-6.8 9.3-10.2 14.5-10.2 7.3 0 12 5.3 12 12.4 0 6.6-4.6 11.1-11.5 11.1-5.5 0-9.3-2.7-11.6-7.1" stroke="#0B9278" stroke-width="5.5" stroke-linecap="round"/>
-  <path d="M63 64h22v20H63z" fill="#F08A55" stroke="#FFF7ED" stroke-width="2.5" rx="7"/>
+  <rect x="63" y="64" width="22" height="20" rx="7" fill="#F08A55" stroke="#FFF7ED" stroke-width="2.5"/>
   <path d="M67 70h14M67 76h14" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/>
 </svg>
