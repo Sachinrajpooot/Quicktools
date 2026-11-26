@@ -17,6 +17,29 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
  button,.btn,.file-picker-shell{min-height:46px}
  .tool-workspace-inner{padding:16px}
 }
+</style><style id="q24-distinctive-colour-refresh">
+/* Distinctive QuickTools24 colour refresh — keeps the existing directory layout and controls */
+body{background:#fffaf4;color:#263d36}
+.wrap>header{padding:14px 18px;border:1px solid #f0e3d7;border-radius:18px;background:rgba(255,255,255,.92);box-shadow:0 8px 24px #5c40300a}
+.wrap>header a:first-child{color:#0b9278}
+.wrap>header a:last-child{color:#df704d}
+h1,h2{color:#203b36}
+.toplinks a{padding:8px 13px;border:1px solid #cfe9dc;border-radius:999px;background:#effbf5;color:#087f68}
+.toplinks a:nth-child(2){background:#fff2e8;border-color:#f6d8c2;color:#c65f39}
+.toplinks a:nth-child(3){background:#f2efff;border-color:#ddd5fa;color:#6652b5}
+.toplinks a:nth-child(4){background:#fff8df;border-color:#f2e5b4;color:#927019}
+.toplinks a:nth-child(5){background:#eaf5ff;border-color:#d2e5f6;color:#326d9c}
+.card{border-color:#eadfd5;background:#fffefa;box-shadow:0 5px 18px #6b49320a}
+.toolcard{border-color:#eadfd5;border-top:4px solid #10a88a;background:linear-gradient(155deg,#fff 0%,#fffdf9 100%);border-radius:16px;box-shadow:0 5px 16px #6b49320a;transition:transform .18s,border-color .18s,box-shadow .18s}
+.toolcard:nth-child(4n+2){border-top-color:#f08a55}.toolcard:nth-child(4n+3){border-top-color:#8b78d6}.toolcard:nth-child(4n){border-top-color:#e4b83f}
+.toolcard:hover{border-color:#7bd6bd;box-shadow:0 12px 26px #0f766e16;transform:translateY(-2px)}
+.btn{background:linear-gradient(100deg,#0b9278,#087f68);border-radius:11px;box-shadow:0 5px 12px #0f766e20}
+.btn:hover{filter:brightness(1.06)}
+.field{border-color:#d9e8df;background:#fffefa}
+.field:focus{outline:3px solid #b9ead8;outline-offset:1px;border-color:#0b9278}
+.result{color:#087f68}
+.muted{color:#718078}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline-color:#f08a55}
 </style></head><body><main class="wrap"><header class="flex items-center justify-between gap-3"><a href="/" class="font-black text-2xl text-indigo-700 no-underline">QuickTools24</a><a href="/" class="text-indigo-700 font-bold">← Home</a></header><section id="categories" class="section"><p class="text-xs font-bold tracking-widest text-indigo-600">QUICKTOOLS24 TOOL DIRECTORY</p><h1>All Tools in One Place</h1><p class="muted mt-2">Choose a tool below. PDF and image tools open their working workspace; calculators and converters work directly on this page.</p><nav class="toplinks"><a href="#pdf-tools">PDF Tools</a><a href="#image-tools">Image Tools</a><a href="#converters">Converters</a><a href="#text-tools">Text Tools</a><a href="#calculators">Calculators</a></nav></section><section id="pdf-tools" class="section"><h2>📄 PDF Tools</h2><div id="pdfGrid" class="toolgrid"></div></section><section id="image-tools" class="section"><h2>🖼️ Image Tools</h2><div id="imageGrid" class="toolgrid"></div></section><section id="text-tools" class="section"><h2>✍️ Text Tools</h2><div id="textGrid" class="toolgrid"></div></section><section id="calculators" class="section"><h2>🧮 Everyday Calculators</h2><div class="grid md:grid-cols-2 gap-4">
 <div class="card"><h3 class="font-extrabold">Basic Calculator</h3><div class="grid grid-cols-2 gap-2 mt-3"><input id="basicA" class="field" type="number" placeholder="First number"><select id="basicOp" class="field"><option value="+">Add (+)</option><option value="-">Subtract (−)</option><option value="*">Multiply (×)</option><option value="/">Divide (÷)</option></select><input id="basicB" class="field col-span-2" type="number" placeholder="Second number"></div><button class="btn mt-3" onclick="basicCalc()">Calculate</button><div id="basicOut" class="result"></div></div>
 <div class="card"><h3 class="font-extrabold">Percentage Calculator</h3><p class="text-xs muted mt-1">Find X% of a number.</p><div class="grid grid-cols-2 gap-2 mt-3"><input id="pctX" class="field" type="number" placeholder="Percentage"><input id="pctN" class="field" type="number" placeholder="Number"></div><button class="btn mt-3" onclick="percentageCalc()">Calculate</button><div id="pctOut" class="result"></div></div>
