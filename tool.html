@@ -2,12 +2,12 @@
 <html lang="en">
 <head><script src="/maintenance.js"></script>
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-N1Q3M381TZ"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J5JGSX2GKQ"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-N1Q3M381TZ');
+  gtag('config', 'G-J5JGSX2GKQ');
 </script>
 
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -963,7 +963,7 @@ if(id==='form'){const form=doc.getForm(),field=form.getField(val('field')),value
 if(id==='flatten')doc.getForm().flatten();
 if(id==='inspect'){const info='Pages: '+count+'\nTitle: '+doc.getTitle()+'\nAuthor: '+doc.getAuthor()+'\nSubject: '+doc.getSubject()+'\nFile size: '+files[0].size+' bytes';download(new Blob([info]),'pdf-information.txt','text/plain');status.textContent=info;return;}
 if(id==='textout'||id==='render'||id==='grayscale'||id==='compress'){
- const pdf=await pdfjsLib.getDocument({isEvalSupported:false,data:await fileBytes(files[0])}).promise,chosen=pageIndexes(val('textPages')||'',pdf.numPages);if(['render','grayscale','compress'].includes(id)&&chosen.length>Q24_LIMITS.rasterPages)throw Error('This operation is limited to 100 pages at a time to protect your device.');
+ const pdf=await pdfjsLib.getDocument({isEvalSupported:false,data:await fileBytes(files[0])}).promise,chosen=pageIndexes(val('textPages')||'',pdf.numPages);if(['render','grayscale','compress'].includes(id)&&chosen.length>Q24_LIMITS.rasterPages)throw Error('This operation is limited to 60 pages at a time to protect your device.');
  if(id==='textout'){let all='';for(const idx of chosen){const n=idx+1,page=await pdf.getPage(n),tc=await page.getTextContent();all+='--- Page '+n+' ---\n'+tc.items.map(x=>x.str).join(' ')+'\n\n'}download(new Blob([all],{type:'text/plain'}),'extracted-text.txt','text/plain');const preview=document.createElement('textarea');preview.className='field mt-3';preview.style.cssText='font-size:16px;line-height:1.65;min-height:260px;white-space:pre-wrap';preview.readOnly=true;preview.value=all;document.querySelector('.toolpage-main')?.appendChild(preview);status.textContent='Text extracted from '+chosen.length+' page(s). Read the larger preview or download the TXT file.';return}
  if(id==='render'){const scale=Math.max(.5,Math.min(4,Number(val('renderScale'))||1.5)),base=(val('outputName')||'pdf-page').replace(/[^a-z0-9_-]/gi,'-'),zip=typeof JSZip!=='undefined'?new JSZip():null;for(const idx of chosen){const n=idx+1,page=await pdf.getPage(n),vp=page.getViewport({scale});q24AssertCanvas(Math.ceil(vp.width),Math.ceil(vp.height));const canvas=document.createElement('canvas');canvas.width=Math.ceil(vp.width);canvas.height=Math.ceil(vp.height);await page.render({canvasContext:canvas.getContext('2d'),viewport:vp}).promise;const blob=await new Promise(r=>canvas.toBlob(r,'image/png')),bytes=await blob.arrayBuffer();download(bytes,base+'-'+n+'.png','image/png');if(zip)zip.file(base+'-'+n+'.png',bytes)}if(zip)download(await zip.generateAsync({type:'blob'}),base+'-all-pages.zip','application/zip');status.textContent='Exported '+chosen.length+' PNG page(s)'+(zip?' and one ZIP containing all pages.':'.');return}
  const nd=await PDFDocument.create(),scale=Math.max(.5,Math.min(3,Number(val('renderScale'))||(id==='compress'?1.1:1.4))),quality=id==='compress'?Math.max(.2,Math.min(.9,Number(val('quality'))||.6)):.88;
